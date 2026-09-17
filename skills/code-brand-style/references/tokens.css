@@ -1,0 +1,88 @@
+/*
+  Code Computerlove / WPP Media brand tokens
+  Extracted from the official WPP Media brand template (CodeDesignTemplate.pptx).
+  Drop into any HTML artifact or web build that should carry the Code visual identity.
+  See ../SKILL.md for usage rules — this file is just the raw values.
+*/
+
+:root {
+  /* Primary palette */
+  --code-navy: #000050;       /* primary text / dark backgrounds */
+  --code-white: #FFFFFF;      /* base background / text on dark */
+  --code-lime: #B0F467;       /* signature accent — use once per screen */
+  --code-aqua: #93DFE3;       /* WPP Pantone 629 — secondary light background */
+
+  /* Secondary palette */
+  --code-cornflower: #5465FF; /* gradient anchor, eyebrow/label text */
+  --code-periwinkle: #788BFF; /* gradient midpoint */
+  --code-cyan: #00DBEE;       /* gradient anchor, links, high-energy accent */
+  --code-yellow: #FCFE67;     /* gradient accent — sparing use only */
+
+  /* Type */
+  --code-font-display: 'Poppins', 'Plus Jakarta Sans', 'General Sans', system-ui, sans-serif; /* fallback for WPP Bold/Medium */
+  --code-font-body: 'Poppins', 'Plus Jakarta Sans', 'General Sans', system-ui, sans-serif;     /* fallback for WPP Regular */
+
+  /* Spacing / shape */
+  --code-card-radius: 24px;   /* the rounded white card used on covers/dividers */
+}
+
+/* Eyebrow / kicker label — small, uppercase, letter-spaced */
+.code-eyebrow {
+  font-family: var(--code-font-display);
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--code-navy);
+}
+
+/* Subheading style — Bold, uppercase, cornflower blue */
+.code-subheading {
+  font-family: var(--code-font-display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: var(--code-cornflower);
+}
+
+/* Headline style — Bold, sentence case, navy */
+.code-headline {
+  font-family: var(--code-font-display);
+  font-weight: 700;
+  color: var(--code-navy);
+}
+
+/* Body copy — Regular, navy */
+.code-body {
+  font-family: var(--code-font-body);
+  font-weight: 400;
+  color: var(--code-navy);
+}
+
+/* Soft blurred gradient "orb" — the signature background motif.
+   Size and position the element, this just supplies the fill + blur. */
+.code-gradient-orb {
+  background: radial-gradient(
+    circle at 30% 30%,
+    var(--code-lime),
+    var(--code-aqua) 35%,
+    var(--code-cornflower) 70%
+  );
+  filter: blur(60px);
+  opacity: 0.9;
+}
+
+/* Low-opacity dot-matrix texture — apply to a full-bleed overlay div */
+.code-dot-matrix {
+  background-image: radial-gradient(currentColor 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  color: var(--code-navy); /* swap to white when over a dark/colour background */
+  opacity: 0.15;
+}
+
+/* Rounded white content card used on covers / section dividers */
+.code-card {
+  background: var(--code-white);
+  border-radius: var(--code-card-radius);
+  padding: 2rem;
+}
