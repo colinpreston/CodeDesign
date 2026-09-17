@@ -14,18 +14,17 @@ This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at t
 
 ```
 .claude-plugin/
-  marketplace.json                          — marketplace manifest (repo root)
-design-studio-team-setup/                   — the plugin itself
-  .claude-plugin/
-    plugin.json                             — plugin manifest
-  skills/
-    design-studio-team-setup/
-      SKILL.md                              — the team-setup skill
-      references/
-        project-brain-template.md           — shared engagement-level context doc
-        role-brief-template.md              — per-role brief template
-    code-design-playbook/
-      SKILL.md                              — Code's internal design curriculum
+  marketplace.json                          — marketplace manifest, plugin sourced from "./"
+  plugin.json                               — plugin manifest (repo root doubles as plugin root)
+README.md
+skills/
+  design-studio-team-setup/
+    SKILL.md                                — the team-setup skill
+    references/
+      project-brain-template.md             — shared engagement-level context doc
+      role-brief-template.md                — per-role brief template
+  code-design-playbook/
+    SKILL.md                                — Code's internal design curriculum
 ```
 
 Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for both skills.
