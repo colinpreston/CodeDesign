@@ -1,0 +1,8 @@
+{
+  "name": "design-studio-team-setup",
+  "description": "Sets up a \"company brain + desks\" pattern for a new design consultancy client engagement: one shared Project Brain, a roster of role desks each with a one-page brief and a three-zone memory log, a shared research repository, a standing Digest Index rolling up every desk's current state, a retrieval mode for specific questions, a Delivery Manager that both reacts to status checks and proactively routes new multi-desk work, a visual desk-status dashboard, and a send/edit/skip review gate.",
+  "version": "1.2.0",
+  "author": {
+    "name": "Colin Preston"
+  }
+}
