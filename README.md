@@ -4,11 +4,11 @@ A Claude plugin for Colin Preston. Sets up a "company brain + desks" pattern for
 
 Default roster (eleven desks): Lead UX Designer, Lead UX Researcher, Expert Workshop Facilitator, Product Consultant, Engineering Principal, QA & Definition Lead, Content/UX Writer, Visual/Brand Designer, Data & Insight Analyst, Meeting Notes Lead, and Delivery Manager — plus whatever additional specialists a given engagement needs.
 
-Bundles a second skill, `code-design-playbook` — Code Computerlove's internal design team curriculum — as standing context for every design-facing desk on the roster.
+Bundles three more skills: `code-design-playbook` (Code Computerlove's internal design team curriculum, standing context for every design-facing desk), `code-brand-style` (Code's visual identity, for anything that should look on-brand), and `github-sync` (push a project's docs to a shared GitHub repo, pull an existing repo folder into a new Project, and schedule reminders for either — the mechanism for backing projects up and reusing this pattern across the team).
 
 ## Installing this
 
-This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — both its skills (`design-studio-team-setup` and `code-design-playbook`) come with it.
+This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — all four of its skills come with it.
 
 ## Structure
 
@@ -25,6 +25,15 @@ skills/
       role-brief-template.md                — per-role brief template
   code-design-playbook/
     SKILL.md                                — Code's internal design curriculum
+  code-brand-style/
+    SKILL.md                                — Code's visual identity
+    references/
+      tokens.css                            — brand colour/type tokens
+  github-sync/
+    SKILL.md                                — push/pull a project's docs to/from a shared GitHub repo
+    references/
+      sync-log-template.md                  — the per-project GitHub sync log doc
+
 ```
 
-Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for both skills.
+Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for all four skills.
