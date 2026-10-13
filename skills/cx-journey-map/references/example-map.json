@@ -1,0 +1,79 @@
+{
+  "client": "Example Co",
+  "page_title": "Example Co journey full detail",
+  "badge": {"top": "EXAMPLE", "sub": "Fictional demo"},
+  "title": "Customer journey full detail",
+  "subtitle": "Current state, v0.1 · fictional example for the cx-journey-map skill · one pilot interview (P1)",
+  "profiles_title": "Provisional mindset profiles",
+  "profiles_note": "Drawn from desk research. To be validated in interviews.",
+  "profiles": {
+    "planner": {"name": "The planner", "color": "#e8912d", "desc": "compares everything before buying"},
+    "impulse": {"name": "The impulse buyer", "color": "#2f5d50", "desc": "decides fast, hates friction"},
+    "p1": {"name": "P1 · first-time customer", "color": "#b83a14", "participant": true}
+  },
+  "participants": {"P1": "First-hand, from pilot interview P1"},
+  "stages": [
+    {"name": "Considering", "steps": 2,
+     "evidence": ["Competitor review", "Web analytics"], "user_evidence": "1 pilot interview (P1)",
+     "confidence": "medium-low", "note": "We know where people land, not why they leave.",
+     "research": [{"priority": "High", "question": "What do visitors look for before they sign up?", "method": "Moderated usability, 6 people"}]},
+    {"name": "Sign-up", "steps": 2,
+     "evidence": ["Form analytics"], "user_evidence": "No user evidence",
+     "confidence": "low", "note": "Drop-off is measured, the reasons aren't.",
+     "research": [{"priority": "High", "question": "Which fields cause people to leave?", "method": "Field-level analytics"}, {"priority": "Medium", "question": "Why did people abandon?", "method": "Exit survey"}]},
+    {"name": "First use", "steps": 2,
+     "evidence": ["Support tickets"], "user_evidence": "1 pilot interview (P1)",
+     "confidence": "low", "note": "The biggest gap.",
+     "research": [{"priority": "High", "question": "What stops new customers reaching first value?", "method": "Interviews: signed up, not active"}]}
+  ],
+  "funnel_title": "Customer stage",
+  "funnel": [
+    {"name": "Prospect", "desc": "Not signed up", "steps": 3},
+    {"name": "New customer", "desc": "Signed up, not active", "steps": 2},
+    {"name": "Active", "desc": "Using the product", "steps": 1}
+  ],
+  "scope": {"from": 2, "to": 5, "label": "Our scope: landing page → sign-up → first use"},
+  "steps": [
+    {"title": "Sees an ad and gets curious", "who": "Prospects",
+     "data": [{"label": "Click-through rate on paid social", "value": "1.2%", "source": "Ads dashboard, Sep"}],
+     "positives": ["Ad creative stands out in the feed"],
+     "pains": ["Unclear what the product actually does"],
+     "mindset": [{"quote": "Looks nice, but what is it?", "profile": "impulse", "source": "Social comments"}],
+     "comms": [{"text": "Paid social ad", "channel": "Paid media"}]},
+    {"title": "Lands on the product page", "who": "Visitors",
+     "data": [{"label": "Landing page → sign-up start", "needed": true}],
+     "pains": ["No price shown above the fold", "P1|Couldn't find delivery costs"],
+     "internal": [{"quote": "We've never tested showing price earlier", "source": "Product owner interview"}],
+     "mindset": [{"quote": "I need to see the price before anything else.", "profile": "p1", "source": "P1 interview"}],
+     "hmw": ["show the price and delivery cost up front?"]},
+    {"title": "Compares plans", "who": "Visitors",
+     "data": [{"label": "Plan page exit rate", "value": "48%", "source": "Web analytics, Sep"}],
+     "positives": ["Plans are easy to compare side by side"],
+     "pains": ["Too many add-ons to choose from"],
+     "mindset": [{"quote": "I'll come back when I've had a think.", "profile": "planner", "source": "Survey verbatim"}]},
+    {"title": "Fills in the sign-up form", "who": "Sign-up starters",
+     "data": [{"label": "Drop-out by field", "needed": true}],
+     "positives": ["P1|Form was quick"],
+     "pains": ["Address lookup fails on new-build homes"],
+     "hmw": ["make the address step forgiving?"]},
+    {"title": "Gets the welcome email", "who": "New customers",
+     "data": [{"label": "Welcome email open rate", "value": "61%", "source": "CRM, Sep"}],
+     "pains": ["P1|Email didn't say what happens next"],
+     "comms": [{"text": "Welcome email", "channel": "Email"}, {"text": "Missing: first-week how-to", "channel": "Gap", "missing": true}]},
+    {"title": "Uses the product for the first time", "who": "Active customers",
+     "data": [{"label": "Active within 7 days", "needed": true}],
+     "positives": ["Customers who get started rate it highly"],
+     "pains": ["Set-up takes longer than expected"],
+     "hmw": ["get new customers to first value in one sitting?"]}
+  ],
+  "flow": {
+    "exits": [{"step": 3, "label": "Exit: leaves to think about it"}],
+    "loops": [
+      {"from": 1, "to": 3, "kind": "reentry", "label": "Re-entry: retargeting brings some back"},
+      {"from": 5, "to": 6, "kind": "tag", "label": "P1|Back and forth between email and app to finish set-up", "both_ends": true}
+    ],
+    "gaps": [{"from": 4, "to": 5, "label": "P1|Waited 3 days for the welcome email"}],
+    "end_label": "Becomes a regular customer"
+  },
+  "footnote": "Fictional example data for the cx-journey-map skill. Every number on a real map carries its source."
+}
