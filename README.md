@@ -4,11 +4,11 @@ A Claude plugin for Colin Preston. Sets up a "company brain + desks" pattern for
 
 Default roster (eleven desks): Lead UX Designer, Lead UX Researcher, Expert Workshop Facilitator, Product Consultant, Engineering Principal, QA & Definition Lead, Content/UX Writer, Visual/Brand Designer, Data & Insight Analyst, Meeting Notes Lead, and Delivery Manager — plus whatever additional specialists a given engagement needs.
 
-Bundles three more skills: `code-design-playbook` (Code Computerlove's internal design team curriculum, standing context for every design-facing desk), `code-brand-style` (Code's visual identity, for anything that should look on-brand), and `github-sync` (push a project's docs to a shared GitHub repo, pull an existing repo folder into a new Project, and schedule reminders for either — the mechanism for backing projects up and reusing this pattern across the team).
+Bundles four more skills: `cx-journey-map` (builds Code's "customer journey full detail" CX map, the Pure Pet format, from client assets and interviews, with evidence, data-gap and research-needed rows, a flow row of exits and loops, and P1/P2 interview tagging), `code-design-playbook` (Code Computerlove's internal design team curriculum, standing context for every design-facing desk), `code-brand-style` (Code's visual identity, for anything that should look on-brand), and `github-sync` (push a project's docs to a shared GitHub repo, pull an existing repo folder into a new Project, and schedule reminders for either — the mechanism for backing projects up and reusing this pattern across the team).
 
 ## Installing this
 
-This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — all four of its skills come with it.
+This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — all five of its skills come with it.
 
 ## Structure
 
@@ -33,7 +33,14 @@ skills/
     SKILL.md                                — push/pull a project's docs to/from a shared GitHub repo
     references/
       sync-log-template.md                  — the per-project GitHub sync log doc
+  cx-journey-map/
+    SKILL.md                                — build a Code-format CX journey map and add interviews to it
+    references/
+      map-spec.md                           — rows, card conventions and the JSON spec format
+      example-map.json                      — complete fictional example spec
+    scripts/
+      build_map.py                          — JSON spec → Design canvas artboard (or --standalone HTML)
 
 ```
 
-Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for all four skills.
+Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for all five skills.
