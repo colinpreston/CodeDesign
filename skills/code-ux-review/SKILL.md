@@ -1,11 +1,17 @@
 ---
 name: code-ux-review
-description: Run a Code-format UX review of a website or journey using Code's Persuasion Model, with a Core Web Vitals and PageSpeed check and an accessibility check across design, content and screen readers, and always build the result as a Code-branded slide deck. Use when Colin asks for a UX review, UX audit, site review, expert review, CRO audit or "flags" on a site.
+description: Run a Code-format UX review of a website or journey, following the customer's journey funnel (trigger moment, discover, consider, convert) and judging each stage with Code's Persuasion Model, with a Core Web Vitals and PageSpeed check and an accessibility check across design, content and screen readers, always offers to build the CX journey map first, and always builds the result as a Code-branded slide deck. Use when Colin asks for a UX review, UX audit, site review, expert review, CRO audit or "flags" on a site.
 ---
 
 # Code UX Review
 
-This is how Code reviews a site: walk a real customer journey page by page and judge each page against **Code's Persuasion Model**. Then add the evidence a client can't argue with:
+> **Always do this first: offer the CX journey map.** Whenever someone asks for a UX review, UX audit or site review, the first thing you do, before any searching, browsing or scoping, is check for a CX journey map for this client and ask about it:
+> - **No map yet:** ask whether to run the `cx-journey-map` skill first, and recommend it. It tells the review who the customers are, what starts their journey, and how and when they use the website. Use AskUserQuestion with the options "Build the journey map first (recommended)", "Go ahead without it" and "There's a map already; here's where".
+> - **A map exists:** say which one you found, its version and date, and confirm you'll use it.
+>
+> Don't start the review until this is answered. If the person isn't there to answer, build the journey map first. If they choose to go ahead without it, say in the deck that the customer view is assumed.
+
+This is how Code reviews a site: follow a real customer through the **journey funnel**, from the moment the need appears to the moment they act, and judge each page against **Code's Persuasion Model**. Then add the evidence a client can't argue with:
 - **Core Web Vitals and PageSpeed**, from real Chrome users and a lab test;
 - **an accessibility check** in three parts: design, content and screen readers.
 
@@ -32,26 +38,82 @@ Every finding is tagged to one stage. Performance and accessibility findings are
 
 **Explain the psychology first.** Whenever a finding or recommendation leans on a bias or effect, state what the effect means in plain words before saying what to do about it.
 
+## The journey funnel: where the review starts and ends
+
+A site doesn't start working when someone lands on the homepage. Customers come with a reason, find the brand somewhere, research their options, then choose. Review all four stages, in order:
+
+| Funnel stage | The customer is thinking | Where it happens | What to check |
+|---|---|---|---|
+| **1. Trigger moment** | "I need to sort this." | Life events, a health professional, family, an ad they happen to see | Does the brand recognise the moments that start the journey (a fall, a diagnosis, planning ahead, a relative worrying)? Do its words and landing pages speak to them? |
+| **2. Discover** | "Is this the answer for us?" | Top-level research into the service and the brands that offer it: search (paid, organic, AI answers), guides and advice content, TV, review sites, referrals | Run the searches of someone still deciding whether they need the service. Does the site help them decide it is right for them, and get a first feel for the brand? Who else do they meet while they look? |
+| **3. Consider** | "Is this right for me, and can I trust them?" | Range and product pages, prices and finance, reviews, guides, the phone | Can the customer understand the options, the likely cost, the process and the proof, without asking? |
+| **4. Convert** | "I'll go ahead." | The enquiry or booking form, phone, chat, and the confirmation that follows | Is the next step obvious, quick and clear about what happens after? |
+
+**Two different "triggers".** The funnel's first stage is the *trigger moment*: the life event that starts the journey. The Persuasion Model's fourth stage is *Trigger*: the nudge that gets someone to act on the page. Always write "trigger moment" for the funnel and "Trigger" for the Persuasion Model, so readers never mix them up.
+
+**The two models work together.** The funnel says *where* the customer is; the Persuasion Model says *what* a page has to do there. Every finding gets both tags, for example *"Consider · (−) Trust / Finance and warranty are hidden under 'Everything else'."* Most Usability and Trust problems sit in Discover and Consider; most Trigger problems sit in Convert.
+
+### Start from the CX journey map
+
+The journey funnel needs evidence about real customers, not just the website. So before anything else:
+
+- **Ask Colin whether a CX journey map exists for this client.** Look for one in the Project (for example `<Client>_Journey_Map.json`) or among his artifacts.
+- **If there isn't one, ask him whether to run the `cx-journey-map` skill first** (this is the "Always do this first" question at the top). Recommend it, because it gives the review its customer types, trigger moments, pains and data gaps. If he says no or there's no time, carry on, and say in the deck that the customer view is assumed.
+- **Use the map throughout:**
+  - its **customer types or mindsets** become the trigger moments you search for and write about (for example "the planner", "the family helper", "the urgent need");
+  - its **stages and steps** decide which pages and moments you walk, and each finding links back to a step;
+  - its **pains and positives** are evidence you can cite next to your own findings;
+  - its **data gaps and research questions** go into the next steps slide;
+  - its **funnel** (for example prospect, lead, quoted, customer) shows where the business loses people, when data exists.
+- **Feed back into the map.** When the review confirms, adds or disproves something on the map, update it (or tell Colin what to update) so the map and the deck agree. Never leave a finding in the map that the review has shown to be wrong.
+
+In the deck, add one slide near the start: "Who the customer is and what starts their journey", built from the map's customer types and trigger moments, with a link to the map and its confidence level.
+
 ## Step 1: Scope it
 
 Ask only what you can't infer, one question at a time:
 - **Site and journey.** Which URL, and which journey? Write it as a scenario in Code's format: *"As a [user] who wants to [goal], I want to [task], so that [outcome]."* Never review pages in isolation; each page is judged by its role in the journey.
-- **Pages.** 5–10 pages along that journey is typical. Bayer covered 12 page types; Direct Line covered a quote journey end to end.
+- **Trigger moments and searches.** List the 2–4 moments that usually start the journey, and the 3–5 searches each one leads to, in the customer's words (for example "walk in shower for elderly parent", not "accessible bathing solutions"). Ask the client if they know their top search terms; otherwise draft them and say they're assumptions.
+- **Pages.** 5–10 pages along that journey is typical. Bayer covered 12 page types; Direct Line covered a quote journey end to end. Tag each page with its funnel stage: the homepage, guides and advice pages are usually Discover (is this service right for me, and who is this brand?), range, product, price and proof pages are Consider (which one, and can I trust them?), and forms, booking and confirmation are Convert.
 - **Audience.** Who uses the site, especially older users, disabled users, or people under stress. This sets how hard the accessibility check bites.
 - **Where it's going.** An internal flag list, a pitch deck, or a full client review. A pitch gets fewer, sharper findings; a full review gets every page.
 - **Analytics.** Is there access? If not, say plainly that findings show *where* the journey breaks, not *how many* people it loses.
 
-If a company brain exists for the client (`design-studio-team-setup`), read the Project Brain and the Research Repository first, and log what you produce back into them.
+If a company brain exists for the client (`design-studio-team-setup`), read the Project Brain and the Research Repository first, and log what you produce back into them. If a `code-market-review` has been run, reuse its journey scenario and competitor findings, so the two decks line up.
 
 ## Step 2: Walk the journey (the persuasion review)
 
 Use the browser (Claude in Chrome or the built-in browser), one page at a time, desktop first, then mobile.
 
+**Ask for site access first.** Claude in Chrome only opens sites the person has approved, and the approval prompt can't appear inside a batch of actions. Open each new site with a single standalone navigate so Colin can approve it, then batch the rest. If a site is refused, say so and ask him to approve it; don't fall back to page text without telling him.
+
+**Start where the customer starts: search (Discover).** Before opening the site, run the Step 1 searches in the browser and record, for each one:
+- who appears in the paid ads, the organic results, the map results and any AI answer, and in what position;
+- the headline and offer each ad promises;
+- whether the client's review score shows in the results.
+
+Search results vary by location, history and time, so note the date and that results are indicative. **Never click a paid ad**, because it costs the advertiser money: open the advertised page by typing its address instead. Then land on the client's page as the customer would and check that it matches the promise of the search or ad.
+
+**Discover is also research: check the advice content.** At Discover, people are still working out whether they need the service at all and what it might cost, so search is only half the picture. Find the client's guides, blog, buyer's guide and FAQs (check the menu, homepage and footer) and record:
+- **Where it sits:** in the main menu, on the homepage, or tucked under a catch-all such as "More" or "Everything else"?
+- **"Is it right for me?":** does a guide help people decide whether they need the service at all, and compare it with the alternatives?
+- **Cost:** does a cost guide give real figures (ranges, "from" prices or typical job prices), or ask the cost question and then not answer it?
+- **Help with paying:** grants, VAT relief, finance and assessments, where they apply.
+- **Tools:** checkers, calculators or quizzes that answer a question for the person.
+- **Freshness and ownership:** a named author and a recent "last updated" date.
+- **Next step:** what each guide asks people to do next, and whether that fits someone who is still deciding.
+
+Count, don't guess: note the figures quoted, word for word, and the date read. Read the main guides, not every article, and say so.
+
+Take a screenshot of the most important guide. A cost guide with no figures, or advice hidden under a catch-all menu item, is a Discover finding in its own right. If the market review has been run, compare the client with the best competitor guide.
+
+**Trigger moments.** While walking, note where the site names the moments that start the journey (in headlines, landing pages, guides or stories), and where it talks only about products.
+
 For each page:
 1. **Screenshot it.** Take the full page in viewport-height sections, saved to disk; these become the annotated slides.
 2. **Find 4–8 findings.** Each one is:
    - **(+) or (−)**: good things matter; the client needs to know what to keep.
-   - **the stage** it belongs to;
+   - **the funnel stage** the page sits in, and **the Persuasion stage** the finding belongs to;
    - **one or two sentences**: what you saw, why it matters to the user, and the fix.
 
    Write it like the house examples:
@@ -174,12 +236,39 @@ How to read the scan's output:
 
 ## Step 5: Synthesise
 
-- **Executive summary:** 3–5 short paragraphs, biggest issue first, in plain language a client director would read.
+- **Executive summary:** 3–5 short paragraphs, biggest issue first, in plain language a client director would read. Say which funnel stage loses the most people, as far as the evidence shows.
+- **Funnel at a glance:** for each funnel stage, give a 1–5 score for each Persuasion stage (1 blocks the customer, 3 is average, 5 is best in class), with one line of evidence per score. Leave a cell as "Not seen" rather than guess. It's a judgement, not a measurement: never average it into one number.
 - **Priority of recommendations:** a numbered list, ordered by impact on the journey's goal and how early in the model each one fails (a Usability blocker outranks an Emotion polish).
 - **Now / Next / Future per stage:** Usability, Trust, Emotion, Trigger, each with what to do now (quick wins), next (needs design or dev), and future (bigger change or research).
 - **Make it testable.** For the top recommendations, write Code's test hypothesis: *"Because we have observed (finding), we believe that (change) will result in (effect), confirmed when (measure)."*
 - **Name the gaps:** no analytics, mobile untested, forms not submitted, screen reader approximated. These become the research and next steps slide.
 - **No dark patterns.** Persuasion recommendations must serve the user, not trick them: no fake urgency, pre-ticked consent or hidden costs.
+
+## Make the recommendations strategic
+
+Findings tell the client what's wrong. Recommendations have to tell them what to do, why it matters to the business and how to start. Before writing any recommendation:
+
+1. **Anchor on the business goal.** Name the outcome the client cares about, such as more qualified enquiries, better return on media spend, a higher visit-to-sale rate or lower cost per lead. If the brief doesn't say, ask. Every recommendation must link to it.
+2. **Group findings into 3–4 strategic themes.** A theme is a single problem or opportunity that several findings point to, written as a plain sentence, for example "Make the home visit the easiest thing to book". Themes are what a client director remembers; individual findings support them.
+3. **Write every recommendation as a decision card:**
+   - **What:** the change, in one sentence a designer or developer could start on.
+   - **Why:** the evidence (the finding, competitor or benchmark), with its source.
+   - **Funnel stage:** trigger moment, discover, consider or convert.
+   - **Value:** which business metric it should move, in which direction, and how we'd measure it. Never invent a size: if there's no data, say what data would size it.
+   - **Effort:** low, medium or high, with one line on what makes it so (content change, design, build, new system, third party).
+   - **Confidence:** high, medium or low, based on how strong the evidence is.
+   - **Owner:** who would do it (client marketing, web team, Code, media agency).
+4. **Prioritise on value against effort.** Plot the recommendations on a 2×2: quick wins (high value, low effort) first, big bets (high value, high effort) planned, fill-ins (low value, low effort) when there's capacity, and drop the rest. Explain the placement in the speaker notes.
+5. **Turn it into a roadmap.** Now (the next 4–6 weeks: quick wins and tests), Next (the next quarter: design and build), Future (bigger change, new capability or research). Show dependencies, for example "price guide needs MBG quote data".
+6. **Say what to measure.** For the top recommendations, give the test hypothesis in Code's format: "Because we have observed (finding), we believe that (change) will result in (effect), confirmed when (measure)." List the analytics the client needs in place to judge success.
+
+**No fluff.** Every recommendation needs evidence, an owner and a way to measure it. If it has none, it's an observation, not a recommendation.
+
+**Strategy slides, in the deck:**
+- **Strategic themes:** one slide with the 3–4 themes, each with its business goal and the funnel stage it fixes.
+- **Recommendations:** one slide per theme, with 2–3 decision cards in columns. Each card shows What, Why, Value, Effort, Confidence and Owner as labelled lines.
+- **Value against effort:** a 2×2 with each recommendation numbered and placed, using the positioning-map recipe for the dots and labels. Name the quadrants in plain words: "Do first", "Plan in", "Fit in", "Park".
+- **Roadmap:** three columns, Now, Next and Future, with each item tagged by funnel stage and owner.
 
 ## Step 6: Build the deck (always)
 
@@ -214,14 +303,25 @@ Every slide gets the footer band: page number and source on the left, "Code Comp
 **Deck order:**
 1. Cover
 2. Approach
-3. Persuasion Model
+3. The journey funnel and the Persuasion Model (how they fit together)
+3a. Who the customer is and what starts their journey, from the CX journey map
 4. Executive summary
-5. Priority list
-6. Scores at a glance
-7. For each page: a divider, 1–2 annotated slides and a scores slide
-8. Accessibility: design, content and screen reader
-9. Summary for each stage: Now / Next / Future
-10. Next steps and research
+5. Strategic themes
+6. Funnel at a glance (funnel stage × Persuasion stage scores)
+7. Speed scores at a glance
+8. **Trigger moment and Discover:** what starts the journey, what customers search for, who shows up, annotated landing pages, and an annotated slide on the client's advice content (where it sits, and whether it answers "is it right for me?" and "what will it cost?")
+9. **Consider:** for each page, a divider, 1–2 annotated slides and a scores slide
+10. **Convert:** the same for forms, booking and what happens next
+11. Accessibility: design, content and screen reader
+12. Recommendations: one slide per theme, as decision cards
+13. Value against effort
+14. Roadmap: Now / Next / Future, by funnel stage and owner
+15. Summary for each Persuasion stage: Now / Next / Future (optional in a pitch)
+16. Next steps, measurement and research
+
+Use a funnel-stage divider before each of 8, 9 and 10 so the reader always knows where in the journey they are.
+
+**Write for the client.** Plain, natural English and no padding. A slide title states the point in a full sentence ("Premier Care has a simple form just for booking a visit"), not a label or slogan. Avoid jargon such as "table stakes", "white space" and "front door"; say what you mean.
 
 **These recipes are tested in the Slides format.** Reuse their markup and change only the content and numbers.
 
@@ -234,6 +334,16 @@ Every slide gets the footer band: page number and source on the left, "Code Comp
 <div style="width:300px;background:#00DBEE;border-radius:14px;padding:34px 24px"><p style="font-size:36px;font-weight:700;text-align:center;color:#000050">4. Trigger</p></div>
 </div>
 ```
+
+**Journey funnel slide.** Draw four cards in a row, joined by arrows, in funnel order. Each card holds the stage name, the customer's thought in quotes, and one line on where it happens. Under the row, add one sentence on how the Persuasion Model applies at every stage.
+```html
+<div style="display:flex;flex-direction:row;gap:16px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#000050;border-radius:20px;padding:28px"><p style="font-size:24px;font-weight:700;color:#B0F467">1. Trigger moment</p><p style="font-size:28px;font-weight:700;color:#FBFBFE">“I need to sort this.”</p><p style="font-size:24px;line-height:1.35;color:#C9CDEF">A fall, a diagnosis, a worried relative</p></div>
+<x-connector style="width:48px;align-self:center;color:#000050;border-width:3px" head="end"></x-connector>
+<div style="flex:1;display:flex;flex-direction:column;gap:10px;background:#E8EBFF;border-radius:20px;padding:28px"><p style="font-size:24px;font-weight:700;color:#3F4FE0">2. Discover</p><p style="font-size:28px;font-weight:700">“Is this the answer for us?”</p><p style="font-size:24px;line-height:1.35;color:#2A2F6E">Reads up on the options and the brands</p></div>
+</div>
+```
+Repeat the connector and a pale card for 3. Consider (“Is this right for me?”) and 4. Convert (“I’ll go ahead.”). A flow-child `<x-connector>` with no coordinates and no height draws a straight arrow between cards.
 
 **Annotated screenshot slide.** This is the heart of the deck.
 - **Layout:** title pinned at top 72; screenshot pinned in the centre; up to 3 callouts on each side; one connector from each callout to its element.
@@ -313,6 +423,8 @@ Don't render or screenshot the deck to check it unless he asks.
 
 - **Everything is an internal draft until Colin sends it.** That includes anything going to a client or to another agency.
 - **Never submit forms, sign up, buy anything or enter personal data** on the site being reviewed.
+- **Never click paid search or social ads,** the client's or anyone else's. Open the advertised page directly.
+- **Cookie banners:** choose necessary cookies only.
 - **Never invent a number.** No analytics means no conversion figures; say so.
 - **Accessibility findings are observations against WCAG, not legal advice.** Don't call a site "compliant" or "non-compliant" in law.
 - **Date-stamp every score.** PageSpeed and Lighthouse change run to run and month to month.
