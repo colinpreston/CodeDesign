@@ -4,7 +4,7 @@ A Claude plugin for Colin Preston. Sets up a "company brain + desks" pattern for
 
 Default roster (eleven desks): Lead UX Designer, Lead UX Researcher, Expert Workshop Facilitator, Product Consultant, Engineering Principal, QA & Definition Lead, Content/UX Writer, Visual/Brand Designer, Data & Insight Analyst, Meeting Notes Lead, and Delivery Manager — plus whatever additional specialists a given engagement needs.
 
-Bundles five more skills: `cx-journey-map` (builds Code's "customer journey full detail" CX map, the Pure Pet format, from client assets and interviews, with evidence, data-gap and research-needed rows, a flow row of exits and loops, and P1/P2 interview tagging), `code-design-playbook` (Code Computerlove's internal design team curriculum, standing context for every design-facing desk), `code-brand-style` (Code's visual identity, for anything that should look on-brand), `code-ux-review` (Code-format UX review of a site or journey against Code's Persuasion Model, with a Core Web Vitals / PageSpeed check and a design, content and screen-reader accessibility check, delivered as a Code-branded deck), and `github-sync` (push a project's docs to a shared GitHub repo, pull an existing repo folder into a new Project, and schedule reminders for either — the mechanism for backing projects up and reusing this pattern across the team).
+Bundles five more skills: `cx-journey-map` (builds Code's "customer journey full detail" CX map, the Pure Pet format, from client assets and interviews, with evidence, data-gap and research-needed rows, a flow row of exits and loops, and P1/P2 interview tagging), `code-design-playbook` (Code Computerlove's internal design team curriculum, standing context for every design-facing desk), `code-brand-style` (Code's visual identity, for anything that should look on-brand), `code-ux-review` (Code-format UX review of a site or journey against Code's Persuasion Model, with a Core Web Vitals / PageSpeed check and a design, content and screen-reader accessibility check, delivered as a Code-branded deck), and `code-market-review` (market and competitor review across direct, indirect, category and wildcard competitors, comparing proposition, price, service, USPs, product features and UX through the Persuasion Model, delivered as a Code-branded immersion deck).
 
 ## Installing this
 
@@ -29,12 +29,10 @@ skills/
     SKILL.md                                — Code's visual identity
     references/
       tokens.css                            — brand colour/type tokens
-  github-sync/
-    SKILL.md                                — push/pull a project's docs to/from a shared GitHub repo
-    references/
-      sync-log-template.md                  — the per-project GitHub sync log doc
   code-ux-review/
     SKILL.md                                — Persuasion Model UX review + Core Web Vitals + accessibility, as a deck
+  code-market-review/
+    SKILL.md                                — market and competitor review across four rings of competition, as a deck
   cx-journey-map/
     SKILL.md                                — build a Code-format CX journey map and add interviews to it
     references/
