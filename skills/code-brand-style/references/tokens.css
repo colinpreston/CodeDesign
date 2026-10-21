@@ -18,6 +18,21 @@
   --code-cyan: #00DBEE;       /* gradient anchor, links, high-energy accent */
   --code-yellow: #FCFE67;     /* gradient accent — sparing use only */
 
+  /* Text-safe and supporting colours (decks, docs) */
+  --code-cornflower-text: #3F4FE0; /* highlighted words, eyebrows on white (6.2:1) */
+  --code-deep-blue: #2D3BC7;  /* deep end of the blue wash; white text sits here */
+  --code-body: #2A2F6E;       /* long body copy on white */
+  --code-muted: #5A5F8A;      /* footers, captions (6.1:1) */
+  --code-panel: #ECF1F4;      /* quiet grey-blue panel */
+  --code-pale: #C9CDEF;       /* secondary text on navy */
+  --code-dot: #B9C2E6;        /* dot texture */
+
+  /* Semantic colours: always paired with a word */
+  --code-usability: #2F6B00;  --code-trust: #000050;  --code-emotion: #3F4FE0;  --code-trigger: #00707D;
+  --code-good: #188038;       --code-good-bg: #E6F4EA;
+  --code-needs-work: #B85C00; --code-needs-work-bg: #FFF1E0;
+  --code-poor: #B3261E;       --code-poor-bg: #FCE8E6;
+
   /* Type */
   --code-font-display: 'Poppins', 'Plus Jakarta Sans', 'General Sans', system-ui, sans-serif; /* fallback for WPP Bold/Medium */
   --code-font-body: 'Poppins', 'Plus Jakarta Sans', 'General Sans', system-ui, sans-serif;     /* fallback for WPP Regular */
@@ -45,11 +60,18 @@
   color: var(--code-cornflower);
 }
 
-/* Headline style — Bold, sentence case, navy */
+/* Headline style — light, sentence case, navy; highlight one phrase with .code-highlight */
 .code-headline {
   font-family: var(--code-font-display);
-  font-weight: 700;
+  font-weight: 400;
+  letter-spacing: -0.01em;
   color: var(--code-navy);
+}
+
+/* The one highlighted phrase in a headline */
+.code-highlight {
+  font-weight: 700;
+  color: var(--code-cornflower-text);
 }
 
 /* Body copy — Regular, navy */

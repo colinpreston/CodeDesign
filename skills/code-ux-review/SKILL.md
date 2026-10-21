@@ -15,11 +15,13 @@ This is how Code reviews a site: follow a real customer through the **journey fu
 - **Core Web Vitals and PageSpeed**, from real Chrome users and a lab test;
 - **an accessibility check** in three parts: design, content and screen readers.
 
-**The deliverable is always a deck.** The review isn't finished until the deck exists, so never stop at a list of findings in chat. The deck follows the shape of Code's past reviews (Direct Line, Bayer CropScience, James Wellbeloved):
-- the persuasion model up front;
-- an executive summary and a priority list;
+**The deliverable is always a deck.** The review isn't finished until the deck exists, so never stop at a list of findings in chat. The deck is a Code **research playback** (the shape of the Pure Pet Food "Research findings and response" deck): four numbered sections, Revisiting the brief, Research findings, Research outcomes, and Themes & recommendations. Inside it sit the parts of Code's past reviews (Direct Line, Bayer CropScience, James Wellbeloved):
+- the Persuasion Model up front;
+- key insights from each piece of research;
 - per page, annotated screenshots with (+)/(−) callouts tagged by stage, plus a scores slide;
-- a Now / Next / Future summary per stage.
+- themes, each with its recommendations, then value against effort and an executive summary.
+
+**How it looks is not this skill's job.** Fonts, colours, motifs and slide layouts all come from `code-brand-style` (`references/deck-system.md`, built with `scripts/slides_house.py`). This skill decides what the deck says and in what order.
 
 ## The foundation: Code's Persuasion Model
 
@@ -264,11 +266,12 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 
 **No fluff.** Every recommendation needs evidence, an owner and a way to measure it. If it has none, it's an observation, not a recommendation.
 
-**Strategy slides, in the deck:**
-- **Strategic themes:** one slide with the 3–4 themes, each with its business goal and the funnel stage it fixes.
-- **Recommendations:** one slide per theme, with 2–3 decision cards in columns. Each card shows What, Why, Value, Effort, Confidence and Owner as labelled lines.
-- **Value against effort:** a 2×2 with each recommendation numbered and placed, using the positioning-map recipe for the dots and labels. Name the quadrants in plain words: "Do first", "Plan in", "Fit in", "Park".
-- **Roadmap:** three columns, Now, Next and Future, with each item tagged by funnel stage and owner.
+**Strategy slides, in the deck** (layouts from `code-brand-style`):
+- **Theme opener:** one per theme, with the measures it should move ("Improved visit bookings").
+- **Recommendations panel:** the theme's 2–4 recommendations, numbered.
+- **Recommendation detail:** one per top recommendation: the evidence, the psychology (meaning first), the change, then Value, Effort, Confidence and Owner.
+- **Value against effort:** the 2×2, quadrants "Do first", "Plan in", "Fit in", "Park".
+- **Roadmap** (optional): Now, Next and Future, each item tagged by funnel stage and owner.
 
 ## Step 6: Build the deck (always)
 
@@ -277,53 +280,53 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 - **PowerPoint:** only when Colin asks for a .pptx. Then use the pptx skill and the same structure and recipes.
 - **Never invent content to fill the deck.** Missing facts become bracketed placeholders, listed in your reply.
 
-**Brand.** Use `code-brand-style`, and pick one colour per stage so callouts read at a glance. Every colour below passes contrast on white:
-
-| Token | Hex |
-|---|---|
-| Navy (text, dark backgrounds) | `#000050` |
-| Body text | `#2A2F6E` |
-| Page | `#FBFBFE` |
-| Card | `#E8EBFF` |
-| Lime (accent fill) | `#B0F467` |
-| Cornflower (eyebrows) | `#3F4FE0` |
-| Font | **Poppins**, as the stand-in for WPP's own face |
-| **Usability** | `#2F6B00` |
-| **Trust** | `#000050` |
-| **Emotion** | `#3F4FE0` |
-| **Trigger** | `#00707D` |
-| Good | `#188038` |
-| Needs work | `#B85C00` |
-| Poor | `#B3261E` |
-
-Every slide gets the footer band: page number and source on the left, "Code Computerlove" on the right, 24px, pinned at `bottom:64px`, with the slide padded `128px 128px 160px`.
+**Look.** Read `code-brand-style` first: `references/deck-system.md` for tokens, type, motifs and layouts, and `scripts/slides_house.py` to build the house layouts. Don't set fonts, colours or footers here. The Persuasion stage colours and the Good / Needs work / Poor bands are the brand's semantic colours.
 
 **Upload first.** Upload every screenshot as an asset before writing slides, and use the `/_blob/…` URL it returns.
 
-**Deck order:**
-1. Cover
-2. Approach
-3. The journey funnel and the Persuasion Model (how they fit together)
-3a. Who the customer is and what starts their journey, from the CX journey map
-4. Executive summary
-5. Strategic themes
-6. Funnel at a glance (funnel stage × Persuasion stage scores)
-7. Speed scores at a glance
-8. **Trigger moment and Discover:** what starts the journey, what customers search for, who shows up, annotated landing pages, and an annotated slide on the client's advice content (where it sits, and whether it answers "is it right for me?" and "what will it cost?")
-9. **Consider:** for each page, a divider, 1–2 annotated slides and a scores slide
-10. **Convert:** the same for forms, booking and what happens next
-11. Accessibility: design, content and screen reader
-12. Recommendations: one slide per theme, as decision cards
-13. Value against effort
-14. Roadmap: Now / Next / Future, by funnel stage and owner
-15. Summary for each Persuasion stage: Now / Next / Future (optional in a pitch)
-16. Next steps, measurement and research
+**Deck order: a research playback in four sections.**
 
-Use a funnel-stage divider before each of 8, 9 and 10 so the reader always knows where in the journey they are.
+*Opening*
+1. Cover
+2. Contents: the four sections, a line each
+3. Role statement: what this document is for, in one sentence
+
+*01 Revisiting the brief*
+4. Section divider
+5. Our brief: what was asked; "We are reviewing / For / So that" beside it
+6. Delivering value: the business measures the work is held to (never invented sizes)
+7. Research scope: each piece of research, numbered, and what wasn't covered
+8. The journey funnel and the Persuasion Model (how they fit together)
+
+*02 Research findings*
+9. Section divider
+10. For each piece of research (stakeholder or team insight, the expert site review, search and advice content): a method intro slide, then a key insights slide
+11. A big stat slide for the single most telling number, when there is one
+12. Speed at a glance
+13. The page walk, in funnel order: a sub-divider per page ("Page 1 of 5 · Discover"), 1–2 annotated slides, then its scores slide. Trigger moment and Discover pages first (searches, landing pages, the client's advice content), then Consider, then Convert
+14. Accessibility: design, content and screen reader
+
+*03 Research outcomes*
+15. Section divider
+16. The CX journey map (from `cx-journey-map`)
+17. Who the customer is and what starts their journey
+18. Where the website fits in the journey
+
+*04 Themes & recommendations*
+19. Section divider
+20. Making research actionable (findings → themes and recommendations → solutions, "We are here")
+21. For each theme: theme opener, recommendations panel, recommendation detail slides
+22. Value against effort
+23. Roadmap (optional)
+24. Executive summary: Research, Assets, Opportunities
+25. Next steps, measurement and research
+26. Thank you
+
+In a pitch, cut pages and detail slides (one per theme), not sections. Persuasion-stage summaries (Now / Next / Future per stage) are optional; the themes replace them.
 
 **Write for the client.** Plain, natural English and no padding. A slide title states the point in a full sentence ("Premier Care has a simple form just for booking a visit"), not a label or slogan. Avoid jargon such as "table stakes", "white space" and "front door"; say what you mean.
 
-**These recipes are tested in the Slides format.** Reuse their markup and change only the content and numbers.
+**Review-specific recipes.** The layouts below belong to this review only. They're tested in the Slides format and use the brand's tokens; reuse their markup and change only the content and numbers. Everything else comes from `code-brand-style`.
 
 **Persuasion Model slide.** Draw four stacked, narrowing bars as a funnel standing in for the triangle. Put the "I can / It's OK / I want / I will" rows beside them.
 ```html
@@ -393,12 +396,7 @@ Repeat the connector and a pale card for 3. Consider (“Is this right for me?�
 
 **Accessibility slide.** Use three equal cards: Design, Content and Screen reader. Start every line with a word: **Fail:**, **Check:**, **Check by eye:**, **Pass:** or **Not yet tested:**. Cite the WCAG number where there is one. The title says it plainly, for example "An automated 100 isn't a pass".
 
-**Stage summary slide.** Put a lime pill with the stage name and the "I can do X" line above the title, then three cards:
-- **Now:** navy card with a lime heading, for quick wins.
-- **Next:** pale card, for work that needs design or development.
-- **Future:** pale card, for bigger change or research.
-
-Make one summary slide per stage.
+**Stage summary slide** (optional). A pill in the stage colour with the "I can do X" line above the title, then three cards: Now (navy, lime heading), Next and Future (pale). One per stage.
 
 **Speaker notes on every slide** give the method, date, device and anything not covered.
 

@@ -1,9 +1,11 @@
 ---
 name: code-brand-style
-description: Code Computerlove's visual identity — colour palette, typography, gradients, dot-matrix motif, iconography, photography and layout conventions, taken from the official WPP Media brand template. Use whenever creating a doc, artifact, deck, dashboard, one-pager, or any visual output that should look "on-brand," "in our style," or "like our template," or that will carry the Code/WPP Media wordmark.
+description: Code Computerlove's visual identity and deck system — colour palette, typography, gradients, dot-matrix motif, iconography, photography, layout conventions and tested slide layouts for research and strategy decks, taken from the official WPP Media brand template and Code's research playbacks. Use whenever creating a deck, doc, artifact, dashboard, one-pager, or any visual output that should look "on-brand," "in our style," or "like our template," and whenever another skill builds a deck (UX review, market review, journey map slides, research playback): every deck takes its look from here.
 ---
 
 # Code Brand Style
+
+> **All deck styling lives here.** Any Code deck (a UX review, a market review, a research playback, journey map slides, a pitch) takes its fonts, colours, motifs and slide layouts from this skill. Before building any deck, read `references/deck-system.md` and build the slides with `scripts/slides_house.py`. Other skills decide what a deck says and in what order; they don't restyle it.
 
 This is Code Computerlove's visual identity, read directly off the official **WPP Media brand template** (`CodeDesignTemplate.pptx` — a 104-slide master deck of layouts, colour specs, typography specs, graphic elements and icon libraries). Code sits inside WPP Media, so the template is Code's own visual system: the cover slide shows the rounded "Code" wordmark under the line "A WPP Media Brand," and every content slide carries the "WPP Media" mark bottom-right unless it's been swapped for Code's own.
 
@@ -29,6 +31,8 @@ Use this whenever building something that should look like it came from Code —
 | Teal / Cyan | `#00DBEE` | Gradient anchor, link colour, high-energy accent |
 | Yellow | `#FCFE67` | Gradient accent, sparingly — the loudest colour in the system |
 
+**Text-safe blues.** Cornflower `#5465FF` only just passes 4.5:1 on white, so text in that colour uses the deeper `#3F4FE0` (6.2:1). White text on a blue gradient sits on its deep end, `#2D3BC7` or `#3F4FE0`, never on periwinkle, aqua or lime. Supporting colours (body `#2A2F6E`, muted `#5A5F8A`, panel `#ECF1F4`) and the semantic colours for Persuasion stages, Good / Needs work / Poor and competitor rings are in `references/deck-system.md` and `references/tokens.css`.
+
 **Rules of thumb:** navy and white carry almost all body content — colour is for accents, gradients and moments of emphasis, not for filling large text areas. Lime is the one colour reserved for "this is ours" moments (numbered list badges, a single highlighted stat, a small tag). Never put body text in a saturated colour; body copy is navy on white/light, or white on navy/dark.
 
 ## Typography
@@ -38,6 +42,8 @@ The template uses a proprietary in-house font family, **WPP** (weights: Thin, Li
 - **Headlines** — WPP Bold, 28pt, sentence case, WPP Navy
 - **Subheadings / section labels** — WPP Bold, 18pt, UPPER CASE, Cornflower Blue
 - **Body copy** — WPP Regular, 14pt, WPP Navy
+
+**In decks, headlines run light, not bold.** Code's research playbacks (for example the Pure Pet Food "Research findings and response" deck) set slide headlines in a light or regular weight and pick out the one key phrase in bold cornflower: "This document will outline the **findings of our research** and recommendations for how **we think you should respond**." Section titles and the giant section numbers are medium. Bold is for the highlighted phrase, card headings and labels. The full deck type scale is in `references/deck-system.md`.
 
 Beyond those three named styles, the deck also uses a fourth, unnamed one consistently: a small **eyebrow / kicker label** — uppercase, letter-spaced, ~11pt, WPP Navy on light backgrounds or white on dark (e.g. "SECTION 01," "PREPARED BY: CODE," "CASE STUDY," "GSO CASE STUDY | UK | HEALTH & BEAUTY"). Use it above a headline to tag what a block is, sparingly.
 
@@ -81,6 +87,17 @@ Recurring structures worth reusing directly:
 - **Case study / proof point:** a two- or three-column split — headline + labelled sections (eyebrow-style labels: "CHALLENGE," "APPROACH") on white/light, a photo in the middle, and a colour-block sidebar (cornflower or navy) carrying stat callouts in white.
 - **Footer convention:** page number bottom-left, small and unobtrusive; "WPP Media" (or "Code") wordmark bottom-right, bold, in the colour that contrasts the background (navy on light, white on dark).
 
+**Research and strategy playbacks** add a fixed set of layouts, all specified and built in `references/deck-system.md` and `scripts/slides_house.py`:
+- **Contents:** blue wash, "What we'll cover in this document" light and large, numbered sections with one-line descriptions.
+- **Role statement:** one centred sentence on why the document exists, two phrases highlighted.
+- **Section divider:** white with corner glows, giant section number top right, a lime-outlined "→ SECTION 01" pill and a huge title.
+- **Title only with evidence:** eyebrow, light headline, body on the left; the evidence (panel, quote, screenshot, collage) on the right. Used for the brief, each research method and "Delivering value".
+- **Key insights:** numbered "01–06" insights, bold heading and a line or two each.
+- **Big stat:** one number on a cornflower panel, the story beside it.
+- **Theme opener:** aqua-to-lime wash, giant theme number, the theme as a sentence, and the measures it moves ("**Improved** visit bookings").
+- **Recommendations panel and recommendation detail:** a dark panel (the client's colour when known, else navy) with the recommendation; the case and the decision lines beside it.
+- **Value against effort 2×2, executive summary (Research | Assets | Opportunities), thank you.**
+
 ## Applying this outside PowerPoint
 
 When building an HTML artifact, dashboard, or web-facing output:
@@ -89,13 +106,14 @@ When building an HTML artifact, dashboard, or web-facing output:
 - Build the "orb" gradient with a large, heavily-blurred radial-gradient div (or an SVG `<feGaussianBlur>`), not a CSS linear-gradient with hard stops — the softness is the point.
 - Build the dot matrix as a repeating background (a small SVG or CSS `radial-gradient` dot repeated on a grid, e.g. `background-image: radial-gradient(currentColor 1.5px, transparent 1.5px); background-size: 24px 24px;`) at low opacity (10–20%), never as individually placed elements.
 - Reserve lime (`#B0F467`) for one deliberate accent per screen — a badge, a highlighted stat, a single CTA — not for large fills.
-- For a slide deck built with a Slides-type artifact, carry the palette and type rules into its theme settings and reuse the layout patterns above (cover, section divider, stat callout, case study) rather than defaulting to a generic template.
+- For a slide deck built with a Slides-type artifact, use `references/deck-system.md` and `scripts/slides_house.py`: the layouts are tested in that format, so reuse them rather than drawing new ones.
 - For a written doc (not a visual deck), the visual system matters less than the type rules: navy headings, sentence-case headlines, uppercase blue eyebrow labels above section headers if the doc format supports it.
 
 ## Quick reference
 
 - Navy `#000050` + White `#FFFFFF` carry everything; Lime `#B0F467` is the one accent that says "this is ours."
-- Headlines: Bold, sentence case, navy. Subheadings/labels: Bold, UPPERCASE, cornflower blue. Body: Regular, navy.
+- Headlines: sentence case, navy. In decks, light weight with one phrase in bold `#3F4FE0`. Subheadings/labels: Bold, UPPERCASE, cornflower blue. Body: Regular, navy.
+- Decks: read `references/deck-system.md` first; build with `scripts/slides_house.py`.
 - Two motifs, used everywhere: soft blurred gradient blobs, and a low-opacity scattered dot grid.
 - Icons are line-based, white-on-gradient-circle.
 - Photography is candid and diverse, never stiff stock-photo posing.

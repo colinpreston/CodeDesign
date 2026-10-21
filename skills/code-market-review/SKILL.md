@@ -24,7 +24,7 @@ This review lays that landscape out and follows the customer's journey funnel, f
 
 It's the sister skill to `code-ux-review`, which goes deep on the client's own site. Run this one first at the start of an engagement, then the UX review. Both use the same journey scenario, so their scores line up.
 
-**The deliverable is always a deck,** in the same Code style as the UX review. Its job is immersion: someone new to the account should read it and understand the market, the customer's alternatives and where the client wins and loses.
+**The deliverable is always a deck,** a Code research playback like the UX review: four numbered sections (Revisiting the brief, Research findings, Research outcomes, Themes & recommendations). Its look comes entirely from `code-brand-style` (`references/deck-system.md`, built with `scripts/slides_house.py`); this skill decides what it says and in what order. Its job is immersion: someone new to the account should read it and understand the market, the customer's alternatives and where the client wins and loses.
 
 ## The four rings of competition
 
@@ -235,11 +235,12 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 
 **No fluff.** Every recommendation needs evidence, an owner and a way to measure it. If it has none, it's an observation, not a recommendation.
 
-**Strategy slides, in the deck:**
-- **Strategic themes:** one slide with the 3–4 themes, each with its business goal and the funnel stage it fixes.
-- **Recommendations:** one slide per theme, with 2–3 decision cards in columns. Each card shows What, Why, Value, Effort, Confidence and Owner as labelled lines.
-- **Value against effort:** a 2×2 with each recommendation numbered and placed, using the positioning-map recipe for the dots and labels. Name the quadrants in plain words: "Do first", "Plan in", "Fit in", "Park".
-- **Roadmap:** three columns, Now, Next and Future, with each item tagged by funnel stage and owner.
+**Strategy slides, in the deck** (layouts from `code-brand-style`):
+- **Theme opener:** one per theme, with the measures it should move ("Improved visit bookings").
+- **Recommendations panel:** the theme's 2–4 recommendations, numbered.
+- **Recommendation detail:** one per top recommendation: the competitor evidence, the psychology (meaning first), the change, then Value, Effort, Confidence and Owner.
+- **Value against effort:** the 2×2, quadrants "Do first", "Plan in", "Fit in", "Park".
+- **Roadmap** (optional): Now, Next and Future, each item tagged by funnel stage and owner.
 
 ## Step 6: Build the deck (always)
 
@@ -248,45 +249,55 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 - **PowerPoint:** only when Colin asks for a .pptx. Then use the pptx skill and the same structure.
 - **Never invent content to fill the deck.** Missing facts become bracketed placeholders, listed in your reply.
 
-**Brand and recipes.** Use exactly the brand tokens, footer band, padding, callout, connector maths and score ring from `code-ux-review` Step 6. Upload every screenshot as an asset first and use the `/_blob/…` URL. Stage colours mean Persuasion stages, and nothing else.
+**Look.** Read `code-brand-style` first: `references/deck-system.md` for tokens, type, motifs and layouts (including the competitor ring colours), and `scripts/slides_house.py` to build the house layouts. Reuse the annotated screenshot, connector maths and score ring from `code-ux-review`. Upload every screenshot as an asset first and use the `/_blob/…` URL. Stage colours mean Persuasion stages and nothing else; ring colours appear only on the landscape and positioning slides.
 
-Ring colours are used only on the landscape and positioning slides:
+**Deck order: a research playback in four sections.**
 
-| Ring | Hex |
-|---|---|
-| Client | lime `#B0F467` fill, navy text |
-| Direct | `#000050` |
-| Indirect | `#3F4FE0` |
-| Category | `#00707D` |
-| Wildcard | `#6B2C91` |
-
-**Deck order:**
+*Opening*
 1. Cover
-2. Approach: the customer, what was compared, and what wasn't covered
-3. The landscape: the rings, with every competitor named
-4. The journey funnel: the four stages and how the Persuasion Model applies at each
-4a. Who the customer is and what starts their journey, from the CX journey map
-5. Executive summary
-6. Strategic themes
-7. Funnel scorecard: competitors × funnel stage
-8. Persuasion scorecard: competitors × Persuasion stage
-9. Positioning map
-10. **Trigger moment and Discover:** the moments each brand speaks to, the search visibility table, the advice comparison table, and annotated screenshots of the best competitor guide next to the client's
-11. **Consider:** proposition and price, then product information and proof
-12. **Convert:** the route to act, compared side by side
-13. For each direct competitor: a profile slide, then 1–2 annotated slides of the moments that matter, labelled with their funnel stage
-14. Indirect competitors: one slide each, or one shared slide
-15. Category and wildcard: what customers have come to expect, with screenshots
-16. Speed at a glance
-17. Where the client stands: what everyone offers, where the client is ahead, where competitors are ahead, what no one offers yet
-18. Recommendations: one slide per theme, as decision cards
-19. Value against effort
-20. Roadmap: Now / Next / Future, by funnel stage and owner
-21. Next steps, measurement and research gaps
+2. Contents
+3. Role statement
+
+*01 Revisiting the brief*
+4. Section divider
+5. Our brief and the customer scenario ("We are reviewing / For / So that")
+6. Delivering value: the business measures
+7. Research scope: what was compared, the defined price case, and what wasn't covered
+8. The landscape: the rings, with every competitor named
+9. The journey funnel and how the Persuasion Model applies at each stage
+
+*02 Research findings*
+10. Section divider
+11. Key insights: the market in 4–6 numbered points
+12. Funnel scorecard, then Persuasion scorecard
+13. Positioning map
+14. Trigger moment and Discover: the moments each brand speaks to, search visibility, the advice comparison, and the best competitor guide beside the client's
+15. Consider: proposition and price, then product information and proof
+16. Convert: the route to act, side by side
+17. For each direct competitor: a sub-divider or profile slide, then 1–2 annotated moments
+18. Indirect, category and wildcard: what customers have come to expect
+19. Speed at a glance
+20. Where the client stands: what everyone offers, where the client is ahead, where competitors are ahead, what no one offers yet
+
+*03 Research outcomes*
+21. Section divider
+22. Who the customer is and what starts their journey, from the CX journey map
+
+*04 Themes & recommendations*
+23. Section divider
+24. Making research actionable
+25. For each theme: theme opener, recommendations panel, recommendation detail slides
+26. Value against effort
+27. Roadmap (optional)
+28. Executive summary: Research, Assets, Opportunities
+29. Next steps, measurement and research gaps
+30. Thank you
+
+In a pitch, keep the landscape, the scorecards, where the client stands and the themes; cut competitor detail first.
 
 **Write for the client.** Plain, natural English and no padding. Slide titles state the point in a full sentence ("Age UK Mobility lets customers choose a date and time of day"), not a label or slogan. Avoid jargon such as "table stakes", "white space", "front door" or "edges"; say what you mean.
 
-**New recipes for this deck.** These follow the same Slides rules as the UX review recipes: pinned children use `position:absolute` with pixel values, and text always sits in `<p>`, `<h2>` or `<h3>`.
+**Market-review recipes.** These layouts belong to this review only. They use the brand's tokens and follow the same Slides rules: pinned children use `position:absolute` with pixel values, and text always sits in `<p>`, `<h2>` or `<h3>`. Everything else comes from `code-brand-style`.
 
 **Landscape slide.** Draw four concentric rings on the left, with the client in the centre. On the right, list each ring with its competitors as pills.
 ```html

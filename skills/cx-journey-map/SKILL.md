@@ -47,7 +47,7 @@ Use `map-spec.md` for what goes where.
 
 - **Data:** every number carries its source. Each important number you don't have becomes a "data needed" card. Never estimate one.
 - **Pains, positives and internal challenges:** short, plain and specific. Internal challenges are stakeholder quotes with the speaker.
-- **Comms:** the real messages at each step. Add a dashed "Missing: …" card where an obvious message doesn't exist.
+- **Comms:** CRM and outbound messages only, happening or missing: emails, texts, calls, letters, ads, confirmations and reminders. Add a dashed "Missing: …" card, labelled with its channel ("Email / SMS"), where an obvious message doesn't exist. Website content isn't comms: a gap in what a page says or shows is a customer pain or an HMW.
 - **Mindset:** real quotes only, each tagged to a profile. If the profiles come from desk research, label them provisional.
 - **Evidence and Research needed:** per stage, be honest about confidence. Every stage with no user evidence says so in red.
 - **HMW:** one per real opportunity, not one per step for the sake of it.
@@ -76,6 +76,14 @@ Interview-sourced loops and gaps get the participant tag. The builder lays loops
 5. Keep the JSON spec with the client's project docs. It's the source the map is regenerated from.
 
 **Every card is literal text** (no template placeholders), so people can click into the canvas and edit any card directly. Don't switch the map to data-bound cards; editors would see placeholder tokens instead of the words.
+
+## Putting the map in a deck
+
+Research playbacks, UX reviews and market reviews show the map in their "Research outcomes" section. Two slides, styled by `code-brand-style` (`references/deck-system.md`):
+1. **Your end-to-end customer journey map:** the "title only" layout, with a light headline ("Your end-to-end **customer journey map**"), one line on what it covers and its version, and the whole map as an image on the right. Render the map with `--standalone`, screenshot it full page, and upload the image as an asset.
+2. **Reading a map** (optional, for a client seeing the format for the first time): the map image with labelled callouts for each row: stage, steps, data, positives and pains, internal insights, comms, opportunities.
+
+Re-render the image whenever the map changes, so the deck and the map agree.
 
 ## Step 6 — Adding an interview
 

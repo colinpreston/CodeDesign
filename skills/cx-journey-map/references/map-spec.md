@@ -15,7 +15,7 @@ This is the house format for Code's "Customer journey full detail" map, modelled
 | **Positives** | Step | What works for the customer | Green with up-triangle |
 | **Customer pains** | Step | What gets in their way | Red with down-triangle |
 | **Internal challenges** *(shown if any)* | Step | What stakeholders and client teams say, as quotes with the speaker | White, magnifier icon |
-| **Comms** | Step | Emails, ads, pop-ups and in-product messages; missing comms as dashed red | Grey-green; dashed red when missing |
+| **Comms** | Step | CRM and outbound messages, happening or missing: emails, texts, calls, letters, ads, confirmations, reminders. Website content gaps are pains or HMWs, not comms | Grey-green; dashed red when missing, labelled with the channel |
 | **Mindset thinking** | Step | Real customer quotes, tagged to a mindset profile | Quote card, profile-coloured footer |
 | **Evidence** | Stage | What each stage is built on, plus whether there's any user evidence | Teal chips; red or tag-coloured user chip |
 | **Research needed** | Stage | Each gap: priority, question and method | Teal cards |
