@@ -1,0 +1,370 @@
+{
+ "client": "Breitling US",
+ "version": "v0.1",
+ "date": "21 Oct 2026",
+ "lang": "en",
+ "size": [
+  1600,
+  1000
+ ],
+ "brand": {
+  "primary": "#072C54",
+  "accent": "#FFC72C",
+  "accent_ink": "#111820",
+  "ink": "#111820",
+  "grey": "#4A5560",
+  "line": "#C3C8CF",
+  "bg": "#F2F3F5",
+  "band": "#E4E7EB",
+  "warn": "#8A1F1F",
+  "head_font": "Barlow Condensed",
+  "body_font": "Open Sans",
+  "head_upper": true,
+  "fonts_href": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,600&display=swap"
+ },
+ "legend": [
+  "D",
+  "S",
+  "A"
+ ],
+ "labels": {
+  "goal": "Moving them to buy on breitling.com",
+  "loses": "Where the site loses them today"
+ },
+ "profiles": [
+  {
+   "name": "The reassurance seeker",
+   "type": "Mindset",
+   "often": "often marking a milestone",
+   "who": "Buying once in years to mark a promotion, birthday or anniversary. Wants the right watch, bought safely.",
+   "moment": "Sunday evening, a week after the promotion came through.",
+   "quote": "I’ll wear this for twenty years. I just need to know it’s the right one, and that I can send it back if it isn’t.",
+   "job": "When I mark a milestone with a watch I’ll keep for decades, I want to be sure it’s the right one and the purchase is safe, so I can enjoy the moment without regret.",
+   "confidence": 1,
+   "confidence_note": "Desk research and site walk only; no customer evidence yet.",
+   "scene_svg": "<svg width=\"270\" height=\"187\" viewBox=\"0 0 330 228\" role=\"img\" aria-label=\"A person at a laptop looking at a watch, a calendar marked with a star, thinking: is it safe?\" style=\"display:block\"><rect width=\"330\" height=\"228\" fill=\"#072C54\"/><rect x=\"20\" y=\"176\" width=\"290\" height=\"8\" fill=\"#FFFFFF\" opacity=\"0.9\"/><path d=\"M48.0,214.0 C48.0,146.0 62.0,130.0 92,130.0 C122.0,130.0 136.0,146.0 136.0,214.0 Z\" fill=\"#2E557F\"/><circle cx=\"92\" cy=\"96\" r=\"22.0\" fill=\"#D9E1EA\"/><rect x=\"150\" y=\"112\" width=\"96\" height=\"62\" fill=\"#FFFFFF\"/><rect x=\"138\" y=\"172\" width=\"120\" height=\"6\" fill=\"#D9E1EA\"/><circle cx=\"198\" cy=\"143\" r=\"20\" fill=\"none\" stroke=\"#072C54\" stroke-width=\"4\"/><path d=\"M198 131v12l8 6\" stroke=\"#072C54\" stroke-width=\"3\" fill=\"none\"/><rect x=\"262\" y=\"128\" width=\"40\" height=\"44\" fill=\"#FFFFFF\"/><rect x=\"262\" y=\"128\" width=\"40\" height=\"11\" fill=\"#FFC72C\"/><path d=\"M282 145l3.5 7 7.5 1-5.5 5 1.5 7.5-7-3.8-7 3.8 1.5-7.5-5.5-5 7.5-1z\" fill=\"#FFC72C\"/><circle cx=\"122\" cy=\"92\" r=\"5\" fill=\"#FFFFFF\"/><circle cx=\"134\" cy=\"82\" r=\"7\" fill=\"#FFFFFF\"/><rect x=\"140\" y=\"18\" width=\"150\" height=\"58\" rx=\"29.0\" fill=\"#FFFFFF\"/><path d=\"M168 26l18 7v13c0 11-8 19-18 23-10-4-18-12-18-23V33z\" fill=\"#FFC72C\"/><text x=\"168\" y=\"57\" text-anchor=\"middle\" font-family=\"Barlow Condensed, Arial\" font-weight=\"700\" font-size=\"24\" fill=\"#072C54\">?</text><text x=\"196\" y=\"50\" font-family=\"Open Sans, Arial\" font-weight=\"700\" font-size=\"13\" fill=\"#072C54\">Is it safe?</text></svg>",
+   "push": [
+    [
+     "A moment to mark: a promotion, birthday or anniversary",
+     "A"
+    ],
+    [
+     "Wants something lasting and meaningful",
+     "A"
+    ],
+    [
+     "Has admired this watch for a while",
+     "A"
+    ]
+   ],
+   "pull": [
+    [
+     "Buying from the maker feels safest",
+     "A"
+    ],
+    [
+     "Free delivery, 30-day returns, 5-year warranty on manufacture calibres",
+     "D"
+    ],
+    [
+     "Affirm at 0% APR spreads the cost",
+     "S"
+    ]
+   ],
+   "anxiety": [
+    [
+     "Spending $10,000 on a watch not seen in person",
+     "A"
+    ],
+    [
+     "Getting the size or strap wrong",
+     "A"
+    ],
+    [
+     "Returns and warranty terms sit in the FAQ, not by the price",
+     "S"
+    ]
+   ],
+   "habit": [
+    [
+     "Watches at this price are bought in a store, with someone to talk to",
+     "A"
+    ],
+    [
+     "A boutique or dealer visit feels like the normal route",
+     "A"
+    ],
+    [
+     "The help line is closed at weekends",
+     "S"
+    ]
+   ],
+   "tips": [
+    "Delivery, returns and warranty in words beside the price",
+    "An easy route to a person: call, appointment or chat",
+    "Boutique pick-up as a visible choice",
+    "Help choosing size and strap"
+   ],
+   "loses": [
+    "The promise left the top bar in 2026",
+    "Icons at the fold, with no numbers",
+    "No reviews and no chat"
+   ],
+   "research": [
+    [
+     "Returns and warranty are their top worries at $10,000",
+     "exit survey (Medallia)",
+     "To do"
+    ],
+    [
+     "They visit several times before buying",
+     "returning visitors (GA4)",
+     "To do"
+    ],
+    [
+     "They want to talk to a person before paying",
+     "8 buyer interviews",
+     "To do"
+    ]
+   ],
+   "data": [
+    [
+     "Sessions before first order; share buying on visit 3 or later",
+     "GA4"
+    ],
+    [
+     "Returns, warranty or FAQ views before add to bag",
+     "GA4"
+    ],
+    [
+     "Call, appointment and chat clicks on product pages",
+     "Contentsquare"
+    ],
+    [
+     "Share naming returns or warranty as the blocker, 100+ replies",
+     "Medallia"
+    ]
+   ]
+  },
+  {
+   "name": "The value checker",
+   "type": "Mindset",
+   "often": "often an enthusiast",
+   "who": "Knows the reference they want and the going price. Compares dealers, grey market and the brand.",
+   "moment": "Lunch break, three tabs open: a forum, a dealer and breitling.com.",
+   "quote": "I know what this watch goes for. Tell me why I should pay full price here.",
+   "job": "When I’ve settled on a reference, I want the best overall deal from a seller I trust, so I can buy without feeling I overpaid.",
+   "confidence": 1,
+   "confidence_note": "Market check and site walk; buying behaviour assumed.",
+   "scene_svg": "<svg width=\"270\" height=\"187\" viewBox=\"0 0 330 228\" role=\"img\" aria-label=\"A person comparing prices on a phone, a balance weighing $10,300 against $7,300, thinking: why pay more?\" style=\"display:block\"><rect width=\"330\" height=\"228\" fill=\"#072C54\"/><rect x=\"20\" y=\"206\" width=\"290\" height=\"4\" fill=\"#FFFFFF\" opacity=\"0.5\"/><path d=\"M52.0,210.0 C52.0,142.0 66.0,126.0 96,126.0 C126.0,126.0 140.0,142.0 140.0,210.0 Z\" fill=\"#2E557F\"/><circle cx=\"96\" cy=\"92\" r=\"22.0\" fill=\"#D9E1EA\"/><rect x=\"124\" y=\"118\" width=\"30\" height=\"52\" rx=\"4\" fill=\"#FFFFFF\"/><rect x=\"129\" y=\"125\" width=\"20\" height=\"34\" fill=\"#FFC72C\"/><path d=\"M244 72v104\" stroke=\"#FFFFFF\" stroke-width=\"4\"/><path d=\"M196 92h96\" stroke=\"#FFFFFF\" stroke-width=\"4\"/><path d=\"M226 176h36\" stroke=\"#FFFFFF\" stroke-width=\"4\"/><path d=\"M196 92l-14 40h28z\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><path d=\"M292 92l-14 30h28z\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><rect x=\"168\" y=\"132\" width=\"56\" height=\"24\" fill=\"#FFC72C\"/><text x=\"196\" y=\"149\" text-anchor=\"middle\" font-family=\"Open Sans, Arial\" font-weight=\"700\" font-size=\"13\" fill=\"#072C54\">$10,300</text><rect x=\"264\" y=\"122\" width=\"56\" height=\"24\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"2\"/><text x=\"292\" y=\"139\" text-anchor=\"middle\" font-family=\"Open Sans, Arial\" font-weight=\"700\" font-size=\"13\" fill=\"#FFFFFF\">$7,300</text><circle cx=\"132\" cy=\"80\" r=\"5\" fill=\"#FFFFFF\"/><circle cx=\"144\" cy=\"70\" r=\"7\" fill=\"#FFFFFF\"/><rect x=\"150\" y=\"16\" width=\"158\" height=\"48\" rx=\"24.0\" fill=\"#FFFFFF\"/><circle cx=\"172\" cy=\"40\" r=\"11\" fill=\"none\" stroke=\"#072C54\" stroke-width=\"4\"/><path d=\"M180 48l9 9\" stroke=\"#072C54\" stroke-width=\"4\"/><text x=\"198\" y=\"46\" font-family=\"Open Sans, Arial\" font-weight=\"700\" font-size=\"13\" fill=\"#072C54\">Why pay more?</text></svg>",
+   "push": [
+    [
+     "Knows exactly which reference they want",
+     "A"
+    ],
+    [
+     "Follows forums and price trackers",
+     "A"
+    ],
+    [
+     "A release or price rise prompts a decision; the B01 46 went from $9,900 to $10,300",
+     "D"
+    ]
+   ],
+   "pull": [
+    [
+     "Guaranteed genuine, with the maker’s warranty",
+     "D"
+    ],
+    [
+     "Boutique and online exclusives",
+     "S"
+    ],
+    [
+     "30-day returns, longer than Omega’s 14 days and dealers’ 10",
+     "D"
+    ]
+   ],
+   "anxiety": [
+    [
+     "Paying $10,300 when grey market shows about $7,300",
+     "D"
+    ],
+    [
+     "Finding one reference among 312 watches, with no sort",
+     "S"
+    ],
+    [
+     "No reviews or comparison tool",
+     "S"
+    ]
+   ],
+   "habit": [
+    [
+     "Buys from a dealer they know, and may negotiate",
+     "A"
+    ],
+    [
+     "Model searches lead to dealers; breitling.com missing from the top nine",
+     "D"
+    ]
+   ],
+   "tips": [
+    "A clear reason to buy direct, stated by the price",
+    "Sort and search by reference",
+    "Compare watches side by side",
+    "Affirm monthly price at a readable size"
+   ],
+   "loses": [
+    "Listings lead with codes and have no sort",
+    "No “why buy from Breitling” anywhere",
+    "Finance is a small link"
+   ],
+   "research": [
+    [
+     "Dealers win most brand and model searches",
+     "WPP Media search data; US Google audit",
+     "To do"
+    ],
+    [
+     "Price comparison is the main reason they leave",
+     "exits to search; 8 interviews",
+     "To do"
+    ],
+    [
+     "Warranty and exclusives outweigh a lower price",
+     "interviews and exit survey",
+     "To do"
+    ]
+   ],
+   "data": [
+    [
+     "Arrivals from brand and model search; share won by dealers",
+     "GA4 · WPP"
+    ],
+    [
+     "Watches viewed per session; searches by reference",
+     "GA4"
+    ],
+    [
+     "Exits from product pages back to search",
+     "Contentsquare"
+    ],
+    [
+     "Share naming price or dealers as the blocker, 100+ replies",
+     "Medallia"
+    ]
+   ]
+  },
+  {
+   "name": "The deadline giver",
+   "type": "Mindset",
+   "often": "buying a gift",
+   "who": "Buying for someone special against a date. Needs it to arrive on time, look right and be easy to swap.",
+   "moment": "Ten days before a birthday, on the phone in the evening.",
+   "quote": "Their birthday is on the 14th. If it doesn’t arrive in time, there’s no point.",
+   "job": "When I’m buying a watch for someone special against a date, I want it to arrive on time and be easy to swap, so I can give it with confidence.",
+   "confidence": 1,
+   "confidence_note": "Gift offer and policies seen; how givers buy is assumed.",
+   "scene_svg": "<svg width=\"270\" height=\"187\" viewBox=\"0 0 330 228\" role=\"img\" aria-label=\"A person holding a wrapped gift, a calendar with a date circled and a delivery van, thinking: will it arrive in time?\" style=\"display:block\"><rect width=\"330\" height=\"228\" fill=\"#072C54\"/><rect x=\"20\" y=\"206\" width=\"290\" height=\"4\" fill=\"#FFFFFF\" opacity=\"0.5\"/><path d=\"M52.0,210.0 C52.0,142.0 66.0,126.0 96,126.0 C126.0,126.0 140.0,142.0 140.0,210.0 Z\" fill=\"#2E557F\"/><circle cx=\"96\" cy=\"92\" r=\"22.0\" fill=\"#D9E1EA\"/><rect x=\"70\" y=\"134\" width=\"56\" height=\"44\" fill=\"#FFC72C\"/><rect x=\"94\" y=\"134\" width=\"8\" height=\"44\" fill=\"#FFFFFF\"/><rect x=\"70\" y=\"150\" width=\"56\" height=\"7\" fill=\"#FFFFFF\"/><path d=\"M98 134c-10-14-24-8-14 0M98 134c10-14 24-8 14 0\" fill=\"none\" stroke=\"#FFFFFF\" stroke-width=\"4\"/><rect x=\"178\" y=\"112\" width=\"62\" height=\"64\" fill=\"#FFFFFF\"/><rect x=\"178\" y=\"112\" width=\"62\" height=\"14\" fill=\"#FFC72C\"/><rect x=\"186\" y=\"132\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"204\" y=\"132\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"222\" y=\"132\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"186\" y=\"145\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"204\" y=\"145\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"222\" y=\"145\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"186\" y=\"158\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"204\" y=\"158\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><rect x=\"222\" y=\"158\" width=\"9\" height=\"7\" fill=\"#D9E1EA\"/><circle cx=\"208.5\" cy=\"148.5\" r=\"10\" fill=\"none\" stroke=\"#B3261E\" stroke-width=\"3\"/><rect x=\"254\" y=\"150\" width=\"38\" height=\"26\" fill=\"#FFFFFF\"/><path d=\"M292 158h14l8 10v8h-22z\" fill=\"#FFFFFF\"/><circle cx=\"266\" cy=\"180\" r=\"6\" fill=\"#FFC72C\"/><circle cx=\"302\" cy=\"180\" r=\"6\" fill=\"#FFC72C\"/><circle cx=\"132\" cy=\"80\" r=\"5\" fill=\"#FFFFFF\"/><circle cx=\"144\" cy=\"70\" r=\"7\" fill=\"#FFFFFF\"/><rect x=\"150\" y=\"16\" width=\"150\" height=\"48\" rx=\"24.0\" fill=\"#FFFFFF\"/><circle cx=\"170\" cy=\"40\" r=\"12\" fill=\"none\" stroke=\"#072C54\" stroke-width=\"4\"/><path d=\"M170 32v9l6 4\" stroke=\"#072C54\" stroke-width=\"3\" fill=\"none\"/><text x=\"190\" y=\"46\" font-family=\"Open Sans, Arial\" font-weight=\"700\" font-size=\"13\" fill=\"#072C54\">Will it arrive?</text></svg>",
+   "push": [
+    [
+     "A date: birthday, anniversary or holiday",
+     "A"
+    ],
+    [
+     "Wants a gift that says something lasting",
+     "A"
+    ],
+    [
+     "The online gift offer gives a reason to buy now",
+     "S"
+    ]
+   ],
+   "pull": [
+    [
+     "Gifting service on the product page",
+     "S"
+    ],
+    [
+     "Free express delivery in 2–3 business days",
+     "D"
+    ],
+    [
+     "Boutique pick-up, with 14 days to collect",
+     "D"
+    ]
+   ],
+   "anxiety": [
+    [
+     "Will it arrive in time? No delivery date is shown",
+     "S"
+    ],
+    [
+     "The wrong size or strap for someone else",
+     "A"
+    ],
+    [
+     "Every order needs a signature on delivery",
+     "S"
+    ]
+   ],
+   "habit": [
+    [
+     "Buys gifts in store, to see them wrapped",
+     "A"
+    ],
+    [
+     "Goes to sellers offering next-day delivery (IWC next day; Watches of Switzerland 1–3 days)",
+     "D"
+    ]
+   ],
+   "tips": [
+    "A firm delivery date beside the price",
+    "Gift as a tick box, with a message",
+    "Easy exchange for size",
+    "Pick-up as a choice, on phones too"
+   ],
+   "loses": [
+    "Pick-up is missing on phones",
+    "The gift offer is cut off in the phone top bar",
+    "No delivery date in the bag"
+   ],
+   "research": [
+    [
+     "Gifts are a large share of online orders",
+     "order data",
+     "To do"
+    ],
+    [
+     "Orders peak before holidays and dates",
+     "seasonality (GA4)",
+     "To do"
+    ],
+    [
+     "A delivery date matters more than speed",
+     "exit survey and interviews",
+     "To do"
+    ]
+   ],
+   "data": [
+    [
+     "Gift option and pick-up as a share of orders",
+     "Order data"
+    ],
+    [
+     "Orders by week before holidays, 24 months",
+     "GA4"
+    ],
+    [
+     "Delivery-info views and bag exits, by device",
+     "Contentsquare"
+    ],
+    [
+     "Share naming delivery timing as the blocker, 100+ replies",
+     "Medallia"
+    ]
+   ]
+  }
+ ]
+}

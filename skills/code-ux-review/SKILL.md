@@ -15,8 +15,9 @@ This is how Code reviews a site: follow a real customer through the **journey fu
 - **Core Web Vitals and PageSpeed**, from real Chrome users and a lab test;
 - **an accessibility check** in three parts: design, content and screen readers.
 
-**The deliverable is always a deck.** The review isn't finished until the deck exists, so never stop at a list of findings in chat. The deck is a Code **research playback** (the shape of the Pure Pet Food "Research findings and response" deck): four numbered sections, Revisiting the brief, Research findings, Research outcomes, and Themes & recommendations. Inside it sit the parts of Code's past reviews (Direct Line, Bayer CropScience, James Wellbeloved):
+**The deliverable is always a deck.** The review isn't finished until the deck exists, so never stop at a list of findings in chat. The deck is a Code **research playback** (the shape of the Pure Pet Food "Research findings and response" deck): five numbered sections, Revisiting the brief, Understanding the user, Research findings, Research outcomes, and Themes & recommendations. Inside it sit the parts of Code's past reviews (Direct Line, Bayer CropScience, James Wellbeloved):
 - the Persuasion Model up front;
+- proto-persona boards for the customers the site serves, built with `code-ux-userprofile`;
 - key insights from each piece of research;
 - per page, annotated screenshots with (+)/(−) callouts tagged by stage, plus a scores slide;
 - themes, each with its recommendations, then value against effort and an executive summary.
@@ -69,7 +70,15 @@ The journey funnel needs evidence about real customers, not just the website. So
   - its **funnel** (for example prospect, lead, quoted, customer) shows where the business loses people, when data exists.
 - **Feed back into the map.** When the review confirms, adds or disproves something on the map, update it (or tell Colin what to update) so the map and the deck agree. Never leave a finding in the map that the review has shown to be wrong.
 
-In the deck, add one slide near the start: "Who the customer is and what starts their journey", built from the map's customer types and trigger moments, with a link to the map and its confidence level.
+### Profile the user (always)
+
+Every review deck has a section **"Understanding the user"**, built with the `code-ux-userprofile` skill. Read it before Step 6. In short:
+- start from the map's customer types or mindsets; with no map, from desk research and the site walk;
+- build **proto-personas (v0.1)**: one designed board per profile, in the **client's** brand, on a Design canvas so it stays editable, then rendered with `code-ux-userprofile/scripts/profile_board.py --png` and placed full-slide in the deck;
+- each board centres on **push, pull, anxiety and habit** (what makes someone choose and commit), is humanised with a neutral scene, a moment and an assumed quote, tags every line by source, and ends with **research to validate** (the why) and **data to validate at scale** (how many);
+- tie each board's "where the site loses them today" to the review's findings, and add a slide rating each finding against each profile (judgement, not measurement).
+
+Explain the forces first (push: what makes them act now; pull: what attracts them to this choice; anxiety: what worries them about it; habit: the comfort of how they do it today). Never present a proto-persona as validated.
 
 ## Step 1: Scope it
 
@@ -284,11 +293,11 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 
 **Upload first.** Upload every screenshot as an asset before writing slides, and use the `/_blob/…` URL it returns.
 
-**Deck order: a research playback in four sections.**
+**Deck order: a research playback in five sections.**
 
 *Opening*
 1. Cover
-2. Contents: the four sections, a line each
+2. Contents: the five sections, a line each
 3. Role statement: what this document is for, in one sentence
 
 *01 Revisiting the brief*
@@ -297,32 +306,44 @@ Findings tell the client what's wrong. Recommendations have to tell them what to
 6. Delivering value: the business measures the work is held to (never invented sizes)
 7. Research scope: each piece of research, numbered, and what wasn't covered
 8. The journey funnel and the Persuasion Model (how they fit together)
+9. Key questions (when did it start, what changed on the site, the market, the offer)
 
-*02 Research findings*
-9. Section divider
-10. For each piece of research (stakeholder or team insight, the expert site review, search and advice content): a method intro slide, then a key insights slide
-11. A big stat slide for the single most telling number, when there is one
-12. Speed at a glance
-13. The page walk, in funnel order: a sub-divider per page ("Page 1 of 5 · Discover"), 1–2 annotated slides, then its scores slide. Trigger moment and Discover pages first (searches, landing pages, the client's advice content), then Consider, then Convert
-14. Accessibility: design, content and screen reader
+*02 Understanding the user* (from `code-ux-userprofile`)
+10. Section divider
+11. The User Profile Model: four types, best for, won't tell you
+12. Research statement and questions
+13. Questions plotted on the model; blind spots called out
+14. The profile blend chosen and why
+15. How to read the proto-personas: push, pull, anxiety, habit; v0.1 → v0.2 → v1.0
+16. One full-slide proto-persona board per profile (usually three)
+17. Profiles against the findings (High / Medium / Low, labelled as judgement)
+18. Data segments to build; validation plan with days; interview guides per role (optional in a pitch)
 
-*03 Research outcomes*
-15. Section divider
-16. The CX journey map (from `cx-journey-map`)
-17. Who the customer is and what starts their journey
-18. Where the website fits in the journey
-
-*04 Themes & recommendations*
+*03 Research findings*
 19. Section divider
-20. Making research actionable (findings → themes and recommendations → solutions, "We are here")
-21. For each theme: theme opener, recommendations panel, recommendation detail slides
-22. Value against effort
-23. Roadmap (optional)
-24. Executive summary: Research, Assets, Opportunities
-25. Next steps, measurement and research
-26. Thank you
+20. For each piece of research (stakeholder or team insight, the expert site review, search and advice content): a method intro slide, then a key insights slide
+21. A big stat slide for the single most telling number, when there is one
+22. Speed at a glance
+23. The page walk, in funnel order: a sub-divider per page ("Page 1 of 5 · Discover"), 1–2 annotated slides, then its scores slide. Trigger moment and Discover pages first (searches, landing pages, the client's advice content), then Consider, then Convert
+24. Accessibility: design, content and screen reader
 
-In a pitch, cut pages and detail slides (one per theme), not sections. Persuasion-stage summaries (Now / Next / Future per stage) are optional; the themes replace them.
+*04 Research outcomes*
+25. Section divider
+26. The CX journey map (from `cx-journey-map`)
+27. Funnel at a glance: journey stages against the Persuasion Model
+28. Where the website fits in the journey
+
+*05 Themes & recommendations*
+29. Section divider
+30. Making research actionable (findings → themes and recommendations → solutions, "We are here")
+31. For each theme: theme opener, recommendations panel, recommendation detail slides
+32. Value against effort
+33. Roadmap (optional)
+34. Executive summary: Research, Assets, Opportunities
+35. Next steps, measurement and research
+36. Thank you
+
+In a pitch, cut pages and detail slides (one per theme), not sections; keep the proto-persona boards. Persuasion-stage summaries (Now / Next / Future per stage) are optional; the themes replace them.
 
 **Write for the client.** Plain, natural English and no padding. A slide title states the point in a full sentence ("Premier Care has a simple form just for booking a visit"), not a label or slogan. Avoid jargon such as "table stakes", "white space" and "front door"; say what you mean.
 
