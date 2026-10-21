@@ -8,7 +8,7 @@
       "name": "design-studio-team-setup",
       "source": "./",
       "description": "Sets up a \"company brain + desks\" pattern for a new design consultancy client engagement.",
-      "version": "1.3.0"
+      "version": "1.4.0"
     }
   ]
 }
