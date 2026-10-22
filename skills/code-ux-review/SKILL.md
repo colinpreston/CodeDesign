@@ -372,6 +372,7 @@ Repeat the connector and a pale card for 3. Consider (“Is this right for me?�
 **Annotated screenshot slide.** This is the heart of the deck.
 - **Layout:** title pinned at top 72; screenshot pinned in the centre; up to 3 callouts on each side; one connector from each callout to its element.
 - **Screenshot:** a 1440×757 shot fits at `left:548px;top:260px;width:824px;height:433px;object-fit:contain`, which is a scale of 0.5722.
+- **Mobile screenshot:** put it in the phone frame instead, `phone(src, 760, left=780, top=160)` from `code-brand-style/scripts/slides_house.py`, and take the box for the connector maths from `phone_screen_box(780, 160, 760)` (see `code-brand-style` deck system §5). Same callout columns and tops.
 - **Callout tops:** 190, 440 and 690.
   - Left column: `left:128px;width:340px`.
   - Right column: `left:1412px;width:340px`.

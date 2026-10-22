@@ -97,6 +97,7 @@ Recurring structures worth reusing directly:
 - **Theme opener:** aqua-to-lime wash, giant theme number, the theme as a sentence, and the measures it moves ("**Improved** visit bookings").
 - **Recommendations panel and recommendation detail:** a dark panel (the client's colour when known, else navy) with the recommendation; the case and the decision lines beside it.
 - **Value against effort 2×2, executive summary (Research | Assets | Opportunities), thank you.**
+- **Mobile screens:** every mobile screen sits in Code's phone frame (`phone()`), alone beside the copy, annotated with callouts, or two to four in a row (`screens`). Never a bare mobile screenshot or a stock mock-up. Spec in `references/deck-system.md` §5.
 
 ## Applying this outside PowerPoint
 
@@ -118,4 +119,5 @@ When building an HTML artifact, dashboard, or web-facing output:
 - Icons are line-based, white-on-gradient-circle.
 - Photography is candid and diverse, never stiff stock-photo posing.
 - Footer: page number bottom-left, wordmark bottom-right.
+- Mobile screens: always in the phone frame, `phone()` in `scripts/slides_house.py`.
 - No exact WPP font outside PowerPoint → fall back to Poppins/Plus Jakarta Sans/General Sans and say so.

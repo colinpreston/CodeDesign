@@ -115,13 +115,40 @@ Function names are in `scripts/slides_house.py`. The template layout name is in 
 | **Recommendation detail** | `rec_detail` | Navy panel on the left ("RECOMMENDATION" eyebrow in lime, the recommendation as a light headline); on the right the case in 2–3 short paragraphs (evidence, the psychology meaning first, the change), then Value, Effort, Confidence and Owner under a navy rule |
 | **Value against effort** | `matrix` | 2×2 with labelled axes ("← High value", "Low value →", "High effort", "Low effort"); quadrants "Do first · quick wins" (bottom left, cornflower outline), "Plan in · bigger bets", "Fit in · when there's room", "Park · for now" |
 | **Executive summary** | `exec_summary` | Three columns on grey panels: Research (methods), Assets (what we made), Opportunities (the themes as numbered navy pills) |
+| **Mobile screens** | `screens` | Eyebrow and headline, then two to four phones in a row with a one-line caption under each: a flow, a before and after, client against competitor |
 | **Thank you** | `thanks` | Blue wash, large light "Thank you", one warm line, a contact |
 
 **Client colour.** The playbacks give recommendation panels and illustrations the client's own brand colour and logo, as a nod to them. Use the client's primary colour on the recommendations panel and recommendation detail panel when it's known and passes 4.5:1 with white text; otherwise use navy. Never guess a client's colour.
 
 **Layouts that belong to one kind of deck** live with that skill but use these tokens: the annotated screenshot, score rings, scores slide and accessibility slide (`code-ux-review`); the landscape rings, scorecard heatmap, comparison matrix and positioning map (`code-market-review`); "Reading a map" (`cx-journey-map`).
 
-## 5. Rules
+## 5. Mobile screens
+
+Every mobile screen in a Code deck sits in the **phone frame** from `phone()` in `scripts/slides_house.py`. Never paste a bare mobile screenshot, a screenshot that still carries the device's own status bar, or a stock device mock-up.
+
+**The frame** (from Code's reference, 2026-10):
+- A modern iPhone, 393×852 points, in portrait. No side buttons, no home bar.
+- Thin charcoal bezel `#3C3C43` (1% of the height), large rounded corners (6% of the height), the screen corners following them.
+- A status bar drawn by the frame: time on the left in black, the Dynamic Island as a dark pill in the middle, signal, wi-fi and a "100" battery on the right, on white. Use `dark_status=True` when the screen opens on a dark header.
+- A soft navy-tinted shadow underneath, so the phone lifts off white, dots and washes alike.
+- The screenshot fills the rest of the screen, top-aligned and cropped at the bottom.
+
+**Capturing.** Capture at 393px wide (390 or 430 are fine) and crop off the browser chrome and the device status bar. For a long page, crop the section the slide is about rather than shrinking the whole page. Upload every screenshot as an asset first and use the `/_blob/…` URL.
+
+**Sizes on a 1920×1080 slide.**
+
+| Use | Height | Position |
+|---|---|---|
+| One phone beside the copy | 760 | In `title_only`'s right column (flow), or pinned at top 160 |
+| One phone with callouts each side (annotated mobile) | 760 | Pinned at `left:780px;top:160px`, centred |
+| Two or three in a row (`screens`) | 580 | Flow, captions underneath |
+| Four in a row (`screens`) | 520 | Flow, captions underneath |
+
+**Annotated mobile screens** use the `code-ux-review` callout recipe with the phone in the middle. Get the screenshot box from `phone_screen_box(left, top, height)`. With `cover`, top-aligned, for a point `(X, Y)` on a screenshot `W` wide: `s = BW / W`, `x2 = L + X·s`, `y2 = T + Y·s`.
+
+The phone is evidence, not decoration. It never sits under text or a glow, and it always carries one clear point (a headline, a caption or a callout).
+
+## 6. Rules
 
 - **One idea per slide.** A headline states the point as a sentence, not a label.
 - **Light headline, one highlight.** Bold is for the highlighted phrase, card headings and labels, not whole headlines.

@@ -39,6 +39,87 @@ GLOW_TR_SOFT = glow(1560, 0, 360, 260, [(AQUA, 0), (PERI, 40), (T, 72)], '100% 0
 GLOW_BL = glow(0, 300, 1400, 780, [(CYAN, 0), (AQUA, 30), (T, 68)], '20% 90%')
 
 
+# ---------------------------------------------------------------------------
+# Phone frame: how Code shows a mobile screen in a deck.
+# A modern iPhone at 393x852 points: thin charcoal bezel, large rounded corners,
+# a status bar (time, Dynamic Island, signal, wi-fi, battery) above the screen
+# content, and a soft navy-tinted shadow. No side buttons, no home bar, no notch
+# cut-outs drawn into the screenshot. The frame stays neutral so the client's
+# screen is the hero. Spec: ../references/deck-system.md section 5.
+# ---------------------------------------------------------------------------
+
+BEZEL = '#3C3C43'     # charcoal, not black; reads as a device on white and on washes
+ISLAND = '#2C2C2E'
+SCREEN_W, SCREEN_H = 393, 852   # iPhone logical points; 19.5:9
+
+
+def phone_geometry(height):
+    """Frame and screen sizes for a phone `height` px tall (outer frame)."""
+    b = max(6, round(height * 0.01))          # bezel
+    sh = height - 2 * b                        # screen height
+    sw = round(sh * SCREEN_W / SCREEN_H)       # screen width
+    r = round(height * 0.06)                   # outer corner radius
+    bar = round(sw * 54 / SCREEN_W)            # status bar height
+    return dict(b=b, sw=sw, sh=sh, w=sw + 2 * b, h=height, r=r, ri=max(r - b, 0), bar=bar)
+
+
+def phone_screen_box(left, top, height):
+    """(L, T, BW, BH) of the screenshot area, for connector maths on annotated mobile slides.
+    The screenshot fills it with object-fit:cover, top-aligned, so for a point (X, Y) on a
+    screenshot W px wide: s = BW / W; x2 = L + X*s; y2 = T + Y*s (valid while Y*s < BH)."""
+    g = phone_geometry(height)
+    return (left + g['b'], top + g['b'] + g['bar'], g['sw'], g['sh'] - g['bar'])
+
+
+def _status_bar(g, time, dark):
+    fg = WHITE if dark else '#000000'
+    bg = '#000000' if dark else WHITE
+    k = g['sw'] / SCREEN_W                     # scale from iPhone points
+    fs = round(17 * k)
+    iw, ih = round(124 * k), round(36 * k)     # Dynamic Island
+    it = round((g['bar'] - ih) / 2) + round(2 * k)
+    icons = (f'<svg width="{round(78*k)}" height="{round(14*k)}" viewBox="0 0 78 14" aria-hidden="true">'
+             f'<rect x="0" y="9" width="3.4" height="5" rx="1" fill="{fg}"/><rect x="5" y="6.5" width="3.4" height="7.5" rx="1" fill="{fg}"/>'
+             f'<rect x="10" y="4" width="3.4" height="10" rx="1" fill="{fg}" opacity=".35"/><rect x="15" y="1" width="3.4" height="13" rx="1" fill="{fg}" opacity=".35"/>'
+             f'<path d="M30.5 4.2a11 11 0 0 1 14 0l-1.5 1.6a8.8 8.8 0 0 0-11 0z M33 7a7.2 7.2 0 0 1 9 0l-1.5 1.6a5 5 0 0 0-6 0z M35.6 9.8a3.4 3.4 0 0 1 3.8 0L37.5 12z" fill="{fg}"/>'
+             f'<rect x="50" y="1" width="24" height="12" rx="3.6" fill="{fg}"/><rect x="75.2" y="4.6" width="1.6" height="4.8" rx=".8" fill="{fg}" opacity=".45"/>'
+             f'<text x="62" y="10.4" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="700" fill="{bg}">100</text></svg>')
+    return (f'<div style="position:absolute;left:0px;top:0px;width:{g["sw"]}px;height:{g["bar"]}px;background:{bg}">'
+            f'<p style="position:absolute;left:{round(44*k)}px;top:{round((g["bar"]-fs)/2)+round(2*k)}px;font-family:-apple-system, \'SF Pro Text\', Arial, sans-serif;'
+            f'font-size:{fs}px;font-weight:600;line-height:1;color:{fg}">{time}</p>'
+            f'<div style="position:absolute;left:{round((g["sw"]-iw)/2)}px;top:{it}px;width:{iw}px;height:{ih}px;border-radius:999px;background:{ISLAND}"></div>'
+            f'<div style="position:absolute;right:{round(26*k)}px;top:{round((g["bar"]-14*k)/2)+round(2*k)}px;display:flex">{icons}</div></div>')
+
+
+def phone(src, height=760, left=None, top=None, alt='Mobile screen', time='09:41',
+          dark_status=False, caption=''):
+    """A mobile screen in Code's phone frame.
+
+    src     screenshot URL (upload as an asset first; use the /_blob/... URL). Capture at
+            393px wide (or 390/430) WITHOUT the device's own status bar; the frame draws one.
+            Taller screenshots are cropped from the top, so crop to the part that matters.
+    height  outer frame height in px. 760 fills a content slide (top 160); 580 for two or three in a row.
+    left/top  pin it (absolute) on a pinned slide; leave None to drop it into flex flow.
+    time    status bar clock. Keep '09:41' unless the screenshot's own time matters.
+    dark_status  black status bar with white text, for screens with a dark header.
+    caption one short line under the phone (24px, muted) - flow mode only.
+    """
+    g = phone_geometry(height)
+    pos = (f'position:absolute;left:{left}px;top:{top}px;' if left is not None
+           else 'position:relative;flex-shrink:0;')
+    frame = (f'<div style="{pos}width:{g["w"]}px;height:{g["h"]}px;background:{BEZEL};border-radius:{g["r"]}px;'
+             f'box-shadow:0px 28px 60px rgba(0,0,80,0.18), 0px 4px 12px rgba(0,0,80,0.10), inset 0px 0px 0px 1px rgba(255,255,255,0.12)">'
+             f'<div style="position:absolute;left:{g["b"]}px;top:{g["b"]}px;width:{g["sw"]}px;height:{g["sh"]}px;'
+             f'border-radius:{g["ri"]}px;overflow:hidden;background:{WHITE}">'
+             f'<img src="{src}" alt="{alt}" style="position:absolute;left:0px;top:{g["bar"]}px;width:{g["sw"]}px;'
+             f'height:{g["sh"]-g["bar"]}px;object-fit:cover;object-position:top"/>'
+             f'{_status_bar(g, time, dark_status)}</div></div>')
+    if caption and left is None:
+        return (f'<div style="display:flex;flex-direction:column;align-items:center;gap:28px;width:{g["w"]}px">{frame}'
+                f'<p style="font-size:24px;line-height:1.3;text-align:center;color:{MUTED}">{caption}</p></div>')
+    return frame
+
+
 def foot(num, src='', dark=False):
     c = PALE if dark else MUTED
     w = WHITE if dark else NAVY
@@ -335,5 +416,22 @@ def thanks(sid, head, body, contact, note=''):
 <p style="font-size:30px;line-height:1.4;width:1100px;color:{WHITE}">{body}</p>
 <p style="font-size:26px;color:{WHITE}">{contact}</p>
 <p style="position:absolute;right:128px;bottom:48px;width:300px;text-align:right;font-size:40px;font-weight:700;letter-spacing:-1px;color:{WHITE}">Code</p>
+{notes(note)}
+</section>'''
+
+
+def screens(sid, num, eyebrow, head, shots, src='', note=''):
+    """Two to four mobile screens in a row under a headline, e.g. a flow or before/after.
+    shots: list of (src, caption) or (src, caption, dark_status). Captions: one short line each."""
+    n = len(shots)
+    h = 580 if n <= 3 else 520
+    cells = ''.join(phone(s[0], h, caption=s[1], dark_status=(len(s) > 2 and s[2]), alt=s[1] or 'Mobile screen') for s in shots)
+    eb = f'<p style="font-size:24px;font-weight:500;color:{NAVY}">{eyebrow}</p>' if eyebrow else ''
+    return f'''<section id="{sid}" data-transition="fade" style="background:{PAGE};{BASE}padding:96px 128px 160px;display:flex;flex-direction:column;gap:40px">
+{DOTS}
+{GLOW_TR_SOFT}
+<div style="display:flex;flex-direction:column;gap:10px">{eb}<h2 style="font-size:56px;font-weight:400;line-height:1.12;letter-spacing:-1px;color:{NAVY}">{hl(head)}</h2></div>
+<div style="flex:1;display:flex;flex-direction:row;justify-content:center;align-items:flex-start;gap:{96 if n <= 2 else 64}px">{cells}</div>
+{foot(num, src)}
 {notes(note)}
 </section>'''
