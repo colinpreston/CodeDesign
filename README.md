@@ -8,7 +8,7 @@ Bundles six more skills:
 
 - `cx-journey-map` — builds Code's "customer journey full detail" CX map, the Pure Pet format, from client assets and interviews, with evidence, data-gap and research-needed rows, a flow row of exits and loops, and P1/P2 interview tagging.
 - `code-design-playbook` — Code Computerlove's internal design team curriculum, standing context for every design-facing desk.
-- `code-brand-style` — Code's visual identity and deck system, for anything that should look on-brand; every Code deck takes its look from here.
+- `code-brand-style` — Code's visual identity and deck system, for anything that should look on-brand; every Code deck takes its look from here. Includes the phone frame every mobile screen in a deck sits in.
 - `code-ux-review` — Code-format UX review of a site or journey: the journey funnel judged against Code's Persuasion Model, with a Core Web Vitals / PageSpeed check and a design, content and screen-reader accessibility check, delivered as a Code-branded research playback deck in five sections, including **Understanding the user**.
 - `code-ux-userprofile` — chooses and builds user profiles with Code's User Profile Model (demographic personas, data segments, mindset profiles, jobs to be done). Starts with **proto-personas** from desk research and assumption (v0.1), validated and updated as research lands (v0.2 with data segments, v1.0 after interviews). Each profile is a designed board in the client's brand: push, pull, anxiety and habit (what makes a customer choose and commit), humanised with a neutral scene, a moment and an assumed quote, every line source-tagged, with **research to validate** and **data to validate at scale** at the bottom.
 - `code-market-review` — market and competitor review across direct, indirect, category and wildcard competitors, comparing proposition, price, service, USPs, product features and UX through the Persuasion Model, delivered as a Code-branded immersion deck.
@@ -47,7 +47,7 @@ skills/
       deck-system.md                        — deck tokens, type scale, motifs and layouts
       tokens.css                            — brand colour/type tokens
     scripts/
-      slides_house.py                       — builds the house slide layouts
+      slides_house.py                       — builds the house slide layouts, including the phone frame
   code-ux-review/
     SKILL.md                                — Persuasion Model UX review + Core Web Vitals + accessibility + user profiles, as a deck
   code-ux-userprofile/
