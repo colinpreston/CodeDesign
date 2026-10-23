@@ -4,7 +4,7 @@ A Claude plugin for Colin Preston. Sets up a "company brain + desks" pattern for
 
 Default roster (eleven desks): Lead UX Designer, Lead UX Researcher, Expert Workshop Facilitator, Product Consultant, Engineering Principal, QA & Definition Lead, Content/UX Writer, Visual/Brand Designer, Data & Insight Analyst, Meeting Notes Lead, and Delivery Manager — plus whatever additional specialists a given engagement needs.
 
-Bundles six more skills:
+Bundles seven more skills:
 
 - `cx-journey-map` — builds Code's "customer journey full detail" CX map, the Pure Pet format, from client assets and interviews, with evidence, data-gap and research-needed rows, a flow row of exits and loops, and P1/P2 interview tagging.
 - `code-design-playbook` — Code Computerlove's internal design team curriculum, standing context for every design-facing desk.
@@ -12,10 +12,11 @@ Bundles six more skills:
 - `code-ux-review` — Code-format UX review of a site or journey: the journey funnel judged against Code's Persuasion Model, with a Core Web Vitals / PageSpeed check and a design, content and screen-reader accessibility check, delivered as a Code-branded research playback deck in five sections, including **Understanding the user**.
 - `code-ux-userprofile` — chooses and builds user profiles with Code's User Profile Model (demographic personas, data segments, mindset profiles, jobs to be done). Starts with **proto-personas** from desk research and assumption (v0.1), validated and updated as research lands (v0.2 with data segments, v1.0 after interviews). Each profile is a designed board in the client's brand: push, pull, anxiety and habit (what makes a customer choose and commit), humanised with a neutral scene, a moment and an assumed quote, every line source-tagged, with **research to validate** and **data to validate at scale** at the bottom.
 - `code-market-review` — market and competitor review across direct, indirect, category and wildcard competitors, comparing proposition, price, service, USPs, product features and UX through the Persuasion Model, delivered as a Code-branded immersion deck.
+- `elevate-sow-writer` — drafts Hunter Douglas Elevate website-build Statements of Work (single brands, locales or batches) for the delivery team. Asks the intake questions itself (or pre-fills from the costing spreadsheet), writes scope from Code's house SoW wording, derives Out of Scope from a master feature list, and builds a Code-branded .docx with a QA pass for arithmetic, locale counts, leftover brand names and broken cross-references.
 
 ## Installing this
 
-This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — all seven of its skills come with it.
+This repo is a Claude plugin marketplace (`.claude-plugin/marketplace.json` at the repo root). Add the marketplace from this repo's URL, then install the `design-studio-team-setup` plugin from it — all eight of its skills come with it.
 
 ## Building proto-persona boards
 
@@ -25,6 +26,15 @@ python3 skills/code-ux-userprofile/scripts/profile_board.py \
 ```
 
 One JSON spec holds the client's brand and every profile (see `skills/code-ux-userprofile/references/board-spec.md`). The script writes, per profile, a review page, a Design canvas artboard (`.dc.html`) and, with `--png` (needs Playwright), a 2x image to place full-slide in a deck. Edit the JSON and re-run for each new version.
+
+## Building an Elevate SoW
+
+```bash
+node skills/elevate-sow-writer/scripts/build_sow.js \
+  skills/elevate-sow-writer/examples/luxaflex-project.json "Luxaflex Project SoW DRAFT.docx"
+```
+
+One JSON spec per SoW (shape in `skills/elevate-sow-writer/SKILL.md`, wording in `references/modules.md`). Needs the `docx` npm package. The script prints a QA report and the open `[TBC]` items.
 
 ## Structure
 
@@ -67,6 +77,16 @@ skills/
       example-map.json                      — complete fictional example spec
     scripts/
       build_map.py                          — JSON spec → Design canvas artboard (or --standalone HTML)
+  elevate-sow-writer/
+    SKILL.md                                — intake questions, spec format, build and QA steps for Elevate SoWs
+    references/
+      modules.md                            — Code's house SoW wording per scope module + out-of-scope feature keys
+    examples/
+      luxaflex-project.json                 — worked spec rebuilding the signed Luxaflex Project SoW
+    assets/
+      cover.jpg, code-logo-navy.png, code-logo-white.png
+    scripts/
+      build_sow.js                          — JSON spec → Code-branded .docx + QA report
 ```
 
-Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for all seven skills.
+Every skill Claude's plugin loader can discover lives at `skills/<skill-name>/SKILL.md` under the plugin root — that's the convention this structure follows for all eight skills.
