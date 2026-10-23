@@ -30,11 +30,11 @@ List existing URLs, then "URLs to be used for new site:" if they change (note la
 
 Add one context sentence: "Following the successful launch of [previous brands], [brand] [is/are] the next [brand/locale] to be added to the Elevate platform. This SoW covers the design and build activities required to deliver [this website / these websites]."
 
-Cost (fixed): "This proposal has been costed at a total of £[X] [as agreed in the Elevate pitch process]. It includes the existing 23% rate card discount resulting in a day rate of £670. The work will be delivered on a fixed cost basis meaning that Hunter Douglas will be invoiced against the billing plan included in this document."
+Cost (fixed): "This proposal has been costed at a total of £[X] [as agreed in the Elevate pitch process]. It includes the existing rate card discount resulting in a day rate of £[day rate from the costing sheet]. The work will be delivered on a fixed cost basis meaning that Hunter Douglas will be invoiced against the billing plan included in this document."
 
 POC variant: "…costed at a fixed cost of £[X]… Given this is a POC Code will track actual time and effort against this project to enable refinement of [small brand] build costings in the future."
 
-Close: "If you have any questions on this document, please contact [name] on [phone] or [email]."
+Close: "If you have any questions on this document, please contact {{contact}}." (the script fills this from the `contact` details the user gives you)
 
 ## Project Overview (section 2)
 > [Brand/locales] [is/are] the next [brand/locale] to be built on the new Elevate platform, taking in the benefits of using Prismic the SaaS based CMS to enable the Hunter Douglas content editors to manage website content, features and functionality internally.
@@ -167,6 +167,28 @@ One block per system:
 - HD will provide the integration specification, endpoints and credentials for each environment (dev, test, staging, prod) as part of the scoping of build tickets
 - Code is responsible for the website-to-[system] integration only; onward processing within [system] and its downstream systems is HD's responsibility
 - Assumption: [system] is available and stable in all environments during build and test
+
+## Forms: Customer Data Portal & PII
+- **CDP backend hook-up:** "Form submissions will be passed to the Customer Data Portal (CDP) using the existing Elevate CDP integration, connecting to the existing martech endpoint ([endpoint system])."
+- **CDP support only:** "HD will configure the CDP set-up; Code will support and check that all forms are submitting correctly."
+- **CDP to email:** "Submissions will be sent from the CDP to [n] email endpoint(s): [list]."
+- **PII storage:** "Code will set up a new PII storage container for [brand] within the existing PII infrastructure."
+- Add the forms package's rules and additional-cost scenarios **from the uploaded sheet** as assumptions and change-request triggers.
+
+## Dealer import responsibility
+- **Code full import:** "Code will import up to [n] dealers from the dealer spreadsheet supplied by HD." Add the dealer-locator package's data-format and journey rules **from the uploaded sheet**.
+- **Support only:** "HD will import the dealer data ([n] dealers); Code will support the import and check the data displays correctly."
+
+## Image migration responsibility
+- **Code does it:** "Code will migrate the existing site images into Prismic for [locales]." (Ask about alt text.)
+- **Support only:** "HD will migrate the images; Code will provide support. Alt text is HD's responsibility."
+- **Neither:** derived Out of Scope lists "Image migration".
+
+## HD responsibilities (zero rows on the brand tab)
+Rows on the brand tab costed at zero, with notes saying HD or the CMS does them (often SEO items), are listed as HD's:
+> The following will be set up by the HD content editors within Prismic and are not part of Code's scope: [items from the brand tab].
+
+Add any language or other conditions noted against those rows in the sheet.
 
 ---
 

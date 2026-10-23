@@ -6,7 +6,7 @@ Hunter Douglas briefs often make the work sound simpler than it is. Detail gets 
 2. **Assumed:** nobody knows yet, so the SoW states a written assumption and the question goes on the clarifications list for HD.
 3. **Out of scope:** not wanted or not priced, so it goes in Out of Scope.
 
-Nothing is allowed to stay vague. "In line with the current site" is not a scope statement.
+Nothing is allowed to stay vague. Each package price in the master costing sheet also depends on **rules** (see `package-rules-method.md`). Check the brief against them, because a brief that breaks a rule means additional cost. "In line with the current site" is not a scope statement.
 
 ## Red-flag phrases in briefs
 When you see these, treat the item as **not yet defined**: write a precise scope line plus an assumption, and raise a clarification.

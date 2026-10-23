@@ -74,8 +74,11 @@ const collect = (t, where) => { if (t) allText.push({ t: String(t), where }); };
 
 // ---------- inline text parsing: **bold**, *italic*, [text](url), {{ref:id}} ----------
 let REFS = {};
+let CONTACT = "[TBC: contact name, phone and email]";
 function resolveRefs(s) {
-  return String(s).replace(/\{\{ref:([\w-]+)\}\}/g, (m, id) => REFS[id] || `[BROKEN REF: ${id}]`);
+  return String(s)
+    .replace(/\{\{contact\}\}/g, CONTACT)
+    .replace(/\{\{ref:([\w-]+)\}\}/g, (m, id) => REFS[id] || `[BROKEN REF: ${id}]`);
 }
 function runs(text, opts = {}) {
   const s = resolveRefs(text);
@@ -108,23 +111,23 @@ const P = (text, opts = {}) => {
     children: runs(text, opts),
   });
 };
-function bullets(items, level = 0, where) {
+function bullets(items, level = 0, where, size) {
   const out = [];
   for (const it of items) {
-    if (Array.isArray(it)) { out.push(...bullets(it, level + 1, where)); continue; }
+    if (Array.isArray(it)) { out.push(...bullets(it, level + 1, where, size)); continue; }
     if (typeof it === "object" && it.text) {
-      out.push(bulletPara(it.text, level, where, it.detail));
-      if (it.sub) out.push(...bullets(it.sub, level + 1, where));
+      out.push(bulletPara(it.text, level, where, it.detail, size));
+      if (it.sub) out.push(...bullets(it.sub, level + 1, where, size));
       continue;
     }
-    out.push(bulletPara(it, level, where));
+    out.push(bulletPara(it, level, where, undefined, size));
   }
   return out;
 }
-function bulletPara(text, level, where, detail) {
+function bulletPara(text, level, where, detail, size) {
   collect(resolveRefs(text), where);
-  const ch = runs(text);
-  if (detail) { collect(detail, where); ch.push(new TextRun({ break: 1 }), ...runs(detail)); }
+  const ch = runs(text, { size });
+  if (detail) { collect(detail, where); ch.push(new TextRun({ break: 1 }), ...runs(detail, { size })); }
   return new Paragraph({ numbering: { reference: "bullets", level: Math.min(level, 2) }, spacing: { after: 80, line: 290 }, children: ch });
 }
 
@@ -146,7 +149,7 @@ function cellContent(c, opts) {
   if (typeof c === "string" || typeof c === "number") return [cellPara(String(c), opts)];
   const out = [];
   if (c.text) out.push(cellPara(c.text, opts));
-  if (c.bullets) out.push(...bullets(c.bullets, 0, "table"));
+  if (c.bullets) out.push(...bullets(c.bullets, 0, "table", 20));
   return out.length ? out : [new Paragraph({ children: [] })];
 }
 function cellPara(t, opts = {}) {
@@ -197,6 +200,12 @@ const gbp = (n) => "£" + Number(n).toLocaleString("en-GB", { minimumFractionDig
 // =====================================================================
 function build(spec) {
   const warnings = [];
+  const contact = spec.contact || {};
+  if (contact.name || contact.phone || contact.email) {
+    const parts = [contact.name || "[TBC: contact name]"];
+    const how = [contact.phone, contact.email ? `[${contact.email}](mailto:${contact.email})` : null].filter(Boolean);
+    CONTACT = parts[0] + (how.length ? " on " + how.join(" or ") : " [TBC: contact phone / email]");
+  }
   const m = spec.meta;
   const brandLabel = m.stakeholder_label || m.brand; // e.g. "Luxaflex Project"
   const buildLabel = m.build_label || "this website build"; // e.g. "the Luxaflex Project locale build"
@@ -382,23 +391,40 @@ function renderBudget(s, num, warnings) {
   const money = (v, fallback = "[TBC: cost]") => (isNum(v) ? gbp(v) : (v || fallback));
   out.push(...renderBlocks(s.intro || [], "Budget"));
   if (s.lines && s.lines.length) {
-    const showDays = s.lines.some((l) => l.days != null);
-    let sumDays = 0, sumCost = 0, allCosted = true;
-    const rows = s.lines.map((l) => {
-      const cost = l.cost != null ? l.cost : (isNum(l.days) && rate ? l.days * rate : null);
-      if (isNum(l.days) && rate && isNum(l.cost) && Math.abs(l.days * rate - l.cost) > 0.5) warnings.push(`Budget line "${l.activity}": ${l.days} days × ${gbp(rate)} = ${gbp(l.days * rate)} but cost given as ${gbp(l.cost)}`);
-      if (isNum(l.days)) sumDays += l.days;
-      if (isNum(cost)) sumCost += cost; else allCosted = false;
-      const act = l.bullets ? { text: l.activity, bullets: l.bullets } : l.activity;
-      const costCell = cost == null && s.fixed ? "" : money(cost);
-      return showDays ? [act, l.days ?? "", costCell] : [act, costCell];
+    // Effort lines: cost = people × days × rate (people defaults to 1; "Days effort" shows person-days).
+    // Percentage lines ({percent: 10}) are calculated on the sub total of the effort lines (e.g. Delivery 10%, QA 10%).
+    const effort = s.lines.filter((l) => l.percent == null);
+    const pct = s.lines.filter((l) => l.percent != null);
+    const showDays = effort.some((l) => l.days != null);
+    const pd = (l) => (isNum(l.days) ? l.days * (isNum(l.people) ? l.people : 1) : null);
+    let sumDays = 0, subTotal = 0, allCosted = true;
+    const row = (act, days, costCell) => (showDays ? [act, days, costCell] : [act, costCell]);
+    const actCell = (l) => (l.bullets ? { text: l.activity, bullets: l.bullets } : l.activity);
+    const rows = effort.map((l) => {
+      const personDays = pd(l);
+      const calc = personDays != null && rate ? personDays * rate : null;
+      const cost = l.cost != null ? l.cost : calc;
+      if (calc != null && isNum(l.cost) && Math.abs(calc - l.cost) > 0.5) warnings.push(`Budget line "${l.activity}": ${isNum(l.people) && l.people !== 1 ? l.people + " people × " : ""}${l.days} days × ${gbp(rate)} = ${gbp(calc)} but cost given as ${gbp(l.cost)}`);
+      if (personDays != null) sumDays += personDays;
+      if (isNum(cost)) subTotal += cost; else allCosted = false;
+      return row(actCell(l), personDays ?? "", cost == null && s.fixed ? "" : money(cost));
     });
+    let sumCost = subTotal;
+    if (pct.length) {
+      rows.push(row({ text: "**Sub total**" }, showDays && sumDays ? String(sumDays) : "", allCosted ? `**${gbp(subTotal)}**` : "[TBC: sub total]"));
+      for (const l of pct) {
+        const c = allCosted ? Math.round(subTotal * l.percent) / 100 : null;
+        if (isNum(c)) sumCost += c;
+        rows.push(row(actCell({ ...l, activity: `${l.activity} (${l.percent}%)` }), "", money(c)));
+      }
+    }
     let total = s.total != null ? s.total : (allCosted ? sumCost : null);
     if (isNum(s.total) && allCosted && Math.abs(sumCost - s.total) > 0.5 && !s.fixed) warnings.push(`Budget lines sum to ${gbp(sumCost)} but total given as ${gbp(s.total)}`);
     s._total = isNum(total) ? total : null;
     if (s._total == null) warnings.push(s.fixed
       ? "PRICE MISSING: fixed-cost SoW has no fixed amount. Ask the user for it (\u00a3, ex VAT) and set budget.total to a number."
       : "PRICE MISSING: one or more budget lines have no days/cost. Ask the user for the days per line.");
+    if (isNum(s.sheet_total) && s._total != null && Math.abs(s.sheet_total - s._total) > 0.5) warnings.push(`Budget total ${gbp(s._total)} doesn’t match the costing sheet total ${gbp(s.sheet_total)}`);
     const cols = showDays ? [{ h: "Activity", w: 6.6 }, { h: "Days effort", w: 1.4 }, { h: "Costs", w: 2 }] : [{ h: "Activity", w: 7.5 }, { h: s.fixed ? "Fixed Cost" : "Cost", w: 2.5 }];
     const totalCell = money(total, "[TBC: total cost]");
     s._totalCell = totalCell;
@@ -482,12 +508,19 @@ function qa(spec, warnings) {
     if (nLoc && v !== nLoc && /locale/i.test(mm[2])) issues.push(`Text says “${mm[0]}” but ${nLoc} locale(s) declared in meta.locales`);
   }
   // other HD brand names leaking in
-  const brands = ["Hillarys", "Luxaflex", "Duette", "Aluvert", "Kjells", "Markisemannen", "Fasadeprodukter", "Wallners", "Sunway", "Velux"];
+  const brands = ["Hillarys", "Luxaflex", "Duette", "Aluvert", "Kjells", "Markisemannen", "Fasadeprodukter", "Wallners", ...(spec.meta.other_brands || [])];
   const allowed = new Set((spec.meta.allowed_brand_mentions || []).concat(spec.meta.brand || "", spec.meta.stakeholder_label || "").map((s) => s.toLowerCase()));
   for (const b of brands) {
     if ([...allowed].some((a) => a.includes(b.toLowerCase()))) continue;
     const c = (text.match(new RegExp(`\\b${b}\\b`, "g")) || []).length;
     if (c) issues.push(`Mentions “${b}” ${c}× — check it isn’t left over from a previous SoW (add to meta.allowed_brand_mentions if intended)`);
+  }
+  // personal details must come from the user creating the SoW, never from an example or old SoW
+  if (!spec.example) {
+    if (spec.people_confirmed !== true) issues.push("PERSONAL DETAILS NOT CONFIRMED: ask the user for the author, contact (name, phone, email), Delivery Manager, Digital Consultant, Code team, HD team and distribution list, then set people_confirmed: true");
+    const unknown = new Set((spec.unknown_tbcs || []).map((x) => String(x).toLowerCase()));
+    const unasked = [...new Set(tbcs)].filter((t) => !unknown.has(t.toLowerCase()));
+    if (unasked.length) issues.push(`TBCs NOT ASKED: ask the user for ${unasked.join(", ")}. Only keep a TBC if the user says it isn't known yet (list it in unknown_tbcs)`);
   }
   // costing sheet ↔ scope reconciliation
   if (Array.isArray(spec.costing) && spec.costing.length) {
