@@ -1,0 +1,130 @@
+{
+  "output": "Code_Hunter Douglas Luxaflex Project SoW V1.0 DRAFT.docx",
+  "meta": {
+    "version": "1.0",
+    "date": "September 2026",
+    "author": "Claire Kerley",
+    "brand": "Luxaflex",
+    "title": "Projects",
+    "client": "Hunter Douglas EU",
+    "stakeholder_label": "Luxaflex Project",
+    "build_label": "the Luxaflex Project locale build",
+    "locales": ["luxaflexproject-scandinavia.com"],
+    "allowed_brand_mentions": ["Hillarys", "Duette"],
+    "acceptance_client": "Hunter Douglas EU",
+    "warranty_trigger": "the locale site"
+  },
+  "doc_control": {
+    "versions": [{ "version": "1.0", "date": "18/09/2026", "author": "Claire Kerley", "summary": "Client release for approval" }],
+    "distribution": [
+      { "version": "1.0", "date": "18/09/2026", "name": "Lennart Gustafsson", "company": "Hunter Douglas" },
+      { "version": "1.0", "date": "18/09/2026", "name": "Emma Slater", "company": "Hunter Douglas" }
+    ]
+  },
+  "sections": [
+    {
+      "title": "Summary",
+      "blocks": [
+        "Code are delighted to present Hunter Douglas Luxaflex brand with this statement of work to deliver a new locale site for their ‘Project’ offering which provides window furnishings for larger commercial / public environment buildings.",
+        "Luxaflex Project will be a new custom locale name within the Luxaflex Prismic repository.",
+        "The site domain will be [https://www.luxaflexproject-scandinavia.com/](https://www.luxaflexproject-scandinavia.com/) with planned live date end of November.",
+        "This proposal is costed at £15,075 including the existing 23% rate card discount resulting in a day rate of £670. The work will be delivered on a fixed cost basis meaning that Hunter Douglas (Luxaflex EU) will be invoiced against the billing plan included in this document. The Luxaflex EU team will be paying for this work and then re-charging internally to the Scandinavian team.",
+        "If you have any questions on this document, please contact Claire Kerley on 0161 276 2080 or [claire.kerley@wppmedia.com](mailto:claire.kerley@wppmedia.com)"
+      ]
+    },
+    {
+      "title": "Project Overview",
+      "blocks": [
+        "Luxaflex Project is the next locale to be added to the Elevate platform. Code will create a new locale added to the existing Luxaflex repository for Luxaflex Project.",
+        "Domain name will be: [https://www.luxaflexproject-scandinavia.com/](https://www.luxaflexproject-scandinavia.com/)",
+        "Once Luxaflex Project is on the Elevate platform it reduces the reliance on any further intensive development effort once the locale site is launched. This project will deliver a consistent front-end user experience with consistent features and functionality using existing components from the global component library and using the existing Luxaflex design tokens to deliver the brand look and feel.",
+        "It’s assumed that the locale will be launched at 100% with no traffic split for go live."
+      ]
+    },
+    {
+      "title": "Scope of work",
+      "blocks": ["The following deliverables are in scope for this statement of work:"],
+      "items": [
+        {
+          "module": "Prismic Setup & Infrastructure",
+          "id": "infra",
+          "blocks": [{ "bullets": [
+            { "text": "**Prismic pipelines & infrastructure:**", "detail": "Architect and implement dev, test, staging and prod pipelines for the 1 x locale in line with existing streamlined updates and deployments." },
+            { "text": "**Pipeline configuration:**", "detail": "Configure CI/CD pipelines to automate deployment and content publishing workflows for the new locale." },
+            { "text": "**Infra configuration:**", "detail": "Provision and configure cloud infrastructure to support the new locale." },
+            { "text": "**Cloudflare configuration work:**", "detail": "Configuration within the existing infrastructure for optimal performance and security." },
+            { "text": "**Automation:**", "detail": "Code will implement P1 and P2 smoke test automation including GTM, cookies, siteID." }
+          ] }]
+        },
+        {
+          "module": "Forms, Integrations, and Storage",
+          "id": "forms",
+          "features": ["email_signup", "samples"],
+          "blocks": [
+            "Now that the Elevate generic form has been delivered, it’s assumed that Luxaflex Project will use this for any forms to be used on the site. Luxaflex Project will also take advantage of the email sign up component.",
+            "With the above in mind, the following amends to existing forms are included in this statement of work:",
+            { "bullets": [
+              "Email sign up – add ‘commercial’ as a new option in Prismic",
+              { "text": "Samples", "sub": [
+                "Create new samples form for Luxaflex Project (based on Hillarys samples form)",
+                ["Add new field: company (which will then be available for all Elevate brands)"],
+                "Remove titles (which will then be available for all Elevate brands)",
+                "Integration with existing samples fulfilment (Maxlead). Enabler for this activity is to deliver samples for Luxaflex which is planned into the roadmap"
+              ] }
+            ] }
+          ]
+        },
+        {
+          "module": "Analytics & Compliance",
+          "blocks": [{ "bullets": [
+            { "text": "**Analytics:**", "detail": "Implement analytics tracking to monitor website usage, user behaviour, and key performance indicators in line with Duette UK implementation." },
+            { "text": "**OneTrust cookie script in Prismic:**", "detail": "The HD team will load the OneTrust script via GTM, Code will be available to support with the implementation." }
+          ] }]
+        },
+        {
+          "module": "PIM integration",
+          "id": "pim",
+          "features": ["salsify_pim", "pdp", "pfg"],
+          "blocks": [
+            "Luxaflex Project will take advantage of the Luxaflex products within the Salsify PIM. There will be configuration work to add the new locale in addition to the creation of additional categories, filters and specifications as follows:",
+            { "label": "Configuration activities:" },
+            { "bullets": ["Create brand record", "Assign locale", "Creation of product pages in Prismic", "Creation of filter records", "PIM health check", "Creation of 6 new categories (already provided to Code)", "Creation of 6 new filters (already provided to Code)", "Creation of 16 new specifications (already provided to Code)", "Download data logic"] },
+            { "label": "Assumptions" },
+            { "bullets": ["Products will exist in the Luxaflex Salsify and will be in the same data structure as Elevate currently expects", "New categories, filters and specs need to follow the same data structure as currently exists on Elevate / in Salsify"] }
+          ]
+        },
+        { "out_of_scope": { "in_scope": ["guid"], "extras": [] } }
+      ]
+    },
+    {
+      "title": "Budget",
+      "type": "budget",
+      "day_rate": 670,
+      "intro": ["The costing table below details the breakdown of each activity calculated at the existing HD day rate of £670. Team shape will be flexed to accommodate the shape of work throughout the duration of the project."],
+      "lines": [
+        { "activity": "Prismic pipelines/infrastructure including automation testing", "days": 4 },
+        { "activity": "Analytics", "days": 0.5 },
+        { "activity": "Forms", "bullets": ["Email sign up – add new commercial option in Prismic", "Samples – create form, back end integration, company field, removal of titles"], "days": 5 },
+        { "activity": "PIM", "bullets": ["Create brand record", "Assign locale", "Creation of product pages in Prismic", "Creation of filter records", "PIM health check", "Creation of 6 new categories and filters", "Creation of 16 new specifications", "Download data logic"], "days": 9 },
+        { "activity": "Delivery & QA", "days": 4 }
+      ],
+      "flex_note": false,
+      "billing": { "milestones": [{ "label": "November 2026", "value": 15075 }] }
+    },
+    {
+      "title": "Timing plan",
+      "blocks": ["A detailed timing plan will be provided on approval of this SoW so the work can be planned in with the Code team. Working assumption based on the current roadmap is this locale will be worked on for delivery in November 2026. Launch dates will be driven by HD once the detailed build plan has been agreed and finalised."]
+    }
+  ],
+  "governance": {
+    "delivery_manager": "Anna Morrison",
+    "digital_consultant": "Claire Kerley",
+    "client_team": [["Emma Slater", "Senior brand stakeholder"]],
+    "code_team": [
+      ["John Harkins", "Technical Lead", "john.harkins@wppmedia.com"],
+      ["Anna Morrison", "Delivery Lead", "anna.morrison@wppmedia.com"],
+      ["Ken Fulton", "Test Lead", "ken.fulton@wppmedia.com"]
+    ]
+  },
+  "dependencies": []
+}
