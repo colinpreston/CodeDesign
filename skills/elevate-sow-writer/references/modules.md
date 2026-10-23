@@ -127,6 +127,49 @@ Assumptions: products exist in Salsify in the data structure Elevate expects; HD
 
 ---
 
+## 3.1.x Locales & Languages
+Use this whenever there's more than one locale, or any locale with more than one language.
+> The following locales and languages are in scope for this statement of work:
+
+| Locale | Existing URL | New URL / path | Language(s) |
+|---|---|---|---|
+| [locale] | [url] | [url/path] | [language(s)] |
+
+- Multi-language locales ([locale]) will use the existing Elevate language set-up within Prismic, including the language switcher and hreflang tags
+- All content and translations for each language will be created and loaded by the HD content editors in Prismic. Code are not providing copywriting, translation or content entry
+- Form labels, validation and system messages will be provided in each language by HD [or: will use the existing Elevate translations for (language)]
+- Any additional locale or language not listed above is not in scope and would be handled as a change request
+
+## Design token change level (use inside Design activities)
+- **None:** "Existing [parent] design tokens will be applied, so no design token work is included."
+- **Light:** "Brand application will be limited to colour and font changes within the existing [parent] token set. No changes to spacing, radius, component structure or layout are included."
+- **New token set:** "A new set of design tokens will be produced in keeping with the agreed design token governance. This covers colour, typography, [radius / spacing]. It does not include new components or component variants."
+- **Variants:** list each component variant as its own module (see *New / updated Elevate component*).
+Always add the fonts, and the dependency: "Fonts confirmed and, where applicable, purchased by HD prior to the start of design token work."
+
+## 3.1.x Import & Migration
+If migration **is** in scope, quantify it:
+> Code will [script / automate / manually load] the import of [n pages / n products / n dealers / n images] from [source] into Prismic [for locales]. The source data will be supplied by HD as [format] by [date]. Code will run [one] import [plus one delta import before launch]. Data cleansing, de-duplication or re-writing of content is not included.
+
+Assumptions: source data is complete and in the format agreed; any volume above [n] or a second full import is a change request.
+
+If it's **not** in scope (the default), tag nothing and the derived Out of Scope will list "Automated / scripted / manual content migrations" and "Image migration". Add to Summary or Overview: "HD content editors will build all pages in Prismic using the global component library."
+
+## 3.1.x Redirects & SEO
+> HD will provide a 301 redirect map from existing URLs to new URLs for each locale, in the agreed format, before launch. Code will implement the redirects via the existing Cloudflare configuration. Up to [n] redirects per locale are included.
+
+No SEO activity is included beyond implementing the redirect map. HD can set up and manage SEO metadata in Prismic. If redirects are excluded entirely, add "301 redirect mapping and implementation" to Out of Scope extras.
+
+## 3.1.x Back-end integration (generic)
+One block per system:
+> **[System name]:** Code will integrate the [form / feature] with [system] so that [data] is [sent to / read from] [system] on [event].
+- Integration method: [API / embedded script / file transfer]
+- HD will provide the integration specification, endpoints and credentials for each environment (dev, test, staging, prod) as part of the scoping of build tickets
+- Code is responsible for the website-to-[system] integration only; onward processing within [system] and its downstream systems is HD's responsibility
+- Assumption: [system] is available and stable in all environments during build and test
+
+---
+
 ## Timing plan
 > A detailed timing plan will be provided on approval of this SoW so the work can be planned in with the Code team. Working assumption based on the current roadmap is [this build / these brands] will be worked on across [month(s) year]. Launch dates will be driven by HD once the detailed build plan has been agreed and finalised.
 

@@ -18,7 +18,7 @@ const {
   ShadingType, PageNumber, PositionalTab, PositionalTabAlignment,
   PositionalTabRelativeTo, PositionalTabLeader, ExternalHyperlink,
   TableOfContents, HorizontalPositionRelativeFrom, VerticalPositionRelativeFrom,
-  VerticalAlign, PageBreak, TableLayoutType, Tab, TabStopType,
+  VerticalAlign, PageBreak, TableLayoutType, Tab, TabStopType, PageOrientation,
 } = require("docx");
 
 // ---------- brand ----------
@@ -227,6 +227,7 @@ function build(spec) {
   const stdNums = {};
   for (const k of std) { n++; stdNums[k] = String(n); }
   n++; stdNums.appendix = String(n);
+  for (const [k, v] of Object.entries(stdNums)) if (!REFS[k]) REFS[k] = v; // {{ref:notes}}, {{ref:warranty}} …
 
   // ---- section renderers ----
   const inScopeKeys = new Set();
@@ -488,24 +489,52 @@ function qa(spec, warnings) {
     const c = (text.match(new RegExp(`\\b${b}\\b`, "g")) || []).length;
     if (c) issues.push(`Mentions “${b}” ${c}× — check it isn’t left over from a previous SoW (add to meta.allowed_brand_mentions if intended)`);
   }
+  // costing sheet ↔ scope reconciliation
+  if (Array.isArray(spec.costing) && spec.costing.length) {
+    const used = new Map();
+    for (const sec of spec.sections || []) {
+      for (const it of sec.items || []) for (const r of it.costing_refs || []) used.set(String(r), it.module || it.sub || sec.title);
+      for (const l of sec.lines || []) for (const r of l.costing_refs || []) used.set(String(r), "Budget");
+    }
+    const known = new Set(spec.costing.map((c) => String(c.ref)));
+    for (const c of spec.costing) {
+      const ref = String(c.ref);
+      if (c.status === "out") { if (used.has(ref)) issues.push(`Costing line ${ref} (“${c.item}”) is marked out of scope but referenced in “${used.get(ref)}”`); continue; }
+      if (!used.has(ref)) issues.push(`Costing line ${ref} (“${c.item}”) is priced but not described in any scope module, so it would be paid for but not defined`);
+    }
+    for (const [r, where] of used) if (!known.has(r)) issues.push(`“${where}” references costing line ${r}, which isn’t in the costing sheet. Is this scope unpriced?`);
+  }
   return { issues, tbcs: [...new Set(tbcs)] };
 }
 
+// ---------- scope clarifications doc (questions for HD) ----------
+async function buildClarifications(spec, sowOut) {
+  const list = spec.clarifications || [];
+  if (!list.length) return null;
+  const out = sowOut.replace(/\.docx$/i, "") + " - Scope clarifications.docx";
+  const m = spec.meta;
+  const rows = list.map((c, i) => [String(i + 1), c.area || "", c.question, c.why || "", c.assumption || "[No assumption: must be answered before sign-off]"]);
+  const children = [
+    new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: "Scope clarifications", font: FONT, size: 36, bold: true, color: NAVY })] }),
+    new Paragraph({ spacing: { after: 240 }, children: [new TextRun({ text: `${m.brand || ""} ${m.title || ""} – ${m.client || "Hunter Douglas"} · SoW v${m.version} · ${m.date}`, font: FONT, size: 22, color: NAVY })] }),
+    P("To make sure the scope and costs are right before work starts, we need answers to the questions below. Where we've had to make an assumption, it's written into the Statement of Work. If an assumption is wrong, the scope, cost or timeline may change."),
+    ...table({ columns: [{ h: "#", w: 0.5 }, { h: "Area", w: 1.6 }, { h: "Question for Hunter Douglas", w: 3.6 }, { h: "Why it matters", w: 2.6 }, { h: "Assumed in the SoW if not answered", w: 3.2 }], rows }, PAGE_H - 2 * MARGIN),
+  ];
+  const doc = new Document({ ...docBase(spec), sections: [{ properties: { page: { size: { width: PAGE_W, height: PAGE_H, orientation: PageOrientation.LANDSCAPE }, margin: { top: 1100, bottom: 1100, left: MARGIN, right: MARGIN, footer: 450 } } }, footers: { default: footerFor(PAGE_H - 2 * MARGIN) }, children }] });
+  fs.writeFileSync(out, await Packer.toBuffer(doc));
+  return out;
+}
+
 // =====================================================================
-async function main() {
-  const [specPath, outArg] = process.argv.slice(2);
-  if (!specPath) { console.error("usage: node build_sow.js spec.json [out.docx]"); process.exit(1); }
-  const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
-  const out = outArg || spec.output || "SoW.docx";
-  const { children, warnings } = build(spec);
+function footerFor(width) {
   const logo = fs.readFileSync(path.join(ASSETS, "code-logo-navy.png"));
-  const footer = new Footer({ children: [new Paragraph({ children: [
+  return new Footer({ children: [new Paragraph({ children: [
     new ImageRun({ type: "png", data: logo, transformation: { width: 74, height: 36 } }),
     new TextRun({ children: [new Tab(), PageNumber.CURRENT], font: FONT, size: 20, color: NAVY }),
-  ], tabStops: [{ type: TabStopType.RIGHT, position: CONTENT_W }] })] });
-  const page = { size: { width: PAGE_W, height: PAGE_H }, margin: { top: 1440, bottom: 1300, left: MARGIN, right: MARGIN, footer: 500 } };
-
-  const doc = new Document({
+  ], tabStops: [{ type: TabStopType.RIGHT, position: width }] })] });
+}
+function docBase(spec) {
+  return {
     creator: spec.meta.author || "Code",
     title: `Statement of Work – ${spec.meta.brand || ""} ${spec.meta.title || ""}`.trim(),
     features: { updateFields: true },
@@ -524,9 +553,21 @@ async function main() {
       { level: 1, format: LevelFormat.BULLET, text: "o", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 1440, hanging: 360 } } } },
       { level: 2, format: LevelFormat.BULLET, text: "▪", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 2160, hanging: 360 } } } },
     ] }] },
+  };
+}
+
+async function main() {
+  const [specPath, outArg] = process.argv.slice(2);
+  if (!specPath) { console.error("usage: node build_sow.js spec.json [out.docx]"); process.exit(1); }
+  const spec = JSON.parse(fs.readFileSync(specPath, "utf8"));
+  const out = outArg || spec.output || "SoW.docx";
+  const { children, warnings } = build(spec);
+  const page = { size: { width: PAGE_W, height: PAGE_H }, margin: { top: 1440, bottom: 1300, left: MARGIN, right: MARGIN, footer: 500 } };
+  const doc = new Document({
+    ...docBase(spec),
     sections: [
       { properties: { page: { ...page, margin: { top: 500, bottom: 500, left: 700, right: 700 } } }, children: cover(spec.meta) },
-      { properties: { page }, footers: { default: footer }, children: [
+      { properties: { page }, footers: { default: footerFor(CONTENT_W) }, children: [
         new Paragraph({ children: [new TextRun({ text: "Table of Contents", font: FONT, size: 26, bold: true, color: NAVY })], spacing: { after: 240 } }),
         new TableOfContents("Table of Contents", { hyperlink: true, headingStyleRange: "1-2" }),
         new Paragraph({ children: [new PageBreak()] }),
@@ -537,6 +578,13 @@ async function main() {
   });
   fs.writeFileSync(out, await Packer.toBuffer(doc));
   const report = qa(spec, warnings);
-  console.log(JSON.stringify({ output: path.resolve(out), qa_issues: report.issues, open_tbcs: report.tbcs }, null, 2));
+  const clar = await buildClarifications(spec, out);
+  console.log(JSON.stringify({
+    output: path.resolve(out),
+    clarifications_doc: clar ? path.resolve(clar) : null,
+    qa_issues: report.issues,
+    open_tbcs: report.tbcs,
+    open_clarifications: (spec.clarifications || []).length,
+  }, null, 2));
 }
 main().catch((e) => { console.error(e); process.exit(1); });

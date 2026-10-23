@@ -9,14 +9,32 @@
     "stakeholder_label": "Brightvale",
     "build_label": "the Brightvale NL and BE website builds",
     "locales": ["brightvale.com/nl", "brightvale.com/be"],
-    "allowed_brand_mentions": ["Hillarys"],
+    "allowed_brand_mentions": ["Hillarys", "Luxaflex", "Duette"],
     "acceptance_client": "Hunter Douglas Benelux",
-    "warranty_trigger": "the first locale site"
+    "warranty_trigger": "the Brightvale sites"
   },
   "doc_control": {
     "versions": [{ "version": "0.1", "date": "23/10/2026", "author": "Anna Morrison", "summary": "Internal draft – TEST (fictional brand)" }],
-    "distribution": [{ "version": "0.1", "date": "[TBC]", "name": "[TBC: HD Digital Brand Manager]", "company": "Hunter Douglas Benelux" }]
+    "distribution": [{ "version": "0.1", "date": "[TBC]", "name": "[TBC: HD Benelux marketing lead]", "company": "Hunter Douglas Benelux" }]
   },
+  "costing": [
+    { "ref": "INF-01", "item": "New Prismic repo, pipelines & environments", "days": 4 },
+    { "ref": "INF-02", "item": "Locale set-up", "qty": 2, "days": 1, "notes": "NL, BE" },
+    { "ref": "INF-03", "item": "Additional language on a locale", "days": 1, "notes": "BE French" },
+    { "ref": "DES-01", "item": "Design tokens – new token set", "days": 5 },
+    { "ref": "CMP-01", "item": "New component / variant – header with centred logo", "days": 2 },
+    { "ref": "FRM-01", "item": "Contact Us (standard Elevate)", "days": 1.5 },
+    { "ref": "FRM-02", "item": "Request an Appointment (standard Elevate)", "days": 2 },
+    { "ref": "FRM-03", "item": "Email sign up", "days": 1 },
+    { "ref": "FRM-05", "item": "Turnstile", "days": 0.5 },
+    { "ref": "DLR-01", "item": "Showroom / dealer locator (standard)", "days": 6 },
+    { "ref": "INT-01", "item": "Salsify PIM configuration", "days": 6 },
+    { "ref": "INT-04", "item": "Trustpilot (standard component)", "days": 0 },
+    { "ref": "ANA-01", "item": "Analytics, OneTrust, GUID", "days": 1 },
+    { "ref": "MIG-01", "item": "Content & image migration (blog/inspiration)", "days": 6 },
+    { "ref": "DEL-01", "item": "Delivery management & QA", "days": 6 },
+    { "ref": "INT-03", "item": "CRM / 3rd-party API integration", "status": "out", "notes": "LeadHub excluded – email only" }
+  ],
   "sections": [
     {
       "title": "Summary",
@@ -24,41 +42,59 @@
         "Code are delighted to present Hunter Douglas Benelux with this statement of work to deliver the Brightvale Elevate website builds for the following existing URLs:",
         { "bullets": ["[https://www.brightvale.nl/](https://www.brightvale.nl/)", "[https://www.brightvale.be/](https://www.brightvale.be/)"] },
         "URLs to be used for the new sites:",
-        { "bullets": ["Brightvale.com/nl", "Brightvale.com/be – 2 x languages (Dutch and French)"] },
-        "Following the successful launch of the Elevate platform across Hunter Douglas brands, Brightvale is the next brand to be added to the platform. This SoW covers the design and build activities required to deliver these websites. Both locales will share one set of Brightvale design tokens, delivered within the already agreed design token governance guidelines.",
-        "This proposal has been costed at a total of [TBC: fixed cost] as agreed in the Elevate pitch process costs. It includes the existing 23% rate card discount resulting in a day rate of £670. The work will be delivered on a fixed cost basis meaning that Hunter Douglas will be invoiced against the billing plan included in this document.",
+        { "bullets": ["Brightvale.com/nl – Dutch", "Brightvale.com/be – 2 x languages (Dutch and French)"] },
+        "Brightvale is the next brand to be added to the Elevate platform. This SoW covers the design and build activities required to deliver these websites, which will use the existing Elevate infrastructure and global component library with a new set of Brightvale design tokens. The features and functionality in scope are set out in detail in section {{ref:scope}}; anything not listed there is not included.",
+        "This proposal has been costed at £29,480 (44 days). It includes the existing 23% rate card discount resulting in a day rate of £670. The work will be delivered on a fixed cost basis meaning that Hunter Douglas will be invoiced against the billing plan included in this document.",
         "If you have any questions on this document, please contact Claire Kerley on 0161 276 2080 or [claire.kerley@wppmedia.com](mailto:claire.kerley@wppmedia.com)"
       ]
     },
     {
       "title": "Project Overview",
       "blocks": [
-        "Brightvale.com/nl and Brightvale.com/be are the next brand locales to be built on the new Elevate platform, taking in the benefits of using Prismic the SaaS based CMS to enable the Hunter Douglas content editors to manage website content, features and functionality internally.",
-        "This removes the reliance on any further intensive development effort once the sites are launched. This project will deliver a consistent front-end user experience with consistent features and functionality using existing components from the global component library, with a new set of Brightvale design tokens to deliver the brand look and feel across both locales.",
-        "It’s assumed that both locales will be launched at 100% with no traffic split for go live."
+        "Brightvale.com/nl and Brightvale.com/be will be built on the Elevate platform, taking in the benefits of using Prismic the SaaS based CMS to enable the Hunter Douglas content editors to manage website content, features and functionality internally.",
+        "This removes the reliance on any further intensive development effort once the sites are launched. This project will deliver a consistent front-end user experience with consistent features and functionality using existing components from the global component library, with one new header variant and a new set of Brightvale design tokens to deliver the brand look and feel across both locales.",
+        "Both locales will launch together at 100% with no traffic split. The target launch is March 2027, subject to the dependencies in section {{ref:notes}}."
       ]
     },
     {
       "title": "Scope of work",
+      "id": "scope",
       "blocks": ["The following deliverables are in scope for this statement of work:"],
       "items": [
+        {
+          "module": "Locales & Languages",
+          "id": "locales",
+          "costing_refs": ["INF-02", "INF-03"],
+          "blocks": [
+            "The following locales and languages are in scope:",
+            { "table": { "columns": [{ "h": "Locale", "w": 1.4 }, { "h": "Existing URL", "w": 3 }, { "h": "New URL / path", "w": 3 }, { "h": "Language(s)", "w": 2.6 }], "rows": [["NL", "brightvale.nl", "brightvale.com/nl", "Dutch"], ["BE", "brightvale.be", "brightvale.com/be", "Dutch and French"]] } },
+            { "bullets": [
+              "The BE locale will use the existing Elevate multi-language set-up within Prismic, including the language switcher and hreflang tags",
+              "All page content and translations for each language will be created and loaded by the HD content editors in Prismic. Code are not providing copywriting, translation or content entry (other than the migration in section {{ref:migration}})",
+              "Form labels, validation and system messages in Dutch and French will be provided by HD",
+              "Any additional locale or language not listed above is not in scope and would be handled as a change request"
+            ] }
+          ]
+        },
         {
           "module": "Design activities",
           "id": "design",
           "features": ["design_tokens"],
+          "costing_refs": ["DES-01"],
           "blocks": [
-            "As part of the Brightvale website builds, a new set of design tokens will be produced for the brand but these will be in keeping with the already agreed design token governance set up. One set of tokens will be applied across both locales.",
-            "Fonts to be used are: [TBC: heading font] (Headings) + [TBC: body font] (body)",
-            "It is also anticipated that the Hunter Douglas Benelux team will support the local teams on which components to use for which pages. No design consultancy or production of page designs are included within the scope of this statement of work."
+            "A new set of Brightvale design tokens will be produced from the Brightvale brand guidelines, in keeping with the already agreed design token governance. This covers colour, typography, radius and spacing tokens, applied to the existing global component library. One set of tokens will be used across both locales.",
+            "Fonts to be used are: Manrope (Headings) + Inter (body).",
+            "It does not include new components or component variants other than the header variant in section {{ref:header}}. No design consultancy or production of page designs or wireframes is included; HD will select which existing components to use on each page."
           ]
         },
         {
           "module": "Prismic Setup & Infrastructure",
           "id": "infra",
+          "costing_refs": ["INF-01"],
           "blocks": [
             { "bullets": [
               { "text": "**Prismic pipelines & infrastructure:**", "detail": "Architect and implement dev, test, staging and prod pipelines for Brightvale.com/nl and Brightvale.com/be in line with existing streamlined updates and deployments." },
-              { "text": "**Prismic repo instance:**", "detail": "Set up a dedicated Prismic repository instance for Brightvale, with the NL and BE (Dutch and French) locales." },
+              { "text": "**Prismic repo instance:**", "detail": "Set up a dedicated Prismic repository instance for Brightvale, with the NL (Dutch) and BE (Dutch and French) locales." },
               { "text": "**Pipeline configuration:**", "detail": "Configure CI/CD pipelines to automate deployment and content publishing workflows." },
               { "text": "**Infra configuration:**", "detail": "Provision and configure cloud infrastructure to support the new websites." },
               { "text": "**Cloudflare configuration work:**", "detail": "Configuration within the existing infrastructure for optimal performance and security." },
@@ -68,70 +104,90 @@
           ]
         },
         {
+          "module": "Header – new variant of existing Elevate component",
+          "id": "header",
+          "costing_refs": ["CMP-01"],
+          "blocks": [
+            "The Brightvale header places the logo centrally, which the existing Elevate header component does not support. Code will create a new variant of the existing header component with a centred logo, selectable within Prismic and available on all devices. No other feature changes to the header or navigation are expected as part of this change.",
+            "Once built and implemented this feature will be available to all HD brands.",
+            "Requirements for this variant: [TBC: header brief / Brightvale mock-up link]"
+          ]
+        },
+        {
           "module": "Forms, Integrations, and Storage",
           "id": "forms",
-          "features": ["contact_us", "request_appointment", "request_brochure", "request_ebrochure", "samples"],
+          "features": ["contact_us", "request_appointment", "email_signup", "turnstile"],
+          "costing_refs": ["FRM-01", "FRM-02", "FRM-03", "FRM-05"],
           "blocks": [
-            "Forms included on the Brightvale sites include the following:",
-            { "bullets": ["Contact Us", "Request an Appointment", "Request a Brochure", "Request an E-brochure", "Samples"] },
+            "The following forms are in scope, on both locales, in Dutch and French:",
+            { "bullets": ["Contact Us", "Request an Appointment", "Email sign up"] },
             "No postcode lookup is required for the Brightvale forms.",
-            { "label": "Contact Us Form" },
+            { "label": "Contact Us / Request an Appointment" },
             { "bullets": [
-              "Applied to both locales within this statement of work scope",
-              "Form look and feel, entry fields, layout, validation messaging and tracking will all be in line with the standard Elevate platform contact us form",
-              "Prismic CMS fields will be in line with the existing Elevate set up",
-              { "text": "Entries from each contact us form to be sent to the following email address endpoints:", "sub": ["Brightvale.com/nl – [TBC: email endpoint]", "Brightvale.com/be – [TBC: email endpoint]"] },
+              "Form look and feel, entry fields, layout, validation messaging and tracking will all be in line with the standard Elevate platform Contact Us and Request an Appointment forms",
+              "Prismic CMS fields will be in line with the existing Elevate set up. No new or changed fields are included",
+              { "text": "Entries from each form to be sent to the following email address endpoints:", "sub": ["Brightvale.com/nl – [TBC: email endpoint]", "Brightvale.com/be – [TBC: email endpoint]"] },
               "This will be done via a password protected CSV file sent with each submission (not batched up)",
+              "Submissions will **not** be sent to the Benelux CRM (LeadHub). Email delivery only is in scope",
               "Customer information will be processed via the existing PII infrastructure to ensure security and compliance is not compromised"
             ] },
-            { "label": "Request an Appointment Form" },
+            { "label": "Email sign up" },
+            { "bullets": [
+              "The existing Prismic email sign up component will be used, with Turnstile protection in line with Elevate",
+              "HD IT teams will provide the Turnstile keys prior to build",
+              "Submissions will be handled by the existing Elevate email sign up set-up. No new Bloomreach integration is included"
+            ] }
+          ]
+        },
+        {
+          "module": "Dealer / Showroom Locator",
+          "id": "locator",
+          "features": ["dealer_locator"],
+          "costing_refs": ["DLR-01"],
+          "blocks": [
             { "bullets": [
               "Applied to both locales within this statement of work scope",
-              "Front-end journey look and feel, entry fields, layout, validation messaging and tracking will all be in line with the standard Request an Appointment form",
+              "Front-end journey look and feel, map view, entry fields, layout, validation messaging and tracking will all be in line with the standard Showroom Locator journey (currently used on Luxaflex)",
+              "The map will use the Google API to populate addresses as per the existing Elevate set-up",
+              "Up to 140 dealers across NL and BE, from a dealer database supplied by HD in the existing Elevate format",
+              "There is one dealer type. Dealers are listed by distance. Premium dealer types and priority ordering are not included",
               "Prismic CMS fields will be in line with the existing Elevate set up",
-              { "text": "Entries to be sent to the following email address endpoints (password protected CSV file):", "sub": ["Brightvale.com/nl – [TBC: email endpoint]", "Brightvale.com/be – [TBC: email endpoint]"] },
               "Customer information will be processed via the existing PII infrastructure to ensure security and compliance is not compromised"
-            ] },
-            { "label": "Request a Brochure / Request an E-brochure" },
-            "The Brightvale team will use the existing Prismic Request a Brochure and Request an E-brochure components.",
-            { "bullets": [
-              "Applied to both locales within this statement of work scope",
-              "E-brochure PDFs per language (Dutch and French) to be provided by HD and uploaded by HD content editors in Prismic",
-              "Submissions will go into Bloomreach (see section {{ref:bloomreach}})",
-              "Brochure fulfilment endpoint: [TBC: fulfilment address / endpoint]"
-            ] },
-            { "label": "Samples" },
-            { "bullets": [
-              "Create new samples form for Brightvale (based on Hillarys samples form)",
-              "Integration with existing samples fulfilment (Maxlead)",
-              "Sample product list per locale to be confirmed by HD as part of the scoping of build tickets"
             ] }
           ]
         },
         {
-          "module": "Bloomreach",
-          "id": "bloomreach",
-          "features": ["bloomreach"],
+          "module": "PIM integration",
+          "id": "pim",
+          "features": ["salsify_pim", "pdp", "pfg"],
+          "costing_refs": ["INT-01"],
           "blocks": [
-            "Hunter Douglas have confirmed that Bloomreach BE integration is only required for the Request a Brochure and Request an E-brochure forms. Hunter Douglas will need to provide both the FE tracking brief and BE Bloomreach integration briefs as part of the scoping of build tickets on approval of this SoW.",
+            "Brightvale will take advantage of the Brightvale products within the Salsify PIM. Configuration activities:",
+            { "bullets": ["Create brand record", "Assign locales (NL – Dutch; BE – Dutch and French)", "Creation of product pages (PDP) and product filter grid (PFG) in Prismic", "Creation of filter records", "PIM health check", "Creation of [TBC] new categories, [TBC] new filters and [TBC] new specifications", "Download data logic"] },
             { "label": "Assumptions" },
-            { "bullets": [
-              "HD will have already completed any internal Bloomreach to brand integration to handle any onward data transfer. Code will only be delivering the website to Bloomreach integration work",
-              "Bloomreach is not required for the Contact Us, Request an Appointment and Samples forms"
-            ] }
+            { "bullets": ["Products will exist in Salsify in the same data structure as Elevate currently expects, with Dutch and French product content", "Category, filter and specification counts will be confirmed by HD during ticket scoping and delivered within the priced effort; additional counts would be a change request"] }
           ]
         },
         {
-          "module": "Taps and Sources",
-          "features": ["taps_sources"],
+          "module": "Content & Image Migration",
+          "id": "migration",
+          "features": ["content_migration", "image_migration"],
+          "costing_refs": ["MIG-01"],
           "blocks": [
-            "Taps and sources do not currently exist on the Brightvale sites however, for launch the Brightvale team would like to replicate this functionality.",
-            { "bullets": [{ "text": "**Taps and sources:**", "detail": "Implement taps and sources into the existing taps and sources functionality within Prismic. No work for Code to do." }] }
+            "Code will script the import of the existing inspiration / blog articles and their associated images from the current Brightvale sites into Prismic:",
+            { "bullets": [
+              "Up to 180 articles in total (up to 60 per locale-language: NL Dutch, BE Dutch, BE French) and the images used within them",
+              "Source content exported by HD from the current sites in an agreed format by [TBC: date]",
+              "One full import plus one delta import before launch",
+              "Articles will be mapped to existing Elevate article components. Content cleansing, rewriting, translation or SEO optimisation is not included"
+            ] },
+            "No other pages, products or dealer content will be migrated. HD content editors will build all other pages in Prismic using the global component library."
           ]
         },
         {
           "module": "Analytics & Compliance",
           "features": ["guid"],
+          "costing_refs": ["ANA-01"],
           "blocks": [{ "bullets": [
             { "text": "**Analytics:**", "detail": "Implement analytics tracking to monitor website usage, user behaviour, and key performance indicators in line with the existing Elevate implementation." },
             { "text": "**OneTrust cookie script in Prismic:**", "detail": "Integrate the OneTrust cookie compliance script within the Prismic-managed site to ensure GDPR and privacy regulation compliance. HD to provide the script for each domain (staging & prod)." },
@@ -141,47 +197,41 @@
         {
           "module": "Trustpilot",
           "features": ["trustpilot"],
-          "blocks": ["This component already exists within the global component library so no additional work for Code to do within this SoW assuming the brand is not expecting dynamic reviews and will use the standard component. If dynamic reviews are to be displayed in the future on the sites then a Trustpilot ID will be required."]
+          "costing_refs": ["INT-04"],
+          "blocks": ["The standard Trustpilot component already exists within the global component library, so no additional work is required. This assumes static reviews using the standard component. Live / dynamic reviews would need a Trustpilot ID and are not included."]
         },
-        {
-          "module": "PIM integration",
-          "id": "pim",
-          "features": ["salsify_pim", "pdp", "pfg"],
-          "blocks": [
-            "Brightvale will take advantage of the Brightvale products within the Salsify PIM. There will be configuration work to add the new brand in addition to the creation of categories, filters and specifications as follows:",
-            { "label": "Configuration activities:" },
-            { "bullets": ["Create brand record", "Assign locales (NL, BE – Dutch and French)", "Creation of product pages (PDP) and product filter grid (PFG) in Prismic", "Creation of filter records", "PIM health check", "Creation of [TBC] new categories", "Creation of [TBC] new filters", "Creation of [TBC] new specifications", "Download data logic"] },
-            { "label": "Assumptions" },
-            { "bullets": ["Products will exist in Salsify and will be in the same data structure as Elevate currently expects", "HD team will confirm the product hierarchy / filtering requirements as part of the scoping of build tickets on approval of this SoW", "Product content will be provided in both Dutch and French for the BE locale"] }
-          ]
-        },
-        {
-          "module": "Product Comparison – new Elevate component",
-          "id": "comparison",
-          "blocks": [
-            "The current Brightvale sites include a side-by-side product comparison feature that lets customers compare up to three shutter styles by material, light control and price band. This does not currently exist within the global component library, so Code will build a new Elevate component which will then be available for all brands to use in the future.",
-            { "bullets": ["Content managed within Prismic, with the ability to pull product attributes from the Salsify PIM", "Available on all devices", "No other feature changes are expected as part of this change"] },
-            "Once built and implemented this feature will be available to all HD brands.",
-            "Requirements for this component can be found here: [TBC: product comparison brief link]"
-          ]
-        },
-        { "out_of_scope": { "in_scope": [], "extras": ["Fax option on forms"] } }
+        { "out_of_scope": { "in_scope": [], "extras": [
+          "Benelux CRM (LeadHub) integration – form submissions are delivered by email only (see section {{ref:forms}})",
+          "Premium dealer types and priority ordering in the dealer locator (see section {{ref:locator}})",
+          "301 redirect mapping and implementation (to be handled by HD’s SEO agency)",
+          "Dynamic Trustpilot reviews",
+          "Copywriting, translation and content entry"
+        ] } }
       ]
     },
     {
       "title": "Budget",
       "type": "budget",
-      "fixed": true,
-      "intro": ["The costing table below details the fixed cost previously agreed in the Elevate pitch process."],
+      "day_rate": 670,
+      "intro": ["The costing table below details the breakdown of each activity calculated at the existing HD day rate of £670. Team shape will be flexed to accommodate the shape of work throughout the duration of the project."],
       "lines": [
-        { "activity": "Website build of the following brand locales:", "bullets": ["Brightvale.com/nl", "Brightvale.com/be – 2 x languages (Dutch and French)"] }
+        { "activity": "Prismic repo, pipelines & environments", "days": 4, "costing_refs": ["INF-01"] },
+        { "activity": "Locales & languages (NL; BE Dutch and French)", "days": 3, "costing_refs": ["INF-02", "INF-03"] },
+        { "activity": "Design tokens – new Brightvale token set", "days": 5, "costing_refs": ["DES-01"] },
+        { "activity": "Header – new variant (centred logo)", "days": 2, "costing_refs": ["CMP-01"] },
+        { "activity": "Forms", "bullets": ["Contact Us", "Request an Appointment", "Email sign up incl. Turnstile"], "days": 5, "costing_refs": ["FRM-01", "FRM-02", "FRM-03", "FRM-05"] },
+        { "activity": "Dealer / showroom locator", "days": 6, "costing_refs": ["DLR-01"] },
+        { "activity": "Salsify PIM configuration", "days": 6, "costing_refs": ["INT-01"] },
+        { "activity": "Content & image migration (up to 180 articles)", "days": 6, "costing_refs": ["MIG-01"] },
+        { "activity": "Analytics, OneTrust, GUID & Trustpilot", "days": 1, "costing_refs": ["ANA-01", "INT-04"] },
+        { "activity": "Delivery & QA", "days": 6, "costing_refs": ["DEL-01"] }
       ],
-      "total": "[TBC: fixed cost]",
-      "billing": { "milestones": [{ "label": "[TBC: month 1]", "value": "[TBC: value]" }, { "label": "[TBC: month 2]", "value": "[TBC: value]" }] }
+      "flex_note": false,
+      "billing": { "milestones": [{ "label": "February 2027", "value": 14740 }, { "label": "March 2027", "value": 14740 }] }
     },
     {
       "title": "Timing plan",
-      "blocks": ["A detailed timing plan will be provided on approval of this SoW so the work can be planned in with the Code team. Working assumption based on the current roadmap is these locales will be worked on across [TBC: months 2027]. Launch dates will be driven by HD once the detailed build plan has been agreed and finalised."]
+      "blocks": ["A detailed timing plan will be provided on approval of this SoW so the work can be planned in with the Code team. Working assumption based on the current roadmap is these locales will be worked on across February – March 2027, with both locales launching together in March 2027. Launch dates will be driven by HD once the detailed build plan has been agreed and finalised."]
     }
   ],
   "governance": {
@@ -197,9 +247,27 @@
   },
   "dependencies": [
     "Assumption: Design token application follows already agreed design token governance",
-    "Dependency: Fonts have been confirmed and if applicable purchased prior to the beginning of the design token work",
-    "Dependency: HD to provide the OneTrust script for each domain (staging & prod)",
-    "Dependency: HD to provide the Bloomreach FE tracking and BE integration briefs, and Dutch and French e-brochure PDFs",
-    "Dependency: HD to provide the product comparison brief and confirm PIM hierarchy, categories, filters and specifications"
+    "Dependency: Web licences for Manrope and Inter are confirmed and, where applicable, purchased by HD prior to the start of design token work",
+    "Dependency: HD to provide Dutch and French content, translations and form/system message copy, and to load all page content in Prismic",
+    "Dependency: HD to provide the dealer database (up to 140 dealers) in the existing Elevate format before locator build",
+    "Dependency: HD to export the blog / inspiration articles and images in the agreed format by the agreed date; volumes above 180 articles or a second full import would be a change request",
+    "Dependency: HD to provide email endpoints per form and locale, Turnstile keys and the OneTrust script for each domain (staging & prod)",
+    "Assumption: Products exist in Salsify in the data structure Elevate expects, with Dutch and French content",
+    "Assumption: 301 redirects will be mapped and implemented by HD’s SEO agency; any Code involvement would be a change request"
+  ],
+  "clarifications": [
+    { "area": "Scope overall", "question": "The brief says “pretty much the same as Duette EU”. Can you confirm the feature list in section 3 is complete, and that nothing else from Duette EU or the current Brightvale sites is expected?", "why": "Anything not listed in section 3 isn’t priced", "assumption": "Only the features listed in section 3 are in scope" },
+    { "area": "Content & translation", "question": "Who will create, translate and load the Dutch and French page content and form/system messages?", "why": "Code hasn’t priced copywriting, translation or content entry", "assumption": "HD content editors create and load all content and translations" },
+    { "area": "Fonts", "question": "Are web licences for Manrope and Inter confirmed for both domains?", "why": "Token work can’t start without licensed fonts", "assumption": "HD confirms/purchases licences before token work starts" },
+    { "area": "Header", "question": "Please share the Brightvale header mock-up. Is the centred logo needed on all breakpoints, and does the navigation layout change?", "why": "Only a centred-logo variant is priced", "assumption": "Centred logo only; navigation unchanged" },
+    { "area": "Forms", "question": "What email address should each form (Contact Us, Request an Appointment) send to, for each locale?", "why": "Needed before build; one endpoint per form per locale is priced", "assumption": "One email endpoint per form per locale" },
+    { "area": "CRM (LeadHub)", "question": "Is email-only delivery of appointment requests OK for launch? LeadHub integration isn’t included.", "why": "A CRM integration would be a separately priced change request", "assumption": "Email delivery only; LeadHub out of scope" },
+    { "area": "Email sign up", "question": "Where should email sign-up submissions go?", "why": "No new Bloomreach integration is priced", "assumption": "Existing Elevate email sign-up set-up, no new Bloomreach connection" },
+    { "area": "Dealer locator", "question": "What format is the dealer data in, who maintains it and how often? Is standard distance ordering OK instead of premium dealers first?", "why": "Premium dealer ordering isn’t in the standard journey and isn’t priced", "assumption": "Up to 140 dealers in the existing format; distance ordering; no dealer types" },
+    { "area": "Migration", "question": "Is it ~60 articles per language (≈120) or per locale-language (≈180)? Can you export them, with images, in an agreed format, and by when?", "why": "Migration is priced for up to 180 articles, one import + one delta", "assumption": "Up to 180 articles; HD export in agreed format" },
+    { "area": "Redirects & SEO", "question": "Will your SEO agency produce the 301 redirect map and implement it, or do you need Code to implement it in Cloudflare?", "why": "Redirect implementation isn’t priced", "assumption": "SEO agency handles redirects end to end" },
+    { "area": "PIM", "question": "Are all Brightvale products already in Salsify with Dutch and French content? How many new categories, filters and specs are needed?", "why": "PIM configuration is priced on the standard data structure", "assumption": "Products in Salsify in the expected structure; counts confirmed at ticket scoping" },
+    { "area": "Trustpilot", "question": "Is the standard (static) Trustpilot component OK, or do you need live reviews?", "why": "Live reviews need a Trustpilot ID and aren’t priced", "assumption": "Standard static component" },
+    { "area": "Analytics & consent", "question": "Please confirm the GTM container and provide the OneTrust scripts for both domains (staging and prod).", "why": "Needed before launch", "assumption": "In line with the existing Elevate implementation" }
   ]
 }
