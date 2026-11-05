@@ -409,6 +409,62 @@ def exec_summary(sid, num, research, assets, opps, note=''):
 </section>'''
 
 
+def approach(sid, num, head, stages, fixed_label, open_label='Scope set by definition',
+             eyebrow='The project on a page', src='Indicative durations · costs to be sized', note=''):
+    """Approach on a page: the project lifecycle in columns (reference: Panache Approach Deck, slide 13).
+
+    stages  list of dicts, left to right, 3 to 5 of them (4 is the default shape):
+            {'label': '01 Immersion', 'focus': 'Get to know the business',
+             'activities': ['Kickoff and data request', ...],   # about four, short
+             'output': 'priorities, assumptions',
+             'pill': 'About 2 weeks · £[__]',                    # never invent a cost
+             'open': False}                                      # True = the open-ended build stage (navy)
+    fixed_label  text over the fixed-scope stages, e.g. 'Fixed scope, priced with confidence: about 9–10 weeks'
+    open_label   text over the open stage(s)
+    """
+    n = len(stages)
+    gap = 24
+    col = (1664 - (n - 1) * gap) // n
+    lefts = [128 + i * (col + gap) for i in range(n)]
+    n_fixed = sum(1 for s in stages if not s.get('open'))
+    # scope line: solid over the fixed stages, dashed over the open ones
+    scope = ''
+    if n_fixed:
+        w = lefts[n_fixed - 1] + col - 128
+        scope += (f'<p style="position:absolute;left:128px;top:248px;width:{w}px;padding:12px 0px 0px 0px;font-size:24px;'
+                  f'font-weight:600;color:{NAVY};border-top:3px solid {CORN_TEXT}">{fixed_label}</p>')
+    if n_fixed < n:
+        l = lefts[n_fixed]
+        scope += (f'<p style="position:absolute;left:{l}px;top:248px;width:{1792 - l}px;padding:12px 0px 0px 0px;font-size:24px;'
+                  f'font-weight:600;color:{MUTED};border-top:3px dashed {MUTED}">{open_label}</p>')
+    boxes = ''
+    pills = ''
+    for s, l in zip(stages, lefts):
+        dark = s.get('open', False)
+        bg, lab, ink, body = (NAVY, LIME, WHITE, WHITE) if dark else (PANEL, CORN_TEXT, NAVY, BODY)
+        acts = ''.join(f'<li>{a}</li>' for a in s['activities'])
+        boxes += (f'<div style="position:absolute;left:{l}px;top:328px;width:{col}px;height:496px;display:flex;flex-direction:column;'
+                  f'gap:14px;padding:28px;background:{bg};border-radius:20px">'
+                  f'<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:{lab}">{s["label"]}</p>'
+                  f'<h3 style="font-size:28px;font-weight:700;line-height:1.25;color:{ink}">{s["focus"]}</h3>'
+                  f'<ul style="font-size:24px;line-height:1.35;color:{body}">{acts}</ul>'
+                  f'<p style="font-size:24px;line-height:1.35;color:{ink}"><b>Output:</b> {s["output"]}</p></div>')
+        pills += (f'<p style="position:absolute;left:{l + 10}px;top:848px;width:{col - 56}px;padding:10px 14px;font-size:24px;'
+                  f'font-weight:600;color:{NAVY};background:{PALE if dark else WHITE};border-radius:12px">{s["pill"]}</p>')
+    return f'''<section id="{sid}" data-transition="fade" style="background:{PAGE};{BASE}">
+{DOTS}
+<div style="position:absolute;left:128px;top:96px;width:1664px;display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:500;color:{NAVY}">{eyebrow}</p>
+<h2 style="font-size:52px;font-weight:400;line-height:1.12;letter-spacing:-1px;color:{NAVY}">{hl(head)}</h2>
+</div>
+{scope}
+{boxes}
+{pills}
+{foot(num, src)}
+{notes(note)}
+</section>'''
+
+
 def thanks(sid, head, body, contact, note=''):
     return f'''<section id="{sid}" data-transition="fade" style="background:linear-gradient(115deg, {DEEP} 0%, {CORN_TEXT} 45%, {CORN} 80%, {PERI} 100%);{BASE}padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:end;gap:24px">
 {glow(1150, 0, 770, 560, [(AQUA, 0), (PERI, 40), ('rgba(120,139,255,0)', 72)], '100% 0%')}

@@ -1,6 +1,6 @@
 ---
 name: code-brand-style
-description: Code Computerlove's visual identity and deck system — colour palette, typography, gradients, dot-matrix motif, iconography, photography, layout conventions and tested slide layouts for research and strategy decks, taken from the official WPP Media brand template and Code's research playbacks. Use whenever creating a deck, doc, artifact, dashboard, one-pager, or any visual output that should look "on-brand," "in our style," or "like our template," and whenever another skill builds a deck (UX review, market review, journey map slides, research playback): every deck takes its look from here.
+description: "Code Computerlove's visual identity and deck system — colour palette, typography, gradients, dot-matrix motif, iconography, photography, layout conventions and tested slide layouts for research and strategy decks, taken from the official WPP Media brand template and Code's research playbacks. Use whenever creating a deck, doc, artifact, dashboard, one-pager, or any visual output that should look \"on-brand,\" \"in our style,\" or \"like our template,\" and whenever another skill builds a deck (UX review, market review, journey map slides, research playback): every deck takes its look from here."
 ---
 
 # Code Brand Style
@@ -97,6 +97,7 @@ Recurring structures worth reusing directly:
 - **Theme opener:** aqua-to-lime wash, giant theme number, the theme as a sentence, and the measures it moves ("**Improved** visit bookings").
 - **Recommendations panel and recommendation detail:** a dark panel (the client's colour when known, else navy) with the recommendation; the case and the decision lines beside it.
 - **Value against effort 2×2, executive summary (Research | Assets | Opportunities), thank you.**
+- **Approach on a page** (`approach`): the default for any approach or project-lifecycle slide. A scope line across the top, then one box per stage (01 Immersion, 02 Discovery, 03 Definition, 04 Build), each with a focus heading, about four activities and an output. A duration and cost pill sits under each box, with the build box in navy and "Sized at end of definition". Spec in `references/deck-system.md`.
 - **Mobile screens:** every mobile screen sits in Code's phone frame (`phone()`), alone beside the copy, annotated with callouts, or two to four in a row (`screens`). Never a bare mobile screenshot or a stock mock-up. Spec in `references/deck-system.md` §5.
 
 ## Applying this outside PowerPoint

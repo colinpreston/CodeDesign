@@ -116,7 +116,19 @@ Function names are in `scripts/slides_house.py`. The template layout name is in 
 | **Value against effort** | `matrix` | 2×2 with labelled axes ("← High value", "Low value →", "High effort", "Low effort"); quadrants "Do first · quick wins" (bottom left, cornflower outline), "Plan in · bigger bets", "Fit in · when there's room", "Park · for now" |
 | **Executive summary** | `exec_summary` | Three columns on grey panels: Research (methods), Assets (what we made), Opportunities (the themes as numbered navy pills) |
 | **Mobile screens** | `screens` | Eyebrow and headline, then two to four phones in a row with a one-line caption under each: a flow, a before and after, client against competitor |
+| **Approach on a page** | `approach` | The whole project lifecycle on one slide: a scope line across the top (solid over the fixed-scope stages, dashed over build), one box per stage (stage label, focus heading, about 4 activities, "Output:" line), a duration and cost pill under each box, the build box in navy. The default for any approach or project-plan slide. See "Approach on a page" below |
 | **Thank you** | `thanks` | Blue wash, large light "Thank you", one warm line, a contact |
+
+### Approach on a page
+
+Use this layout whenever a deck sets out an approach, a project lifecycle or a programme of work. The reference is slide 13 of the Panache Approach Deck (November 2026). Its job is to show that the up-front stages are fixed in scope and can be priced with confidence, while the build is sized once definition is done.
+
+- **Stages:** by default four, left to right: **01 Immersion** (get to know the business), **02 Discovery** (understand the experience and the estate), **03 Definition** (decide what to build, and on what) and **04 Build** (design, build and release in iterative steps, whether that means fixing and replacing what exists or starting greenfield). Three to five stages also fit.
+- **Each box:** an uppercase cornflower stage label ("01 Immersion"), a one-line focus heading in 28px bold, about four broad activities as a short list, and an "**Output:**" line. Panel `#ECF1F4` for the fixed-scope stages; navy `#000050` with white text and a lime label for the last, open-ended stage.
+- **Scope line:** across the top, under the headline. A solid cornflower rule over the fixed-scope stages ("Fixed scope, priced with confidence: about N weeks"), and a dashed muted rule over the open stage ("Scope set by definition").
+- **Pills:** one under each box, giving the duration and cost: "About 2 weeks · £[__]". White pill on light; pale `#C9CDEF` pill under the build box, reading "Sized at end of definition".
+- **Numbers:** durations are indicative and costs stay `£[__]` until the bid team sizes them. Never invent a cost. Say so in the footer ("Indicative durations · costs to be sized") and in the speaker notes.
+- **Speaker notes:** say why the up-front stages come first, and what's still open on pricing.
 
 **Client colour.** The playbacks give recommendation panels and illustrations the client's own brand colour and logo, as a nod to them. Use the client's primary colour on the recommendations panel and recommendation detail panel when it's known and passes 4.5:1 with white text; otherwise use navy. Never guess a client's colour.
 
