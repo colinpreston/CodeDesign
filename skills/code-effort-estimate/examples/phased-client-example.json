@@ -1,0 +1,267 @@
+{
+ "currency": "$",
+ "rates": {
+  "Standard": 1000
+ },
+ "cost_rounding": "whole",
+ "layout": "client",
+ "show_vat": false,
+ "contingency": 0,
+ "external_costs_confirmed_none": false,
+ "stages": [
+  {
+   "name": "Phase 1",
+   "subtotal_label": "Phase 1 Subtotal",
+   "sections": [
+    {
+     "name": "Phase 1a and 1b \u2013 Immersion and Discovery",
+     "lines": [
+      {
+       "activity": "Day-0 risk workshop & prep",
+       "days": 7
+      },
+      {
+       "activity": "Document & research immersion",
+       "days": 4
+      },
+      {
+       "activity": "Goals & measurement framework",
+       "days": 6
+      },
+      {
+       "activity": "SEO performance audit & tech audit",
+       "days": 5
+      },
+      {
+       "activity": "SEO demand analysis",
+       "days": 6
+      },
+      {
+       "activity": "SEO performance content strategy",
+       "days": 6
+      },
+      {
+       "activity": "SEO international migration playbook",
+       "days": 2
+      },
+      {
+       "activity": "Site data review",
+       "days": 5
+      },
+      {
+       "activity": "Site content review",
+       "days": 3
+      },
+      {
+       "activity": "CX mapping of core journeys global to local",
+       "days": 6
+      },
+      {
+       "activity": "Stakeholder workshops x4 groups",
+       "days": 7,
+       "notes": "4 groups, 2-hr sessions plus write-up"
+      },
+      {
+       "activity": "Stakeholder surveys",
+       "days": 3
+      },
+      {
+       "activity": "Staff interviews (in depth) and write up",
+       "days": 10
+      },
+      {
+       "activity": "Competitor review",
+       "days": 6
+      },
+      {
+       "activity": "Market analysis of charity & mission orgs",
+       "days": 8
+      },
+      {
+       "activity": "Brand proposition \u2013 global & local workshop",
+       "days": 6
+      },
+      {
+       "activity": "Customer definition workshop",
+       "days": 4
+      },
+      {
+       "activity": "Customer research plan",
+       "days": 2
+      },
+      {
+       "activity": "Supporter segments \u2013 opportunity analysis",
+       "type": "fixed",
+       "cost": 25000,
+       "carries_management": true
+      },
+      {
+       "method": "customer_groups",
+       "activity": "Customer interviews",
+       "qty": 4,
+       "recruit_cost_per_unit": 1250,
+       "recruiter": "Recruitment partner"
+      },
+      {
+       "activity": "Onsite survey",
+       "days": 5
+      }
+     ]
+    },
+    {
+     "name": "Phase 1c \u2013 Strategy",
+     "lines": [
+      {
+       "activity": "Research analysis & synthesis",
+       "days": 19
+      },
+      {
+       "activity": "Experience analysis & synthesis",
+       "days": 10
+      },
+      {
+       "activity": "Opportunity analysis & synthesis",
+       "days": 2
+      },
+      {
+       "activity": "IA & navigation testing",
+       "days": 4
+      },
+      {
+       "activity": "Future possibilities \u2013 AI design sprint",
+       "days": 19
+      },
+      {
+       "activity": "UX journey definition",
+       "days": 2
+      },
+      {
+       "activity": "Website proposition",
+       "days": 2
+      },
+      {
+       "activity": "Overarching CX strategy",
+       "days": 12
+      },
+      {
+       "activity": "Content strategy \u2013 global vs local",
+       "days": 6
+      },
+      {
+       "activity": "Full product epic / story map",
+       "days": 3
+      },
+      {
+       "activity": "UX design plan & approach",
+       "days": 3
+      },
+      {
+       "activity": "Change plan",
+       "days": 3
+      }
+     ]
+    }
+   ],
+   "management": [
+    {
+     "activity": "Project Management (10%)",
+     "percent": 0.1,
+     "basis": "cost",
+     "applies_to": [
+      "effort",
+      "fixed"
+     ]
+    },
+    {
+     "activity": "AI token costs",
+     "percent": 0.02,
+     "basis": "cost",
+     "applies_to": [
+      "effort"
+     ]
+    }
+   ],
+   "management_inline": true
+  },
+  {
+   "name": "Phase 2 \u2013 Design & Prototype",
+   "subtotal_label": "Phase 2 Subtotal",
+   "sections": [
+    {
+     "name": "Design & Prototype",
+     "lines": [
+      {
+       "activity": "Prioritisation session",
+       "days": 3
+      },
+      {
+       "activity": "Art direction / design system sprint",
+       "days": 5
+      },
+      {
+       "method": "complex_journeys",
+       "qty": 1,
+       "split_steps": true
+      },
+      {
+       "activity": "Design production",
+       "days": 20
+      },
+      {
+       "activity": "Usability testing \u2013 design production",
+       "days": 2
+      },
+      {
+       "activity": "Amends \u2013 design production",
+       "days": 5
+      },
+      {
+       "activity": "Build user story & interaction criteria",
+       "days": 5
+      },
+      {
+       "activity": "HTML prototyping",
+       "days": 20
+      },
+      {
+       "activity": "QA",
+       "days": 5
+      }
+     ]
+    }
+   ],
+   "management": [
+    {
+     "activity": "Project Management (10%)",
+     "percent": 0.1,
+     "basis": "cost",
+     "applies_to": [
+      "effort",
+      "fixed"
+     ]
+    },
+    {
+     "activity": "AI token costs",
+     "percent": 0.02,
+     "basis": "cost",
+     "applies_to": [
+      "effort"
+     ]
+    }
+   ],
+   "management_inline": true,
+   "external_costs": [
+    {
+     "item": "Prototyping tool licence",
+     "supplier": "[Supplier]",
+     "unit": "month",
+     "qty": 2,
+     "unit_cost": 300
+    }
+   ]
+  }
+ ],
+ "client": "Northwind Charity (fictional)",
+ "_comment": "Fictional client; dummy rate and costs. Never reuse the numbers.",
+ "project": "Discovery, strategy and design"
+}

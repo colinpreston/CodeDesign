@@ -1,0 +1,136 @@
+{
+  "client": "Brightvale Homes (fictional)",
+  "project": "Discovery and CX strategy",
+  "prepared_by": "[Name]",
+  "version": "v1",
+  "date": "2026-11-05",
+  "currency": "\u00a3",
+  "hours_per_day": 7.5,
+  "rates": {
+    "Standard": 1000
+  },
+  "rounding": "half",
+  "phases": [
+    {
+      "name": "Immersion",
+      "lines": [
+        {
+          "activity": "Day 0 - Prep",
+          "days": 1,
+          "notes": "Preparing the kick-off: agenda, pre-read and attendees"
+        },
+        {
+          "activity": "Day 0",
+          "days": 5,
+          "notes": "Kick-off for the project, bringing together stakeholders to align on key facts, ambitions and measures of success"
+        },
+        {
+          "activity": "Doc review",
+          "days": 3,
+          "notes": "Review of existing research, strategy and performance documents"
+        },
+        {
+          "activity": "Competitor and market review",
+          "days": 6,
+          "notes": "Broad immersion across the marketplace and competitors, establishing initial facts for the context of future work"
+        }
+      ]
+    },
+    {
+      "name": "Insight gathering",
+      "lines": [
+        {
+          "method": "customer_groups",
+          "qty": 5,
+          "recruit_cost_per_unit": 1500,
+          "recruiter": "Recruitment agency",
+          "notes": "Time spent working directly with customers to understand expectations and feedback."
+        },
+        {
+          "method": "workshops",
+          "activity": "Internal mapping of a customer booking",
+          "qty": 6,
+          "notes": "2-hr session per department or team logging tech, systems, data, comms, time and blockers."
+        },
+        {
+          "method": "user_testing",
+          "activity": "Website user testing",
+          "qty": 1,
+          "recruit_cost_per_unit": 1500,
+          "recruiter": "Recruitment agency",
+          "notes": "Usability testing of the existing website to understand strengths and weaknesses."
+        },
+        {
+          "method": "stakeholder_interviews",
+          "qty": 5,
+          "notes": "Individuals for further depth after the workshops."
+        },
+        {
+          "activity": "CX feedback data review",
+          "days": 1,
+          "notes": "Depends on available data. Review of existing internal customer feedback"
+        },
+        {
+          "activity": "Data review",
+          "days": 5,
+          "notes": "Depends on available data. Review of analytics and BI to understand volumes and values across the core customer journey"
+        }
+      ]
+    },
+    {
+      "name": "Synthesis and analysis",
+      "lines": [
+        {
+          "activity": "CX / service map",
+          "days": 10,
+          "notes": "Mapping the existing customer experience (online and offline) to put the role of digital into context and highlight where impact can best be made"
+        }
+      ]
+    },
+    {
+      "name": "Strategy",
+      "lines": [
+        {
+          "activity": "Presentation deck",
+          "days": 10,
+          "notes": "Construction of recommendations and strategy"
+        }
+      ]
+    }
+  ],
+  "management": [
+    {
+      "activity": "Delivery Management",
+      "percent": 0.2
+    },
+    {
+      "activity": "Product Consultancy",
+      "percent": 0.05
+    },
+    {
+      "activity": "AI token costs",
+      "percent": 0.02,
+      "basis": "cost",
+      "applies_to": [
+        "effort"
+      ]
+    }
+  ],
+  "contingency": 0.0,
+  "show_vat": true,
+  "vat_rate": 0.2,
+  "assumptions": [
+    "Customer survey / services poll not included; may be combined with an existing survey if one is running.",
+    "Data reviews depend on access to existing feedback, analytics and BI data."
+  ],
+  "external_costs": [
+    {
+      "item": "Prototyping tool licence",
+      "supplier": "[Supplier]",
+      "unit": "month",
+      "qty": 3,
+      "unit_cost": 300
+    }
+  ],
+  "_comment": "Fictional client; dummy rate and costs. Never reuse the numbers."
+}
