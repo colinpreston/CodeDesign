@@ -102,7 +102,7 @@ Business requirements (BR), constraints (CN) and NFRs are legitimate sources too
 
 The human then accepts, edits or rejects each item. Record the validator, the date and the method, then retag as `[AI✓]` or delete.
 
-**Retro-fit audit.** Go through what exists against the method library:
+**Retro-fit audit.** Go through what exists against the method library, and propose filing any existing files into method folders (`project-folder.md` rule 9):
 - mark each artifact present, partial or missing;
 - backfill EV and IN IDs from the existing research;
 - tag anything with unknown origin as `[AI]` until someone vouches for it.
@@ -171,6 +171,7 @@ Work in this order. Show Colin each stage before moving to the next; the playboo
   - pass a gate without a named human;
   - let an `[AI]`-only item ground a story;
   - silently drop untraced stories. They go to the parking lot.
+- **Never record a folder path you haven't checked.** An output counts as filed only once its file is confirmed in the method's folder (`project-folder.md` rules 7 and 8). Artifacts and project docs get an exported copy; Figma and Miro get a link file.
 - **Show, don't hide, the weak spots.** A thin evidence base is fine on a Lean engagement as long as it's visible. Confidence labels travel with each story into the dev tool.
 - **Draft, map, check and export freely.** Anything sent to the client or the dev team needs Colin's send.
 - **The story schema is a cross-discipline contract.** Changes to it get agreed with dev and delivery and logged as DC entries.

@@ -104,3 +104,12 @@ People edit the canvas by hand. Before changing it, read the current artboard an
 - It usually carries client data (portfolio metrics, ICP numbers, stakeholder quotes). Before it's shared, check the artifact's sharing setting and flag it if it's open to anyone with the link.
 - Don't put client logos or brand marks on the map. Use a plain text badge.
 - Client data never goes in this skill's repo. Only fictional examples live in `references/`.
+
+## Saving output in a project
+
+If the work is for a client project that has a stage board and project folder (see the Project Brain), do the following before finishing:
+1. **Save the output** into the matching method folder's `outputs/`, e.g. `02 Discovery/DI-M1 Competitor review/outputs/`. Decks and docs go in as files. An artifact gets an exported copy plus its link.
+2. **Confirm** the file is there by listing the folder.
+3. **Log it** on the method's card, as described in `code-evidence-to-backlog`'s `references/stage-board.md` and `references/project-folder.md`.
+
+If the folder can't be reached, say so rather than recording a path.

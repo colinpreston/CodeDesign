@@ -86,3 +86,12 @@ Send the .xlsx. In the reply, give the figures from the TOTALS table: the subtot
 - `scripts/build_estimate.py` — builds the sheet with live formulas and runs the checks.
 - `examples/discovery-example.json` — single-block, full layout, days-basis management, external costs (fictional).
 - `examples/phased-client-example.json` — two phases, client layout, cost-basis PM, fixed-price item (fictional, dummy rate).
+
+## Saving output in a project
+
+If the work is for a client project that has a stage board and project folder (see the Project Brain), do the following before finishing:
+1. **Save the output** into the matching method folder's `outputs/`, e.g. `02 Discovery/DI-M1 Competitor review/outputs/`. Decks and docs go in as files. An artifact gets an exported copy plus its link.
+2. **Confirm** the file is there by listing the folder.
+3. **Log it** on the method's card, as described in `code-evidence-to-backlog`'s `references/stage-board.md` and `references/project-folder.md`.
+
+If the folder can't be reached, say so rather than recording a path.

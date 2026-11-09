@@ -63,3 +63,18 @@ If the location changes (a folder moved, or a new shared drive), update `board/m
 4. **Links over copies.** Card entries and the ledger point at the file in the folder. Don't paste whole documents into the board. A summary in the entry and a link to the file is enough.
 5. **Personal data.** Recordings and transcripts with participant details stay in `inputs/` on the client-approved storage. If the root is the repo, don't put them there: say so and ask where they should live.
 6. **Check it's really there.** On a status or gate check, confirm that every card in Done has its outputs in its folder, and that every knowledge entry's file still exists at its path. List anything missing or moved.
+7. **A card's output isn't filed until a file is in its folder.**
+   - **Things that live in Claude:** an artifact (story map, board, dashboard) or a project doc gets an exported copy in `outputs/` (`.md`, `.csv`, `.pdf` or `.html`, with the date in the name), plus the link inside it.
+   - **Things in Figma or Miro:** save a small link file in the right folder, e.g. `Figma – App design (link).md`, holding the link, what it is, the date and the frame names that matter.
+   - Never mark a card Done, or log an output, while its `outputs/` folder is empty.
+8. **Verify every write.**
+   - After saving, list the folder to confirm the file is there. A knowledge entry's `source` is always a **file path that exists**, never the root or a folder.
+   - If the folder can't be reached or written (not connected, read-only, offline), say so plainly, keep the file in the chat as a download, and log the entry without a `source`, with the note "not yet in the project folder". Never record a path you haven't checked.
+   - **Desktop folders:** write with the device shell into the mounted folder, or with `device_commit_files`.
+   - **Cloud folders:** write through the connector.
+9. **Retro-fitting existing files.**
+   - Files already sitting at the root or anywhere else get filed into the `inputs/` of the method they mostly belong to.
+   - A file that feeds several methods (e.g. a strategy deck) lives in **one** home folder. The other cards link to it by path and slide range.
+   - **Moving the client's own files needs Colin's OK first.** Propose the moves as a table, then move (don't copy), so there's only ever one version.
+   - Leave `_Folder index.md` at the root listing every file and the card it belongs to.
+10. **Other skills follow these rules too.** Any Code skill run inside a project that has a stage board saves its output to the matching method's `outputs/` folder and logs it on the card (`stage-board.md`), whether or not this skill is loaded. The rule sits in the Project Brain and in each Code skill's "Saving output in a project" section.

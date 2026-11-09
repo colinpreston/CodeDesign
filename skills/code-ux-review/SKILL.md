@@ -448,3 +448,12 @@ Don't render or screenshot the deck to check it unless he asks.
 - **Never invent a number.** No analytics means no conversion figures; say so.
 - **Accessibility findings are observations against WCAG, not legal advice.** Don't call a site "compliant" or "non-compliant" in law.
 - **Date-stamp every score.** PageSpeed and Lighthouse change run to run and month to month.
+
+## Saving output in a project
+
+If the work is for a client project that has a stage board and project folder (see the Project Brain), do the following before finishing:
+1. **Save the output** into the matching method folder's `outputs/`, e.g. `02 Discovery/DI-M1 Competitor review/outputs/`. Decks and docs go in as files. An artifact gets an exported copy plus its link.
+2. **Confirm** the file is there by listing the folder.
+3. **Log it** on the method's card, as described in `code-evidence-to-backlog`'s `references/stage-board.md` and `references/project-folder.md`.
+
+If the folder can't be reached, say so rather than recording a path.
