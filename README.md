@@ -18,6 +18,8 @@ Bundles nine more skills:
   - Scope mode cuts it down to a programme plan that fits the brief's time and budget;
   - one project folder per project, filed by stage and method, so "it's in the project folder" is enough;
   - a live Kanban stage board dashboard per project: cards per chosen method, linked artefacts, stage questions and gate sign-offs;
+  - a **▶ Run AI** button on each card that sends Claude the method's first pass, prep, synthesis or report: it reads the up-to-date context, asks its questions once in the chat, files the output and logs it for a human to check;
+  - an **Artefacts** view listing everything made for the project, and a header bar on every project artifact that links back to the board;
   - an Evidence Ledger that keeps AI work quarantined until a named human validates it;
   - lineage and corrections: fix a fact once, and everything built on it is flagged, reworked and re-checked;
   - a traced story map, MVP slice and user stories with a Definition of Ready.
@@ -117,15 +119,17 @@ skills/
     scripts/
       build_estimate.py                     — JSON spec → Code-styled .xlsx with live formulas, TOTALS table and checks
   code-evidence-to-backlog/
-    SKILL.md                                — modes: scope, set up, retro-fit, register, log & validate, gate check, build backlog
+    SKILL.md                                — modes: scope, set up, retro-fit, register, log & validate, gate check, build backlog, run AI
     references/
       method-library.md                     — Code's process map as methods, artefacts, questions, gates and the evidence spine
       story-schema.md                       — story map structure, story fields, Definition of Ready, CSV export
       stage-board.md                        — the Kanban stage board dashboard and its data store
       corrections.md                        — lineage (built on), corrections, knock-on out-of-date flags and rework order
       project-folder.md                     — one folder per project by stage and method; filing and "it's in the project folder" rules
+      ai-first-pass.md                      — what each card's Run AI button does: mode, task, skills, inputs needed
     assets/
       stage-board.html                      — the stage board page, published per project
+      project-header.html                   — the back-to-board header bar for every project artifact
       process-map-*.png                     — the team's original process map boards
 ```
 
