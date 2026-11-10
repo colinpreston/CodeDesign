@@ -47,7 +47,11 @@ Defaults when a card has no document: spine methods are in, everything else is o
 
 ## Card knowledge (automatic)
 
-Every card carries a running log of everything known or done for that method. Claude adds to it **without being asked** whenever it works on the project:
+Every card carries a running log of everything known or done for that method. Claude adds to it **without being asked** whenever it works on the project (see the table below).
+
+**How it shows in the ticket.** To keep the ticket light, each entry is a single collapsed line: type, provenance (H / AI / AI✓) and title, plus a corrected or out-of-date tag when one applies. Clicking the line opens the rest: who and when, the folder path, the source link, what it's built on, the full text, **Mark checked** and **Something's wrong here**. The **Add a note** form is folded behind a "+ Add a note" link.
+
+What gets logged:
 
 | What happened | Entry |
 |---|---|

@@ -116,6 +116,14 @@ dialog::backdrop{background:rgba(0,0,80,.35)}
 .ent .eh{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .ent .et{font-weight:600;color:var(--navy)}
 .ent .em{color:var(--muted);font-size:11.5px;margin-top:2px}
+.ent{padding:6px 10px;margin-bottom:6px}
+.ent>summary{cursor:pointer;list-style:none;display:flex;gap:6px;align-items:center}
+.ent>summary::-webkit-details-marker{display:none}
+.ent>summary::after{content:"\25B8";margin-left:auto;color:var(--muted);font-size:11px}
+.ent[open]>summary{margin-bottom:6px}
+.ent[open]>summary::after{content:"\25BE"}
+.ent>summary .et{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.addnote>summary{cursor:pointer;font-size:12px;font-weight:500;color:var(--navy);margin-top:6px}
 .ent details{margin-top:4px}
 .ent summary{cursor:pointer;color:var(--blue);font-size:12px}
 .ent .body{white-space:pre-wrap;font-size:12.5px;margin-top:4px;max-height:280px;overflow:auto;background:#fff;border-radius:6px;padding:6px 8px;border:1px solid var(--panel)}
@@ -367,15 +375,15 @@ function entryEl(e,cardId){
  const un=e.prov==="AI";const src=safeUrl(e.link||"");const gone=LIN.bad(e.id);const st=LIN.stale[e.id];
  const succ=S.entries.find(x=>x.supersedes===e.id);
  const nameOf=id=>{const x=LIN.by[id];return x?(x.card?x.card+": ":"")+(x.title||"entry"):id};
- const el=h("div",{class:"ent"+(gone?" gone":st?" stale":un?" unchecked":"")},
-  h("div",{class:"eh"},h("span",{class:"tag",text:TYPES[e.type]||"Entry"}),h("span",{class:"prov "+(e.prov||"H"),text:e.prov==="AIV"?"AI✓":(e.prov||"H")}),h("span",{class:"et",text:e.title||"Untitled"}),
+ const el=h("details",{class:"ent"+(gone?" gone":st?" stale":un?" unchecked":"")},
+  h("summary",{class:"eh",title:"Show details"},h("span",{class:"tag",text:TYPES[e.type]||"Entry"}),h("span",{class:"prov "+(e.prov||"H"),text:e.prov==="AIV"?"AI✓":(e.prov||"H")}),h("span",{class:"et",text:e.title||"Untitled"}),
    gone?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"corrected"):null,st?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ out of date"):null),
   h("div",{class:"em"},h("span",{"data-who":e.by||"",text:whoName(e.by)}),e.at?" · "+new Date(e.at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}):"",e.source?" · in folder: "+fullPath(e.source):"",src?" · ":"",src?h("a",{href:src,target:"_blank",rel:"noopener"},"open ↗"):null),
   gone?h("div",{class:"warnline"},"Corrected"+(succ?": see \""+(succ.title||"correction")+"\"":"")+(e.correction?" · "+e.correction:"")):null,
   st?h("div",{class:"warnline",text:"Built on something that's since been corrected: "+st.map(nameOf).join("; ")+". Needs redoing and re-checking."}):null,
   (e.uses&&e.uses.length)?h("div",{class:"uses"},h("b",null,"Built on: "),e.uses.map(nameOf).join("; ")):null,
   e.prov==="AIV"&&e.method?h("div",{class:"em"},"Checked by ",h("span",{"data-who":e.validatedBy||"",text:whoName(e.validatedBy)}),": "+e.method):null,
-  e.body?h("details",null,h("summary",null,"Show content"),h("div",{class:"body",text:e.body})):null);
+  e.body?h("div",{class:"body",text:e.body}):null);
  if(un&&!gone&&!st&&S.canWrite){const how=h("input",{type:"text",placeholder:"How did you check it? e.g. quotes checked against transcripts","aria-label":"How it was checked",maxlength:"200"});const er=h("div",{class:"err"});
   el.append(h("div",{class:"chk"},how,h("button",{class:"btn small primary",type:"button",onclick:async()=>{const m=how.value.trim();if(!m){er.textContent="Say how it was checked first.";how.focus();return}
    if(await write("entries/"+e.id,{...e,prov:"AIV",method:m,validatedBy:S.me||null,validatedAt:new Date().toISOString()})){
@@ -405,7 +413,7 @@ function knSection(cardId){
  if(S.canWrite){const t=h("input",{type:"text",placeholder:"Note title","aria-label":"Note title",maxlength:"120",style:"width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;margin-top:4px"});
   const b=h("textarea",{rows:"3",placeholder:"What did we learn or decide?","aria-label":"Note",maxlength:"20000",style:"width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;margin-top:6px"});
   const er=h("div",{class:"err"});
-  box.append(h("div",{style:"font-size:12px;font-weight:500;color:var(--navy);margin-top:6px"},"Add a note"),t,b,er,h("button",{class:"btn small",type:"button",style:"margin-top:6px",onclick:async()=>{
+  const nf=h("details",{class:"addnote"},h("summary",null,"+ Add a note"));box.append(nf);nf.append(t,b,er,h("button",{class:"btn small",type:"button",style:"margin-top:6px",onclick:async()=>{
    const tt=t.value.trim(),bb=b.value.trim();if(!tt&&!bb){er.textContent="Write a title or a note first.";t.focus();return}
    const id="e"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
    if(await write("entries/"+id,{id,card:cardId,type:"note",title:tt||bb.slice(0,60),body:bb,prov:"H",by:S.me||null,at:new Date().toISOString()})){t.value="";b.value=""}}},"Add note"));
