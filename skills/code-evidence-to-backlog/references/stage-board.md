@@ -21,9 +21,11 @@ It's a shared, live page. The team can drag cards, tick off questions and sign o
   - **Columns:** one per stage. The current stage is outlined.
   - **Lanes:** each column has four lanes: To do · Doing · Needs a human · Done.
   - **Cards:** only **in-scope** methods appear. To keep the board easy to scan, a card face shows just its ID (with a small dot for spine methods), its name, and only the badges that apply: provenance (H / AI / AI✓), owner, "early", folder and knowledge counts, "to check" and "out of date". Artefacts, notes and everything else live in the ticket overlay.
+  - **Run AI:** a dark grey **▶ Run AI** strip under every card where an AI first pass makes sense (all methods except IM-4 and IM-6; never on Done cards, never for read-only viewers). It opens the card's ticket at the Run AI panel. See Run AI below.
   - **Empty lanes** collapse to a thin dashed label, so full lanes stand out.
   - **Questions to be answered:** sit at the foot of each column, ticked off as they're answered.
   - **Gate card:** shown in full on the current stage only; other stages show a single "not yet" or "passed" line. Sign-off unlocks only when every question is ticked and nothing is waiting in Needs a human. Signing off moves the stage on and records who signed and when.
+- **Artefacts view:** every artefact made or collected for the project in one list, by stage and method: each item's type, provenance, an **Open ↗** link to the artifact (if it has one) and its folder file (click to copy the path). Filter: outputs only, or outputs and inputs. Built from card knowledge and card links, so anything logged appears here automatically. `board/meta.links` (`[{title, url, note}]`) adds project-level links (the Project Brain, a shared drive) at the top. Every project artifact's header bar links to `#artefacts`.
 - **Scope view:** the full method library as tick lists by stage and group. This is the reductive step: untick to cut, with a reason (required in practice for spine methods). The count of cut spine methods shows at the top.
 
 ## The store (what Claude reads and writes)
@@ -35,6 +37,7 @@ Use `db_list` / `db_get` to read and `db_write` to write, on the project's board
 | `board/meta` | `{name, stage, folderRoot, folderRootUrl?, gates: {<stageId>: {by, at}}, edit}`. Stage ids: `brief`, `immersion`, `discovery`, `vision`, `definition` | Setup (Claude); people (name, gate sign-off) |
 | `cards/<methodId>` | `{in, lane, owner, link, prov, note, reason, early, folder?, folderUrl?, folderFiles?, edit}`. `folder` overrides the default path, `<NN Stage>/<ID> <name>` (see `project-folder.md`). `folderUrl` is the folder's link when the root is Drive or SharePoint. `folderFiles` is the file count. `lane` is one of `todo`, `doing`, `human`, `done`. `prov` is one of `H`, `AI`, `AIV` (AIV means AI✓) | Scope and Register (Claude); people |
 | `questions/<qid>` | `{answer, uses, prov, by, at, answered, approvedBy?, approvedAt?, previous?, edit}`. `answer` is the text. `uses` is the card-knowledge entry IDs it rests on. `prov` is `AI` for a Claude draft and `H` once a person writes or edits it (`AIV` once a person approves an AI draft). `answered` means **a person has approved it**. `previous` keeps the last answer when someone edits | Claude drafts (`answer`, `uses`, `prov: "AI"`, `answered: false`); people edit and approve |
+| `cards/<id>.aiRun` | `{status, action, mode, thread, by, at}` while a Run AI request is open. `status` is `requested` (set by the board when sent), `asking` (Claude has questions in the chat) or `working`; Claude deletes the field when the output is logged. The card face and ticket show the status | Board (on send); Claude |
 | `inbox/<id>` | `{id, text, action, at, done}` | People and Claude |
 | `entries/<id>` | **Card knowledge.** `{id, card, type, title, body, source, link, prov, by, at, validatedBy?, validatedAt?, method?}`:
 - `card` is a method ID;
@@ -97,7 +100,7 @@ Claude never ticks approval.
 
 - **Setup:**
   1. Publish a fresh board for the client from `assets/stage-board.html`, titled `<Client> stage board`.
-  2. Declare `{db: {}, user: {scopes: ["profile"]}}`.
+  2. Declare `{db: {}, user: {scopes: ["profile"]}, comments: {}}`. `comments` is what lets the Run AI button send a request to Claude.
   3. Write `board/meta` with the stage set to `brief`.
   4. Write a `cards/<id>` document for every method Scope selected or cut, with the reason for each cut.
   5. Record the URL in the ledger and the Project Brain.
@@ -113,6 +116,24 @@ Claude never ticks approval.
   - set `prov: "AIV"`.
 
   These are human acts. Claude can set them only when Colin explicitly says so, and must note who validated it.
+
+## Run AI
+
+The **▶ Run AI** button gets Claude to do a card's first pass: a draft, a prep pack (guide or plan), a synthesis of what's in the card's inputs, or a report or deck. What each method's button does is in `ai-first-pass.md`, and the same list sits in the page as `RUN`. Keep the two in step.
+
+- **The panel** (top of the ticket) shows what Claude will do, the skills it will use and what it reads first. Methods with two jobs (prep before fieldwork, synthesis after) offer both, pre-picking synthesis when the card already has inputs. If a synthesis has nothing in `inputs/`, it warns. There's an optional notes box ("focus on the rep journey").
+- **Send to Claude** posts the request as a comment on the card and sends it to Claude (the `comments` capability's `sendToClaude`), which wakes the project chat. The card moves from To do to Doing and gets an `aiRun` status. Claude takes it from there (SKILL.md Step 3b): it reads the context, asks its questions once in the chat, does the work, files it, logs it, and replies in the thread.
+- **When it can't send** (no Claude chat watching the board, a viewer who isn't an editor, a view without comments), the panel says why and offers **Copy request**, so it can be pasted into the project chat instead.
+- Only editors can send. The output always lands as `AI` in Needs a human.
+
+## Project header bar
+
+Every artifact made for a project with a stage board carries a header bar at the top: **← <Project> stage board** · what this is (method ID and name) · **All artefacts** (the board's `#artefacts` view). It's how people get back to the board and on to everything else from any artifact.
+
+- **Hand-built pages** (HTML artifacts, dashboards, prototypes): paste `assets/project-header.html` straight after `<body>` and fill `{{BOARD_URL}}`, `{{PROJECT}}` and `{{HERE}}`.
+- **Docs:** the first line of the doc is the same three links as text: `[← <Project> stage board](<url>) · <ID> <name> · [All artefacts](<url>#artefacts)`.
+- **Typed artifacts whose page Claude can't change** (Slides, Design): no bar is possible. Put the board link in the speaker notes or a frame label where the type allows. The board's Artefacts view links to them either way.
+- Add the bar when the artifact is created; retro-fit it to existing ones when a project adopts this skill. Don't edit client-facing content to add it without asking.
 
 ## Build notes
 

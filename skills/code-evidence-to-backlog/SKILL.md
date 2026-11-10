@@ -27,11 +27,11 @@ Business requirements (BR), constraints (CN) and NFRs are legitimate sources too
 
 - If the session has a company brain (Project Brain, Research Repository from `design-studio-team-setup`), read the Brain and the Repository's Active Notes and Digest first. In that case the ledger sits alongside them.
 - Otherwise ask: which client, what engagement, and is there an existing ledger?
-- Read `references/method-library.md` every time. Read `references/project-folder.md` before filing or looking for anything, and `references/corrections.md` before writing any output or acting on a correction. Read `references/story-schema.md` before Steps 4 and 5, and `references/stage-board.md` whenever the board is built or refreshed.
+- Read `references/method-library.md` every time. Read `references/project-folder.md` before filing or looking for anything, and `references/corrections.md` before writing any output or acting on a correction. Read `references/story-schema.md` before Steps 4 and 5, and `references/stage-board.md` whenever the board is built or refreshed. Read `references/ai-first-pass.md` when a Run AI request arrives.
 
 ## Step 1: Pick the mode
 
-**Always ask which mode. Never infer it.** The one exception is **Register**: run it automatically when another skill finishes an output inside a project that has a ledger, and say so in one line.
+**Always ask which mode. Never infer it.** Two exceptions: **Register** runs automatically when another skill finishes an output inside a project that has a ledger (say so in one line), and **Run AI** runs automatically when a board request arrives, because pressing the button already chose it.
 
 | Mode | Use when | Go to |
 |---|---|---|
@@ -42,6 +42,7 @@ Business requirements (BR), constraints (CN) and NFRs are legitimate sources too
 | **Log & validate** | New research, synthesis, decisions or test results to record, or AI work that needs a human to sign it off | Step 3 |
 | **Gate check** | "Are we ready to move on?" / "Where are we?" | Step 4 |
 | **Build backlog** | G5 has passed, or Colin wants a draft map early | Step 5 |
+| **Run AI** | A comment starting `▶ RUN AI` arrives from the stage board (someone pressed **Run AI** on a card). Runs automatically: the button press is the mode choice | Step 3b |
 
 ## Step 1a: Scope (brief → reductive selection → programme plan)
 
@@ -83,6 +84,7 @@ Business requirements (BR), constraints (CN) and NFRs are legitimate sources too
 6. **Publish the stage board dashboard** per `stage-board.md`, with the selection loaded into its store.
    - Record its URL in the ledger and in the Project Brain.
    - Any brief or inputs already in hand go into the inbox, each with a suggested next action.
+7. **Put the project header bar on every artifact** made for the project (`assets/project-header.html`, rules in `stage-board.md` → Project header bar), so anyone can get back to the board and its Artefacts list from anything they open.
 
 ## Step 3: Log & validate
 
@@ -124,6 +126,20 @@ Nobody has to ask. AI work is logged as `AI` and pulls the card into **Needs a h
 3. Log its items.
 4. Clear any inbox card it answers.
 5. Republish the board.
+
+## Step 3b: Run AI (a card's first pass, synthesis or report)
+
+Someone pressed **Run AI** on a card and sent Claude a request: a comment on the board starting `▶ RUN AI · <method ID> <name>`, giving the task, its mode (first pass, prep, synthesis or report/deck), the skills, the folder, and any notes. The mapping per method is in `references/ai-first-pass.md`. The bar is work a senior Code practitioner would be happy to put their name to after one edit.
+
+1. **Context first, silently.** Read the Project Brain, the ledger, the Research Repository, the card's knowledge and its folder (`inputs/` and `outputs/`), plus the cards it builds on (e.g. VI-1 reads every checked Discovery card). Use only what's current: honour corrections and out-of-date flags (`corrections.md`).
+2. **Check what it rests on.** Build only on `[H]` and `[AI✓]` work. If the task needs inputs that aren't there (no transcripts for a synthesis, no data for an analytics check), or rests on unchecked AI work, that becomes a question rather than a guess.
+3. **Ask once, in the chat.** Gather every question that would change the quality of the output (audience, scope, which inputs to use, format, deadline, anything missing) and ask them **together, once**, in the project chat (AskUserQuestion where available). Post one line in the comment thread saying the questions are in the chat. Set the card's `aiRun.status` to `asking`. If nothing needs asking, say what you assumed and go straight on. If nobody answers and the work can be done sensibly, take the most reasonable reading and state it at the top of the output.
+4. **Do the work.** Set `aiRun.status` to `working`. Load and follow each mapped skill (and `code-design-playbook`). Bring in other installed skills where they raise the standard, and flag a gap if no skill fits. Reports and decks follow `code-brand-style`; long work is built in stages.
+5. **Check it before handing over.** Trace every claim, quote and number to its source and verify the quotes are verbatim. Check the arithmetic by running it. Open any file you made to look at it. Name the weak spots (thin evidence, missing segments, assumptions).
+6. **File and log it.** Save to the card's `outputs/` folder and verify it's there (`project-folder.md` rules 7 and 8). Add the project header bar to any artifact. Log it on the card as `AI` with `uses` filled, plus any EV/IN/TF items in the ledger as `[AI]`. The card goes to **Needs a human**. Clear `aiRun` (delete the field). Update the folder index.
+7. **Reply in the thread.** Say what was made, where it lives, what to check first, and the open questions. Keep it short; the work is in the folder and on the card. Never mark your own output checked, approve a question or pass a gate.
+
+If the board can't be written to (for example it's shared publicly), do the work anyway, file it, and say in the thread and the chat that the card couldn't be updated and why.
 
 ## Step 4: Gate check
 
@@ -173,6 +189,7 @@ Work in this order. Show Colin each stage before moving to the next; the playboo
   - silently drop untraced stories. They go to the parking lot.
 - **Never record a folder path you haven't checked.** An output counts as filed only once its file is confirmed in the method's folder (`project-folder.md` rules 7 and 8). Artifacts and project docs get an exported copy; Figma and Miro get a link file.
 - **Show, don't hide, the weak spots.** A thin evidence base is fine on a Lean engagement as long as it's visible. Confidence labels travel with each story into the dev tool.
+- **Run AI makes drafts, never decisions.** Its output is always `AI`, lands in Needs a human, and is never sent to the client by Claude.
 - **Draft, map, check and export freely.** Anything sent to the client or the dev team needs Colin's send.
 - **The story schema is a cross-discipline contract.** Changes to it get agreed with dev and delivery and logged as DC entries.
 

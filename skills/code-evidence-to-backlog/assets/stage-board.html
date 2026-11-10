@@ -190,6 +190,47 @@ body{font-size:14.5px;line-height:1.55}
 .gate{margin-top:14px;padding:12px 14px;border-radius:12px}
 .outnote{margin-top:10px}
 @media print{.tabs,.inadd,.btn{display:none}.board{flex-wrap:wrap;overflow:visible}}
+.cardwrap{margin-bottom:10px}
+.cardwrap:last-child{margin-bottom:0}
+.cardwrap .card{margin-bottom:0}
+.card.hasrun{border-bottom-left-radius:0;border-bottom-right-radius:0;border-bottom-color:transparent}
+.runai{display:block;width:100%;background:#33363D;border:1px solid #33363D;color:#fff;font-weight:600;font-size:12.5px;padding:7px 10px;border-radius:0 0 10px 10px;cursor:pointer;text-align:center;letter-spacing:.01em}
+.runai:hover{background:#4A4E57}
+.runai:focus-visible{background:#4A4E57;outline:2px solid #fff;outline-offset:-4px}
+.ailive{margin-top:8px;font-size:11.5px;font-weight:500;color:var(--blue)}
+.runbox{margin:12px 0 4px;border:1px solid #33363D;border-radius:12px;overflow:hidden;background:#fff}
+.runbig{display:flex;flex-direction:column;align-items:flex-start;width:100%;background:#33363D;border:0;color:#fff;padding:12px 14px;cursor:pointer;text-align:left}
+.runbig>span:first-child{font-size:17px;font-weight:700}
+.runsub{font-size:12px;font-weight:500;opacity:.85}
+.runbig:hover{background:#4A4E57}
+.runbig:focus-visible{background:#4A4E57;outline:2px solid #fff;outline-offset:-4px}
+.runbody{padding:10px 14px 12px;font-size:13px}
+.runbody p{margin:0 0 6px}
+.runopts{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.runopt{display:flex;gap:8px;align-items:center;font-size:13px;cursor:pointer}
+.runone{margin-bottom:8px}
+.runwhat{background:var(--panel);border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:12.5px}
+.runwarn{color:var(--warn);background:var(--warnbg);border-radius:6px;padding:4px 8px}
+.runbody textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:12.5px}
+.runact{display:flex;gap:8px;margin-top:8px}
+.runmsg{font-size:12px;color:var(--muted);margin-top:6px;min-height:1em}
+.runlive{padding:6px 14px;font-size:12px;font-weight:500;color:var(--blue);background:#EEF0FF}
+@media print{.runai,.runbox{display:none}}
+.arts{max-width:1000px;padding:4px 20px 28px}
+.artsec{margin:14px 0}
+.artsec h3{font-size:14px;color:var(--navy);margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em}
+.artcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:8px}
+.artcardh{background:none;border:0;padding:0;font-weight:600;color:var(--navy);font-size:13.5px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.artcardh .id{font-size:11px;color:var(--muted)}
+.artlist{list-style:none;margin:6px 0 0;padding:0}
+.artlist li{display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid var(--panel);font-size:12.5px}
+.arttitle{font-weight:500;color:var(--navy)}
+a.arttitle{color:var(--blue)}
+.artnote{color:var(--muted);font-size:12px}
+.artpath{margin-left:auto;background:none;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--muted);padding:1px 6px;cursor:pointer;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.artfilter{display:flex;gap:14px;font-size:12.5px;margin:8px 0}
+
+
 </style>
 </head>
 <body>
@@ -207,6 +248,7 @@ body{font-size:14.5px;line-height:1.55}
 <div class="tabs" role="tablist">
   <button class="tab" role="tab" id="tab-board" data-view="board">Board</button>
   <button class="tab" role="tab" id="tab-scope" data-view="scope">Scope (method library)</button>
+  <button class="tab" role="tab" id="tab-artefacts" data-view="artefacts">Artefacts</button>
   <span class="note" id="snap">Connecting…</span>
   <button class="inboxbtn" id="inboxbtn" type="button" aria-expanded="false" aria-controls="inbox">Inbox</button>
 </div>
@@ -368,6 +410,116 @@ function knTags(id){const es=entriesFor(id).filter(e=>!LIN.bad(e.id));if(!es.len
  return[h("span",{class:"tag",title:"Knowledge entries"},"📎 "+es.length),un?h("span",{class:"tag",style:"background:var(--warnbg);color:var(--warn)"},un+" to check"):null,
   st?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ "+st+" out of date"):null]}
 const TYPES={transcript:"Transcript",summary:"Summary",synthesis:"Synthesis",output:"Output",chat:"From chat",note:"Note",source:"Source"};
+/* ---- Run AI: first pass, synthesis or report for a method, done by Claude in the project chat ---- */
+const MODES={draft:"First pass",prep:"Prep: guide or plan",synth:"Synthesis & analysis",report:"Report or deck"};
+const A=(mode,label,task,skills,needs)=>({mode,label,task,skills:skills||[],needs:!!needs});
+const RUN={
+ "BR-1":[A("draft","Brief summary","Read the brief and everything in this card's inputs. Write the brief summary: problem, project type, budget, timeline, known constraints and what the client already has. Log BR, CN and AS items in the ledger and list the gaps to ask the client about.",["code-design-playbook"])],
+ "BR-2":[A("draft","Method selection","Run Scope mode: cut the method library to what the brief, time and budget allow. In and out with a reason or risk for each; log any spine cut as a DC.",["code-evidence-to-backlog"])],
+ "BR-3":[A("draft","Programme plan","Turn the selected methods into the programme plan: research brief, methods, effort and days per stage, and draft interview scripts per stakeholder role.",["code-effort-estimate","design-research:interview-script"])],
+ "BR-4":[A("report","Proposal or SoW","Draft the proposal or SoW from the agreed programme plan and estimate, on brand.",["code-effort-estimate","code-brand-style"])],
+ "IM-1":[A("draft","Problem statement","Frame the problem: type of project, problem statement, what success looks like, and the assumptions to test.",["ux-strategy:frame-problem"])],
+ "IM-2":[A("prep","Day 0 plan","Plan Day 0: agenda, pre-read, attendees and exercises (product canvas, lo-fi map, OKRs), using what we already know.",["stakeholder-comms:alignment-workshop"]),A("synth","Day 0 write-up","Write up Day 0 from the notes, photos and boards in inputs: what we heard, the lo-fi map, draft OKRs, and the assumptions to test.",["stakeholder-comms:alignment-workshop","design-research:synthesize"],1)],
+ "IM-3":[A("draft","Tech due diligence doc","Draft the tech doc from what we know: current estate, integrations, migration needs, constraints, risks, and the questions for the client's tech team.",["delivery-execution:risk-register","program-planning:dependency-map"])],
+ "IM-5":[A("draft","Working agreement","Draft the working agreement: roles, cadence, decision rights, tools and communication.",["cross-functional-alignment:working-agreement"])],
+ "IM-7":[A("draft","Research plan","Write the research plan: questions, each traced to an AS or BR item, methods, participants, recruitment and timing.",["design-research:discover","design-research:interview-script"])],
+ "IM-8":[A("draft","Tidy the knowledge base","File anything unsorted, backfill EV IDs in the ledger from what's in the folder, and refresh the folder index.",["design-research:research-repository"])],
+ "DI-P1":[A("prep","Research sprint plan","Plan the research sprint: goals, schedule, methods, participants and outputs.",["design-ops:design-sprint-plan"])],
+ "DI-P2":[A("synth","Analytics health check","Analyse the analytics exports in inputs: tracking health, key funnels, drop-offs and anomalies, with what each means for the questions we're answering.",["design-research:behavioural-analytics","data:analyze"],1)],
+ "DI-P3":[A("report","Content and UX audit","Audit the current site's content and UX against the brief; prioritised findings with evidence and screenshots.",["code-ux-review"])],
+ "DI-P4":[A("report","Expert review","Run a heuristic expert review of the current experience; severity-rated findings with recommended fixes.",["code-ux-review","prototyping-testing:heuristic-evaluation"])],
+ "DI-P5":[A("prep","Tech review plan","Plan the tech review: what to inspect, access needed, questions for the client's developers, and the report outline.",["program-planning:dependency-map"]),A("synth","Tech review write-up","Write up the tech review from the audit notes in inputs: north star, current product understood, keep/fix/replace, constraints.",["delivery-execution:risk-register"],1)],
+ "DI-P6":[A("draft","Spike plan","Define the product spike: question, approach, timebox and what would count as feasible.",[])],
+ "DI-P7":[A("draft","Experiment design","Design the experiments: hypotheses, variants, metrics and sample size.",["prototyping-testing:experiment"])],
+ "DI-P8":[A("report","Accessibility audit","Audit accessibility against WCAG 2.2 AA; findings by severity and the NFRs they imply.",["design-systems:accessibility-audit"])],
+ "DI-B1":[A("prep","Stakeholder interview guide","Draft the stakeholder interview guide per role, with each question traced to an AS or BR item.",["design-research:interview-script"]),A("synth","GROW write-up","Summarise each stakeholder interview in inputs, then synthesise into the GROW write-up; log EV and BR items with sources.",["design-research:summarize-interview","design-research:synthesize"],1)],
+ "DI-B2":[A("prep","Observation guide","Draft the shadowing guide and the stakeholder map: who to observe, what to watch for, how to capture.",["stakeholder-comms:stakeholder-map"]),A("synth","Observation write-up","Turn the shadowing notes in inputs into timelines, pain points and a stakeholder map; log EV items.",["design-research:synthesize"],1)],
+ "DI-B3":[A("prep","Staff interview guide","Draft the staff interview guide per team.",["design-research:interview-script"]),A("synth","Staff interview write-up","Summarise the staff interviews in inputs and synthesise themes; log EV items.",["design-research:summarize-interview","design-research:synthesize"],1)],
+ "DI-B4":[A("prep","Governance workshop plan","Plan the content governance workshop: aims, agenda, exercises, attendees.",["stakeholder-comms:alignment-workshop"]),A("synth","Governance write-up","Write up the workshop from the notes in inputs: owners, workflow, rules; log BR items.",[],1)],
+ "DI-M1":[A("report","Competitor review","Review the competitors and comparable experiences; patterns, gaps and opportunities with screenshots.",["code-market-review"])],
+ "DI-M2":[A("report","Customer segment review","Review the existing customer segments from the data in inputs; segment profiles and what they mean for the work.",["code-ux-userprofile"],1)],
+ "DI-M3":[A("report","Brand review","Review how the brand shows up across channels today against its guidelines.",["visual-critique:critique-brand-consistency"])],
+ "DI-M4":[A("prep","Brand proposition workshop plan","Plan the brand proposition workshop.",["stakeholder-comms:alignment-workshop"]),A("synth","Brand proposition write-up","Write up the workshop from the notes in inputs.",[],1)],
+ "DI-C1":[A("report","Customer opportunity review","Review the client's existing customer research in inputs: what it covers, what it says, and the gaps our research needs to fill.",["design-research:synthesize"],1)],
+ "DI-C2":[A("report","Market opportunity analysis","Analyse the market opportunity: size, segments, competitors and openings.",["ux-strategy:competitive-analysis"])],
+ "DI-C3":[A("prep","Discussion guide and screener","Draft the customer discussion guide and recruitment screener, each question traced to an AS item.",["design-research:interview-script"]),A("synth","Customer interview write-up","Summarise each customer interview in inputs, then synthesise themes; log EV items with quotes checked against the transcripts.",["design-research:summarize-interview","design-research:synthesize"],1)],
+ "DI-C4":[A("prep","Remote research plan","Plan the remote research: method, tasks, participants and tooling.",["design-research:test-plan"]),A("synth","Remote research write-up","Write up the remote sessions in inputs; log EV items.",["design-research:summarize-interview"],1)],
+ "DI-C5":[A("prep","Diary study plan","Plan the diary study: prompts, cadence, participants, incentives.",["design-research:diary-study-plan"]),A("synth","Diary study write-up","Synthesise the diary entries in inputs into behaviour over time; log EV items.",["design-research:synthesize"],1)],
+ "DI-C6":[A("prep","Usability test plan","Write the usability test plan: tasks, metrics, participants, script.",["design-research:test-plan"]),A("synth","Usability findings","Write up the sessions in inputs as findings with severity; log TF items.",["design-research:summarize-interview"],1)],
+ "DI-C7":[A("prep","Field guide","Draft the contextual observation field guide: what to observe, questions, capture template.",["design-research:interview-script"]),A("synth","Field visit write-up","Turn the field notes in inputs into timelines and pain points; log EV items.",["design-research:synthesize"],1)],
+ "VI-1":[A("synth","Insight register and profiles","Synthesise the checked Discovery evidence into the insight register (IN items with sources) and profiles.",["design-research:synthesize","code-ux-userprofile"],1)],
+ "VI-2":[A("synth","Journey map","Map the experience from the checked evidence: stages, actions, feelings, pain points and opportunities.",["cx-journey-map"],1)],
+ "VI-3":[A("synth","JTBD, opportunities and epics","Turn validated insights into jobs to be done, opportunities (OP) and the first draft of epics.",["design-research:jobs-to-be-done","ux-strategy:opportunity-framework"],1)],
+ "VI-4":[A("draft","Design principles","Draft early design principles and the visual direction.",["ux-strategy:design-principles"])],
+ "VI-5":[A("draft","Content strategy","Draft the content strategy and editorial principles.",["ux-strategy:content-strategy"])],
+ "VI-6":[A("draft","Tech map","Draft the target tech map: platforms, integrations, data flows, constraints and NFRs.",["program-planning:dependency-map"])],
+ "VI-7":[A("prep","Future possibilities sprint","Plan the design sprint and frame the options to explore.",["design-ops:plan-sprint","prototyping-testing:explore-options"])],
+ "VI-8":[A("draft","Service and product principles","Draft the service and product propositions and principles.",["ux-strategy:north-star-vision"])],
+ "VI-9":[A("report","Strategy deck","Build the service or product strategy presentation from the Vision work.",["ux-strategy:strategize","code-brand-style"])],
+ "VI-10":[A("draft","OKRs and hypotheses","Draft the OKRs and hypotheses in Code's format (Because we observed… → we believe… → measured by…).",["ux-strategy:metrics-definition"])],
+ "VI-11":[A("draft","Design challenge roadmap","Frame the design challenges and lay them out as the roadmap themes.",["ux-strategy:frame-problem"])],
+ "DF-1":[A("prep","Prioritisation session","Plan the prioritisation session and draft the road map to bring to it.",["program-planning:prioritisation-framework"])],
+ "DF-2":[A("draft","Measurement framework","Draft the measurement framework and dashboard spec.",["measurement-ops:define-metrics"])],
+ "DF-3":[A("draft","Tracking plan","Draft the analytics tracking plan for the framework.",["marketing-skills:analytics"])],
+ "DF-4":[A("prep","Design sprint plan and flows","Plan the design sprint and draft the flows to prototype, including error, empty and edge states.",["design-ops:plan-sprint","prototyping-testing:user-flow-diagram"])],
+ "DF-5":[A("draft","Content design","Write real copy for the prototype screens.",["designer-toolkit:ux-writing"])],
+ "DF-6":[A("draft","Information architecture","Draft the site map and navigation.",["ux-strategy:information-architecture"])],
+ "DF-7":[A("prep","Tree test plan","Plan the tree test: tree, tasks, participants.",["prototyping-testing:test-plan"]),A("synth","Tree test results","Analyse the tree test results in inputs; log TF items.",[],1)],
+ "DF-8":[A("draft","Component inventory","Draft the component inventory (new, changed, existing) and accessibility annotations.",["design-systems:audit-system","accessibility-decisions:handoff"])],
+ "DF-V":[A("prep","Prototype test plan","Write the prototype validation plan: hypotheses, tasks, participants.",["prototyping-testing:test-plan"]),A("synth","Test findings and scorecard","Write up the sessions in inputs: TF items with severity, iteration log and hypothesis scorecard.",["design-research:summarize-interview"],1)],
+ "DF-9":[A("draft","Story map","Run Build backlog: backbone, epics, steps and stories, every story traced to evidence.",["code-evidence-to-backlog"])],
+ "DF-10":[A("draft","MVP slice","Draw the MVP line and release slices, each with its outcome, hypotheses, dependencies and why this cut.",["code-evidence-to-backlog"])],
+ "DF-11":[A("draft","Experiment programme","Define the post-launch experiments, traced to HY items.",["prototyping-testing:experiment"])]
+};
+const AISTATE={requested:"✦ Sent to Claude",asking:"✦ Claude has questions: see the chat",working:"✦ Claude is working on it"};
+function hasInputs(id){const c=S.cards[id]||{};return entriesFor(id).some(e=>(e.type==="source"||e.type==="transcript")&&!LIN.bad(e.id))||(c.folderFiles||0)>0}
+function aiActive(id){const r=(S.cards[id]||{}).aiRun;return r&&AISTATE[r.status]?r:null}
+function runRequest(c,act,notes){
+ const es=entriesFor(c.id).filter(e=>!LIN.bad(e.id));const un=es.filter(e=>e.prov==="AI").length;
+ const lines=["▶ RUN AI · "+c.id+" "+c.name+" ("+STAGES[stageIdx(c.stage)].name+")",
+  "Task ("+MODES[act.mode]+"): "+act.label+". "+act.task,
+  "Skills: "+(act.skills.length?act.skills.join(", "):"pick the best fit; say if there's a gap"),
+  "Read first: Project Brain, Evidence Ledger, Research Repository, this card's knowledge ("+es.length+" entries, "+un+" unchecked) and the folder "+fullPath(folderOf(c))+" (inputs and outputs).",
+  "How: ask me any questions once, together, in the chat before you start; build only on checked work and say where you can't. Save to the card's outputs/ folder, log it on the card as AI so it lands in Needs a human, and reply here when it's done."];
+ if(notes)lines.push("Notes from the team: "+notes);
+ let t=lines.join("\n");const enc=new TextEncoder();while(enc.encode(t).length>4000)t=t.slice(0,-50);return t}
+async function aiCan(){if(!S.cm)return"off";try{return await S.cm.canSendToClaude()}catch{return"off"}}
+function runPanel(c,startOpen){
+ const acts=RUN[c.id];if(!acts||!S.canWrite)return null;
+ const live=aiActive(c.id);const inp=hasInputs(c.id);
+ let pick=acts.findIndex(a=>a.needs===inp);if(pick<0)pick=0;
+ const wrap=h("div",{class:"runbox"});
+ const big=h("button",{class:"runbig",type:"button","aria-expanded":"false"},h("span",{text:"▶ Run AI"}),h("span",{class:"runsub",text:live?AISTATE[live.status]:acts.length>1?"First pass, prep or synthesis":acts[0].label}));
+ const body=h("div",{class:"runbody",hidden:true});
+ const notes=h("textarea",{rows:"2",maxlength:"1200",placeholder:"Anything Claude should know? (optional) e.g. focus on the rep journey, use the 4 transcripts from Tuesday","aria-label":"Notes for Claude"});
+ const msg=h("div",{class:"runmsg"});
+ const opts=acts.length>1?h("div",{class:"runopts",role:"radiogroup","aria-label":"What should Claude do?"},...acts.map((a,i)=>{const r=h("input",{type:"radio",name:"runact",value:String(i),checked:i===pick});r.addEventListener("change",()=>{pick=i;desc()});return h("label",{class:"runopt"},r,h("span",null,h("b",{text:a.label})," ",h("span",{class:"tag",text:MODES[a.mode]})))})):null;
+ const what=h("div",{class:"runwhat"});
+ function desc(){const a=acts[pick];what.replaceChildren(...[
+  h("p",null,h("b",null,"Claude will: "),a.task),
+  h("p",null,h("b",null,"Skills: "),a.skills.length?a.skills.join(", "):"best fit (none mapped yet)"),
+  h("p",null,h("b",null,"It reads first: "),"the Project Brain, Evidence Ledger, Research Repository, this card's knowledge and its folder. It asks you any questions once, in the chat, then saves the output to the card's outputs/ and logs it here as AI for a human to check."),
+  a.needs&&!inp?h("p",{class:"runwarn"},"Nothing's in this card's inputs yet. Drop the material in "+fullPath(folderOf(c))+"/inputs first, or Claude will ask for it."):null].filter(Boolean))}
+ desc();
+ const send=h("button",{class:"btn primary",type:"button"},"Send to Claude");
+ const copy=h("button",{class:"btn",type:"button"},"Copy request");
+ copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(runRequest(c,acts[pick],notes.value.trim()));msg.textContent="Copied. Paste it into the Panache chat with Claude."}catch{msg.textContent="Couldn't copy here. Select the request from the ticket and copy it by hand."}});
+ send.addEventListener("click",async()=>{
+  msg.textContent="";const st=await aiCan();
+  if(st!=="available"){msg.textContent=st==="no_session"?"No Claude chat is watching this board right now. Open the Panache chat in Claude, then try again, or use Copy request.":st==="writers_only"?"Only editors of the board can send work to Claude. Use Copy request and paste it to someone who can.":"Sending to Claude isn't available in this view. Use Copy request and paste it into the Panache chat.";return}
+  send.disabled=true;msg.textContent="Sending…";
+  try{const el=document.querySelector('.card[data-id="'+c.id+'"]')||wrap;const anchor=await S.cm.anchorFor(el);
+   const r=await S.cm.sendToClaude({anchor,text:runRequest(c,acts[pick],notes.value.trim())});
+   const cur=card(c.id);await setCard(c.id,{lane:cur.lane==="todo"?"doing":cur.lane,aiRun:{status:"requested",action:acts[pick].label,mode:acts[pick].mode,thread:r.threadId,by:S.me||null,at:new Date().toISOString()}});
+   msg.textContent="Sent. Claude will ask any questions in the chat, then reply in the comment thread when the first pass is ready.";notes.value=""}
+  catch(e){const code=e&&e.code;msg.textContent=code==="consent_required"?"Not sent: allow the board to comment for you when asked, then press Send again.":code==="claude_unavailable"?"Not sent: Claude can't take requests from this view right now. Use Copy request.":code==="rate_limited"?"Not sent: too many requests just now. Wait a minute and try again.":code==="forbidden"?"Not sent: commenting from the board is switched off for you here. Use Copy request.":"Not sent: something went wrong. Try once more, or use Copy request."}
+  finally{send.disabled=false}});
+ body.append(opts||h("p",{class:"runone"},h("b",{text:acts[0].label})," ",h("span",{class:"tag",text:MODES[acts[0].mode]})),what,notes,h("div",{class:"runact"},send,copy),msg);
+ const toggle=o=>{body.hidden=!o;big.setAttribute("aria-expanded",String(o))};
+ big.addEventListener("click",()=>toggle(body.hidden));
+ if(live)wrap.append(h("div",{class:"runlive",text:AISTATE[live.status]+(live.action?" · "+live.action:"")+(live.at?" · "+new Date(live.at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}):"")}));
+ wrap.prepend(big);wrap.append(body);toggle(!!startOpen);return wrap}
+
 function whoName(by){return by==="claude"?"Claude":"…"}
 async function resolveWho(root){const els=[...root.querySelectorAll("[data-who]")].filter(e=>e.dataset.who&&e.dataset.who!=="claude");if(!els.length||!S.user||!S.user.profiles)return;
  try{const ps=await S.user.profiles([...new Set(els.map(e=>e.dataset.who))]);els.forEach(e=>{const p=ps[e.dataset.who];e.textContent=(p&&p.name)||"Someone"})}catch{}}
@@ -420,15 +572,19 @@ function knSection(cardId){
   [t,b].forEach(x=>x.addEventListener("input",()=>er.textContent=""))}
  setTimeout(()=>resolveWho(box),0);return box}
 function cardEl(c){
- const b=h("button",{class:"card",draggable:S.canWrite?"true":null,"data-id":c.id,onclick:()=>openCard(c.id),ondragstart:e=>{e.dataTransfer.setData("text/plain",c.id)}},
+ const live=aiActive(c.id),can=RUN[c.id]&&S.canWrite&&c.lane!=="done";
+ const b=h("button",{class:"card"+(can?" hasrun":""),draggable:S.canWrite?"true":null,"data-id":c.id,onclick:()=>openCard(c.id),ondragstart:e=>{e.dataTransfer.setData("text/plain",c.id)}},
   h("span",{class:"id"},c.spine?h("span",{class:"spinedot",title:"Evidence spine: needed for evidence-backed stories","aria-label":"Evidence spine"}):null,c.id),h("span",{class:"t",text:c.name}),
   h("div",{class:"meta"},c.early?h("span",{class:"tag early"},"early"):null,
    c.prov?h("span",{class:"prov "+c.prov,text:c.prov==="AIV"?"AI✓":c.prov}):null,
    c.owner?h("span",{class:"tag",text:c.owner}):null,
    c.link&&safeUrl(c.link)?h("span",{class:"tag",style:"background:#E3E7FF;color:var(--blue)"},"🔗 linked"):null,
    S.cards[c.id]&&(S.cards[c.id].folderUrl||S.cards[c.id].folderFiles)?h("span",{class:"tag",title:folderOf(c)},"📁"+(S.cards[c.id].folderFiles?" "+S.cards[c.id].folderFiles:"")):null,
-   ...knTags(c.id)));
- return b;
+   ...knTags(c.id)),
+  live?h("div",{class:"ailive",text:AISTATE[live.status]}):null);
+ if(!can)return b;
+ const run=h("button",{class:"runai",type:"button","aria-label":"Run AI on "+c.id+" "+c.name,onclick:()=>openCard(c.id,true)},live?"✦ Claude on it":"▶ Run AI");
+ return h("div",{class:"cardwrap"},b,run);
 }
 function qStale(qid){const d=S.qs[qid]||{};return (d.uses||[]).filter(u=>LIN.bad(u)||LIN.stale[u])}
 function qOk(qid){const d=S.qs[qid]||{};return !!d.answered&&!!(d.answer||"").trim()&&!qStale(qid).length}
@@ -520,6 +676,36 @@ function folderRootEl(){
   h("span",{style:"font-weight:500;color:var(--navy)"},"📁 Project folder"),inp,
   u?h("a",{class:"btn small",href:u,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open ↗"):null,
   S.canWrite?h("button",{class:"btn small",type:"button",onclick:()=>{const v=inp.value.trim();if(v!==(S.meta.folderRoot||""))write("board/meta",{...S.meta,folderRoot:v,edit:stamp()},true)}},"Save"):null)}
+function artefactItems(){
+ const out=[];const seen=new Set();
+ for(const m of LIB){const c=card(m.id);const es=entriesFor(m.id).filter(e=>!LIN.bad(e.id));
+  const add=(o)=>{const k=o.url||o.path;if(!k||seen.has(k))return;seen.add(k);out.push({card:c,...o})};
+  for(const e of es){if(e.type==="chat"||e.type==="note")continue;const u=safeUrl(e.link||"");
+   const isOut=e.type!=="source"&&e.type!=="transcript";
+   if(!u&&!e.source)continue;
+   add({title:e.title||"Untitled",url:u||null,path:e.source?fullPath(e.source):null,prov:e.prov,kind:isOut?(TYPES[e.type]||"Output"):"Input",stale:!!LIN.stale[e.id]})}
+  if(c.link&&safeUrl(c.link))add({title:"Linked artefact",url:safeUrl(c.link),prov:c.prov,kind:"Artefact"})}
+ return out}
+function renderArtefacts(){
+ const wrap=h("div",{class:"arts"});const items=artefactItems();
+ const pl=(S.meta.links||[]).filter(l=>l&&safeUrl(l.url));
+ wrap.append(h("p",{class:"sub",text:"Everything made or collected for this project, by stage and method. Open links go to the artefact; folder paths show where its file lives in the project folder."}),folderRootEl());
+ if(pl.length)wrap.append(h("section",{class:"artsec"},h("h3",{text:"Project"}),h("ul",{class:"artlist"},...pl.map(l=>h("li",null,h("a",{href:safeUrl(l.url),target:"_blank",rel:"noopener",class:"arttitle",text:l.title||l.url}),l.note?h("span",{class:"artnote",text:l.note}):null)))));
+ const showOuts=S.artFilter!=="all";
+ const filt=h("div",{class:"artfilter",role:"radiogroup","aria-label":"Show"},...[["outputs","Outputs"],["all","Outputs and inputs"]].map(([v,l])=>{const r=h("input",{type:"radio",name:"artf",value:v,checked:(S.artFilter||"outputs")===v});r.addEventListener("change",()=>{S.artFilter=v;render()});return h("label",null,r," "+l)}));
+ wrap.append(filt);
+ let any=false;
+ for(const st of STAGES){const its=items.filter(i=>i.card.stage===st.id&&(!showOuts||i.kind!=="Input"));if(!its.length)continue;any=true;
+  const byCard=[...new Set(its.map(i=>i.card.id))];
+  wrap.append(h("section",{class:"artsec"},h("h3",{text:st.name}),...byCard.map(cid=>{const c=card(cid);
+   return h("div",{class:"artcard"},h("button",{class:"artcardh",type:"button",onclick:()=>openCard(cid)},h("span",{class:"id",text:cid}),h("span",{text:c.name})),
+    h("ul",{class:"artlist"},...its.filter(i=>i.card.id===cid).map(i=>h("li",null,
+     h("span",{class:"tag",text:i.kind}),i.prov?h("span",{class:"prov "+i.prov,text:i.prov==="AIV"?"AI✓":i.prov}):null,
+     i.url?h("a",{href:i.url,target:"_blank",rel:"noopener",class:"arttitle",text:i.title+" ↗"}):h("span",{class:"arttitle",text:i.title}),
+     i.stale?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ out of date"):null,
+     i.path?h("button",{class:"artpath",type:"button",title:"Copy folder path",onclick:async(ev)=>{try{await navigator.clipboard.writeText(i.path);ev.currentTarget.textContent="Copied"}catch{}}},"📁 "+i.path.split("/").slice(-1)[0]):null))))})))}
+ if(!any)wrap.append(h("p",{class:"sub",text:"Nothing made yet. Outputs appear here as soon as they're logged on a card."}));
+ $("#view").replaceChildren(wrap)}
 function renderScope(){
  const wrap=h("div",{class:"scope"});
  const inn=LIB.filter(m=>card(m.id).in),spineOut=LIB.filter(m=>m.spine&&!card(m.id).in);
@@ -550,7 +736,7 @@ function folderBox(c){
   fu?h("a",{class:"btn small",href:fu,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open"):null,
   set?h("button",{class:"btn small",type:"button",onclick:e=>copyText(path,e.target)},"Copy path"):null)}
 function refreshKn(){if(S.open&&$("#dlg").open){const w=$("#knwrap");if(w)w.replaceChildren(knSection(S.open))}}
-function openCard(id){
+function openCard(id,openRun){
  const c=card(id);const f=$("#dform");const ro=!S.canWrite;
  const lane=h("select",{id:"f-lane",disabled:ro},...LANES.map(([v,l])=>h("option",{value:v,selected:c.lane===v},l)));
  const prov=h("select",{id:"f-prov",disabled:ro},h("option",{value:"",selected:!c.prov},"Not set"),h("option",{value:"H",selected:c.prov==="H"},"H · made by a human"),h("option",{value:"AI",selected:c.prov==="AI"},"AI · draft, not yet validated"),h("option",{value:"AIV",selected:c.prov==="AIV"},"AI✓ · validated by a human"));
@@ -561,6 +747,7 @@ function openCard(id){
  const err=h("div",{class:"err"});
  const url=safeUrl(c.link);
  f.replaceChildren(...[h("h2",{text:c.id+" · "+c.name}),h("div",{style:"font-size:12px;color:var(--muted)",text:STAGES[stageIdx(c.stage)].name+" · "+c.group+(c.spine?" · evidence spine":"")}),
+  runPanel(c,openRun),
   c.art?h("p",{style:"margin:8px 0 0;font-size:13px"},h("b",null,"Artefacts: "),c.art):null,
   url?h("p",{style:"margin:6px 0 0"},h("a",{href:url,target:"_blank",rel:"noopener"},"Open artefact ↗")):null,
   folderBox(c),
@@ -579,15 +766,15 @@ function render(){
  $("#pname").value=S.meta.name||"New project";{const pl=$("#ploc");const rl=rootLabel();const u=safeUrl(S.meta.folderRootUrl||"");pl.replaceChildren(rl?"📁 "+rl:"📁 Project folder not set yet",...(u?[" ",h("a",{href:u,target:"_blank",rel:"noopener",style:"color:var(--lime)"},"Open ↗")]:[]))}$("#pname").readOnly=!S.canWrite;
  renderStats();renderInbox();
  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===S.view)));
- S.view==="scope"?renderScope():renderBoard();
+ S.view==="scope"?renderScope():S.view==="artefacts"?renderArtefacts():renderBoard();
 }
-function go(v){S.view=v;if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);render()}
+function go(v){S.view=v;try{if(location.hash!=="#"+v)history.replaceState(null,"","#"+v)}catch{/* sandboxed preview (about:srcdoc) refuses URL changes; the view still switches */}render()}
 $("#dlg").addEventListener("close",()=>{S.open=null});
 $("#inboxbtn").addEventListener("click",()=>{if(S.view!=="board")go("board");toggleInbox()});
 try{S.inboxOpen=localStorage.getItem("sb-inbox")==="1"}catch{}
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.view)));
-window.addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(v==="board"||v==="scope"){S.view=v;render()}});
-S.view=location.hash==="#scope"?"scope":"board";
+window.addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(v==="board"||v==="scope"||v==="artefacts"){S.view=v;render()}});
+S.view=location.hash==="#scope"?"scope":location.hash==="#artefacts"?"artefacts":"board";
 $("#pname").addEventListener("change",e=>{const v=e.target.value.trim()||"New project";if(v!==S.meta.name)write("board/meta",{...S.meta,name:v,edit:stamp()},true)});
 render();
 
@@ -597,6 +784,7 @@ render();
  if(!db){snap.textContent="Offline preview: changes can't be saved here";S.canWrite=false;render();return}
  S.db=db;
  const user=await claude.use("user");S.user=user;
+ claude.use("comments").then(cm=>{S.cm=cm||null}).catch(()=>{S.cm=null});
  if(user){try{S.me=await user.id()}catch{} try{const w=await user.can("data.write");if(w===false)S.canWrite=false}catch{}}
  let pending=5;const timer=setTimeout(()=>{snap.textContent="Can't reach the board's data yet. What you see may be out of date."},10000);
  const loaded=m=>{if(!m.fromCache&&--pending<=0){clearTimeout(timer);snap.textContent="Shared board · updates live"}};

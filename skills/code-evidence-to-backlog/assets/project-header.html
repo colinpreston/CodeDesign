@@ -1,0 +1,16 @@
+<!-- Project header bar (code-evidence-to-backlog). Paste straight after <body> in every hand-built page made for a project with a stage board.
+     Fill: {{BOARD_URL}} (the project's stage board), {{PROJECT}} (short client name), {{HERE}} (method ID and artefact name, e.g. "DI-B1 · GROW write-up").
+     Self-contained: its own class names and styles, no scripts. Keep it first in the page so it's the first thing people see. -->
+<nav class="pjbar" aria-label="Project navigation">
+  <a class="pjbar-back" href="{{BOARD_URL}}">&larr; {{PROJECT}} stage board</a>
+  <span class="pjbar-here">{{HERE}}</span>
+  <a class="pjbar-all" href="{{BOARD_URL}}#artefacts">All artefacts</a>
+</nav>
+<style>
+.pjbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-sizing:border-box;width:100%;background:#000050;color:#fff;font:500 13px/1.3 Poppins,system-ui,-apple-system,sans-serif;padding:9px 16px;border-radius:10px;margin:0 0 20px}
+.pjbar a{color:#B0F467;text-decoration:none;font-weight:600}
+.pjbar a:hover,.pjbar a:focus-visible{text-decoration:underline;outline:none}
+.pjbar-here{flex:1;min-width:0;color:#fff;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pjbar-all{font-weight:500!important}
+@media print{.pjbar{display:none}}
+</style>
