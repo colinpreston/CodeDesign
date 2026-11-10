@@ -129,6 +129,58 @@ dialog::backdrop{background:rgba(0,0,80,.35)}
 .chk input{flex:1;min-width:150px;border:1px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12px}
 dialog{max-height:90vh}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* spacing pass */
+.inadd[hidden]{display:none}
+.dlg{display:flex;flex-direction:column;padding-top:0}
+.dlg>.actions{order:-1;position:sticky;top:0;z-index:3;margin:0 -18px 14px;padding:12px 18px;background:#fff;border-bottom:1px solid var(--line);justify-content:flex-end}
+dialog{overflow:auto}
+.note{margin-left:auto}
+.inboxbtn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:5px 14px;font-weight:500;font-size:13px}
+.inboxbtn[aria-expanded=true]{background:var(--navy);color:#fff}
+.inboxbtn .badge{min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#E5484D;color:#fff;font-size:11.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.inboxbtn .badge.zero{background:var(--panel);color:var(--muted)}
+#inbox[hidden]{display:none}
+body{font-size:14.5px;line-height:1.55}
+.top{padding:22px 32px 0}
+.stats{gap:12px}
+.stat{min-width:0;padding:10px 16px;border-radius:12px}
+.stat b{font-size:19px}
+.stepper{margin-top:20px;gap:6px}
+.step{padding:10px 16px}
+.step small{display:none}
+.step.cur small{display:block;opacity:.75;font-weight:400}
+.tabs{padding:18px 32px 0;gap:20px}
+.banner{margin:12px 32px 0}
+.inbox{margin:18px 32px 0;padding:12px 18px;border-radius:14px}
+.inbox h2{margin:0;font-size:13.5px}
+.inhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.inhead .muted{color:var(--muted);font-size:13px}
+.inrow{padding:10px 0}
+.board{gap:20px;padding:24px 32px 40px}
+.col{flex:0 0 380px;padding:20px 18px;border-radius:18px}
+.col.slim{flex-basis:330px}
+.colhead h3{font-size:18px}
+.colhead p{margin:4px 0 16px;font-size:12.5px}
+.lane{padding:10px;margin-bottom:12px;border-radius:12px;min-height:0}
+.lane h4{margin:0 0 10px;font-size:11px;letter-spacing:.06em}
+.lane.empty{padding:8px 10px;background:transparent;border:1px dashed var(--line)}
+.lane.empty h4{margin:0;color:#A0A6C0}
+.lane.empty.human,.lane.empty.done{background:transparent}
+.card{padding:12px 14px;margin-bottom:10px;border-radius:10px;font-size:13px}
+.card:last-child{margin-bottom:0}
+.card .id{display:block;font-size:11px;letter-spacing:.04em;margin:0 0 2px}
+.card .t{font-size:14px;line-height:1.35}
+.card .meta{margin-top:8px;gap:6px}
+.spinedot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--navy);margin-right:6px;vertical-align:1px}
+.qs{margin-top:8px;padding-top:14px}
+.qs h4{margin:0 0 10px;font-size:12px}
+.qcard{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:13px;color:var(--body);line-height:1.4}
+.qcard:hover,.qcard:focus-visible{border-color:var(--navy);outline:none}
+.qdot{flex:0 0 10px;height:10px;border-radius:50%;margin-top:4px;border:2px solid #B6C0D0}
+.qdot.ok{background:#5BB536;border-color:#5BB536}.qdot.wait{background:#F2C14E;border-color:#F2C14E}.qdot.bad{background:#D9534F;border-color:#D9534F}
+.gate{margin-top:14px;padding:12px 14px;border-radius:12px}
+.outnote{margin-top:10px}
 @media print{.tabs,.inadd,.btn{display:none}.board{flex-wrap:wrap;overflow:visible}}
 </style>
 </head>
@@ -148,6 +200,7 @@ dialog{max-height:90vh}
   <button class="tab" role="tab" id="tab-board" data-view="board">Board</button>
   <button class="tab" role="tab" id="tab-scope" data-view="scope">Scope (method library)</button>
   <span class="note" id="snap">Connecting…</span>
+  <button class="inboxbtn" id="inboxbtn" type="button" aria-expanded="false" aria-controls="inbox">Inbox</button>
 </div>
 <div id="banner" class="banner" hidden></div>
 <section class="inbox" id="inbox" aria-label="Inbox"></section>
@@ -268,21 +321,28 @@ function renderStats(){
  const qs=QS.filter(q=>q[0]===st),ans=qs.filter(q=>qOk(q[1])).length;
  const done=inScope.filter(m=>card(m.id).lane==="done").length;
  const box=$("#stats");box.replaceChildren(
-  h("div",{class:"stat"},h("b",{text:STAGES[i].name}),h("span",{text:"Current stage"})),
-  h("div",{class:"stat"},h("b",{text:ans+" of "+qs.length}),h("span",{text:"Questions answered · "+STAGES[i].gate.split(" · ")[0]})),
+  h("div",{class:"stat",title:"Approved answers to the "+STAGES[i].name+" questions. Every one must be approved before "+STAGES[i].name+" can be signed off."},h("b",{text:ans+" of "+qs.length}),h("span",{text:STAGES[i].name+" questions approved"})),
   h("div",{class:"stat"+(human?" alert":"")},h("b",{text:String(human)}),h("span",{text:"Needs a human"})),
-  ...(Object.keys(LIN.stale).length?[h("div",{class:"stat alert",style:"background:#FDE2E1"},h("b",{text:String(Object.keys(LIN.stale).length)}),h("span",{text:"Out of date after a correction"}))]:[]),
+  ...(Object.keys(LIN.stale).length?[h("div",{class:"stat alert",style:"background:#FDE2E1"},h("b",{text:String(Object.keys(LIN.stale).length)}),h("span",{text:"Out of date"}))]:[]),
   h("div",{class:"stat"},h("b",{text:done+" / "+inScope.length}),h("span",{text:"Methods done"})));
  const sp=$("#stepper");sp.replaceChildren(...STAGES.map((s,j)=>h("button",{class:"step"+(S.meta.gates&&S.meta.gates[s.id]?" done":"")+(j===i?" cur":""),"aria-current":j===i?"step":null,onclick:()=>{go("board");setTimeout(()=>document.getElementById("col-"+s.id)?.scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"}),30)}},s.name,h("small",{text:s.q}))));
 }
 function renderInbox(){
- const box=$("#inbox");const items=S.inbox.filter(x=>!x.done);
+ const box=$("#inbox");const items=S.inbox.filter(x=>!x.done);const n=items.length;
+ const btn=$("#inboxbtn");btn.setAttribute("aria-expanded",String(!!S.inboxOpen));
+ btn.setAttribute("aria-label","Inbox, "+n+" waiting"+(S.inboxOpen?", open":""));
+ btn.replaceChildren("Inbox",h("span",{class:"badge"+(n?"":" zero"),text:String(n)}));
+ box.hidden=!S.inboxOpen||S.view!=="board";
+ if(box.hidden)return;
  const rows=items.map(x=>h("div",{class:"inrow"},h("div",{class:"txt"},x.text,x.action?h("div",{class:"act",text:"→ "+x.action}):null,x.at?h("div",{class:"act",style:"color:var(--muted)",text:new Date(x.at).toLocaleDateString("en-GB")}):null),
-  S.canWrite?h("button",{class:"btn small",onclick:()=>write("inbox/"+x.id,{...x,done:true,doneAt:new Date().toISOString()})},"Clear"):null));
+  S.canWrite?h("button",{class:"btn small",onclick:()=>write("inbox/"+x.id,{...x,done:true,doneAt:new Date().toISOString()})},"Done"):null));
  const inp=h("input",{type:"text",placeholder:"Brief from client received, 12 Nov","aria-label":"New inbox item",maxlength:"200"});
- const add=h("form",{class:"inadd",onsubmit:async e=>{e.preventDefault();const t=inp.value.trim();if(!t){inp.focus();return}const id="in"+Date.now().toString(36);if(await write("inbox/"+id,{id,text:t,action:"",at:new Date().toISOString(),done:false}))inp.value=""}},inp,h("button",{class:"btn",type:"submit"},"Add to inbox"));
- box.replaceChildren(h("h2",{text:"Inbox · new inputs waiting for a next step ("+items.length+")"}),...(rows.length?rows:[h("div",{class:"inrow",style:"color:var(--muted)"},"Nothing waiting. Add a brief, email or research pack when one lands.")]),...(S.canWrite?[add]:[]));
+ const er=h("div",{class:"err"});inp.addEventListener("input",()=>er.textContent="");
+ const add=h("form",{class:"inadd",onsubmit:async e=>{e.preventDefault();const t=inp.value.trim();if(!t){er.textContent="Write what's come in first.";inp.focus();return}const id="in"+Date.now().toString(36);if(await write("inbox/"+id,{id,text:t,action:"",at:new Date().toISOString(),done:false}))inp.value=""}},inp,h("button",{class:"btn",type:"submit"},"Add"));
+ box.replaceChildren(h("div",{class:"inhead"},h("h2",{text:"Inbox"}),h("span",{class:"muted",text:n?n+" waiting for a next step":"Nothing waiting"}),h("button",{class:"btn small",type:"button",style:"margin-left:auto",onclick:()=>toggleInbox(false)},"Close")),
+  ...rows,...(S.canWrite?[add,er]:[]));
 }
+function toggleInbox(open){S.inboxOpen=open===undefined?!S.inboxOpen:open;try{localStorage.setItem("sb-inbox",S.inboxOpen?"1":"0")}catch{}render();if(S.inboxOpen)setTimeout(()=>$("#inbox input")?.focus(),0);else $("#inboxbtn").focus()}
 function lineage(){
  const by={};S.entries.forEach(e=>by[e.id]=e);
  const superseded=new Set(S.entries.filter(e=>e.supersedes).map(e=>e.supersedes));
@@ -353,9 +413,8 @@ function knSection(cardId){
  setTimeout(()=>resolveWho(box),0);return box}
 function cardEl(c){
  const b=h("button",{class:"card",draggable:S.canWrite?"true":null,"data-id":c.id,onclick:()=>openCard(c.id),ondragstart:e=>{e.dataTransfer.setData("text/plain",c.id)}},
-  h("div",null,h("span",{class:"id",text:c.id}),h("span",{class:"t",text:c.name})),
-  c.art?h("div",{class:"art",text:c.art}):null,
-  h("div",{class:"meta"},c.spine?h("span",{class:"tag spine",title:"Evidence spine"},"spine"):null,c.early?h("span",{class:"tag early"},"early"):null,
+  h("span",{class:"id"},c.spine?h("span",{class:"spinedot",title:"Evidence spine: needed for evidence-backed stories","aria-label":"Evidence spine"}):null,c.id),h("span",{class:"t",text:c.name}),
+  h("div",{class:"meta"},c.early?h("span",{class:"tag early"},"early"):null,
    c.prov?h("span",{class:"prov "+c.prov,text:c.prov==="AIV"?"AI✓":c.prov}):null,
    c.owner?h("span",{class:"tag",text:c.owner}):null,
    c.link&&safeUrl(c.link)?h("span",{class:"tag",style:"background:#E3E7FF;color:var(--blue)"},"🔗 linked"):null,
@@ -369,12 +428,8 @@ function qStatus(qid){const d=S.qs[qid]||{};const ans=(d.answer||"").trim();
  if(!ans)return["No answer yet","var(--panel)","var(--muted)"];if(qStale(qid).length)return["⚠ Re-check","#FDE2E1","#9B1C1C"];
  if(d.answered)return["✓ Approved","#EEFBDD","#2E6B00"];return["Awaiting approval","var(--warnbg)","var(--warn)"]}
 function questionEl(q){
- const qid=q[1],d=S.qs[qid]||{},ans=(d.answer||"").trim(),[lab,bg,fg]=qStatus(qid);
- return h("button",{class:"card",type:"button",onclick:()=>openQuestion(q)},
-  h("div",{class:"t",text:q[2]}),
-  ans?h("div",{class:"art",style:"display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden",text:ans}):null,
-  h("div",{class:"meta"},h("span",{class:"tag",style:"background:"+bg+";color:"+fg,text:lab}),ans?h("span",{class:"prov "+(d.prov||"H"),text:d.prov==="AIV"?"AI✓":(d.prov||"H")}):null,
-   (d.uses&&d.uses.length)?h("span",{class:"tag",text:"📎 "+d.uses.length+" source"+(d.uses.length>1?"s":"")}):null,q[3]?h("span",{class:"tag",text:"proposed"}):null))}
+ const qid=q[1],[lab]=qStatus(qid);const cls={"✓ Approved":"ok","Awaiting approval":"wait","⚠ Re-check":"bad"}[lab]||"";
+ return h("button",{class:"qcard",type:"button",title:lab,onclick:()=>openQuestion(q)},h("span",{class:"qdot "+cls,"aria-label":lab}),h("span",{text:q[2]}))}
 function openQuestion(q){
  const qid=q[1],d=S.qs[qid]||{},ans=(d.answer||"").trim(),st=qStale(qid),[lab,bg,fg]=qStatus(qid);
  const stg=STAGES[stageIdx(q[0])];const f=$("#dform");S.open=null;
@@ -417,12 +472,12 @@ function renderBoard(){
   const inn=ms.filter(c=>c.in),out=ms.length-inn.length;
   const lanes=LANES.map(([lid,lname])=>{
    const cs=inn.filter(c=>c.lane===lid);
-   const lane=h("div",{class:"lane "+lid,"data-lane":lid,"aria-label":s.name+" "+lname},h("h4",null,h("span",{text:lname}),h("span",{text:String(cs.length)})),...cs.map(cardEl));
+   const lane=h("div",{class:"lane "+lid+(cs.length?"":" empty"),"data-lane":lid,"aria-label":s.name+" "+lname},h("h4",null,h("span",{text:lname}),cs.length?h("span",{text:String(cs.length)}):null),...cs.map(cardEl));
    if(S.canWrite){lane.addEventListener("dragover",e=>{e.preventDefault();lane.classList.add("over")});lane.addEventListener("dragleave",()=>lane.classList.remove("over"));
     lane.addEventListener("drop",e=>{e.preventDefault();lane.classList.remove("over");const id=e.dataTransfer.getData("text/plain");const c=LIB.find(m=>m.id===id);if(!c||c.stage!==s.id)return;const patch={lane:lid};if(lid==="done"&&stageIdx(c.stage)>ci)patch.early=true;setCard(id,patch)})}
    return lane});
   const qs=QS.filter(q=>q[0]===s.id);
-  const qel=h("div",{class:"qs"},h("h4",null,"Questions to be answered ",h("span",{style:"font-weight:400;color:var(--muted)",text:"· "+qs.filter(q=>qOk(q[1])).length+"/"+qs.length+" approved"})),...qs.map(q=>questionEl(q)));
+  const qel=h("div",{class:"qs"},h("h4",null,"Questions ",h("span",{style:"font-weight:400;color:var(--muted)",text:"· "+qs.filter(q=>qOk(q[1])).length+" of "+qs.length+" approved"})),...qs.map(q=>questionEl(q)));
   const passed=S.meta.gates&&S.meta.gates[s.id];
   const allAns=qs.every(q=>qOk(q[1]));
   const human=inn.filter(c=>c.lane==="human").length;
@@ -430,6 +485,7 @@ function renderBoard(){
   const stStage=S.entries.filter(e=>LIN.stale[e.id]&&LIB.find(m=>m.id===e.card&&m.stage===s.id)).length;
   if(passed){gate=h("div",{class:"gate passed"},"✓ "+s.gate+" passed ",h("span",{class:"signer","data-uid":passed.by||"",text:""}),passed.at?" · "+new Date(passed.at).toLocaleDateString("en-GB"):"",
    stStage?h("div",{class:"warnline",text:"⚠ "+stStage+" thing"+(stStage>1?"s":"")+" this sign-off rested on "+(stStage>1?"have":"has")+" changed since. Re-check before relying on it."}):null)}
+  else if(j!==ci){gate=h("div",{style:"margin-top:14px;font-size:12px;color:var(--muted)",text:s.gate+" · not yet"})}
   else{const why=!allAns?"Every question needs an approved, up-to-date answer first.":stStage?stStage+" item"+(stStage>1?"s are":" is")+" out of date after a correction.":human?human+" item"+(human>1?"s":"")+" still need a human.":j!==ci?"Pass the earlier stages first.":"";
    gate=h("div",{class:"gate"},h("div",{text:s.gate}),why?h("div",{style:"opacity:.8;font-size:12px",text:why}):h("div",{style:"font-size:12px",text:"Ready for sign-off."}),
     S.canWrite?h("button",{class:"btn lime small",disabled:!!why,onclick:()=>passGate(s.id)},"Sign off and move on"):null)}
@@ -479,14 +535,12 @@ function renderScope(){
 }
 function folderBox(c){
  const rel=folderOf(c);const set=!!(S.meta.folderRoot||S.meta.folderRootUrl);const path=fullPath(rel);const fu=folderUrlOf(c)||null;
- const cp=h("button",{class:"btn small",type:"button",onclick:e=>copyText(path,e.target)},"Copy path");
- const rl=rootLabel();
- return h("div",{style:"margin-top:10px;padding:8px 10px;background:"+(set?"var(--panel)":"var(--warnbg)")+";border-radius:10px;font-size:12.5px"},
-  h("div",{style:"font-weight:500;color:var(--navy)"},"📁 Lives in the project folder",S.cards[c.id]&&S.cards[c.id].folderFiles?" · "+S.cards[c.id].folderFiles+" files":""),
-  rl?h("div",{style:"font-size:11.5px;color:var(--muted);margin-top:2px",text:rl}):h("div",{style:"font-size:12px;color:var(--warn);margin-top:2px",text:"Project folder location not set yet. Claude sets it at setup from the connected desktop folder or the shared cloud link."}),
-  h("div",{style:"font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all;margin:3px 0",text:path}),
-  h("div",{style:"color:var(--muted);font-size:11.5px",text:"inputs/ for what we collect, outputs/ for what we make. Tell Claude \"it's in the project folder\" and it checks here and logs what it finds."}),
-  h("div",{style:"display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"},fu?h("a",{class:"btn small",href:fu,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open folder ↗"):null,cp))}
+ const n=S.cards[c.id]&&S.cards[c.id].folderFiles;
+ return h("div",{style:"margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:10px"},
+  h("span",{style:"font-weight:500;color:var(--navy);font-size:13px"},"📁 "+(n?n+" files":"Folder")),
+  set?h("span",{style:"flex:1;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap",title:path,text:rel}):h("span",{style:"flex:1;font-size:12px;color:var(--warn)",text:"Project folder not set yet"}),
+  fu?h("a",{class:"btn small",href:fu,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open"):null,
+  set?h("button",{class:"btn small",type:"button",onclick:e=>copyText(path,e.target)},"Copy path"):null)}
 function refreshKn(){if(S.open&&$("#dlg").open){const w=$("#knwrap");if(w)w.replaceChildren(knSection(S.open))}}
 function openCard(id){
  const c=card(id);const f=$("#dform");const ro=!S.canWrite;
@@ -517,11 +571,12 @@ function render(){
  $("#pname").value=S.meta.name||"New project";{const pl=$("#ploc");const rl=rootLabel();const u=safeUrl(S.meta.folderRootUrl||"");pl.replaceChildren(rl?"📁 "+rl:"📁 Project folder not set yet",...(u?[" ",h("a",{href:u,target:"_blank",rel:"noopener",style:"color:var(--lime)"},"Open ↗")]:[]))}$("#pname").readOnly=!S.canWrite;
  renderStats();renderInbox();
  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.view===S.view)));
- $("#inbox").hidden=S.view!=="board";
  S.view==="scope"?renderScope():renderBoard();
 }
 function go(v){S.view=v;if(location.hash!=="#"+v)history.replaceState(null,"","#"+v);render()}
 $("#dlg").addEventListener("close",()=>{S.open=null});
+$("#inboxbtn").addEventListener("click",()=>{if(S.view!=="board")go("board");toggleInbox()});
+try{S.inboxOpen=localStorage.getItem("sb-inbox")==="1"}catch{}
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>go(t.dataset.view)));
 window.addEventListener("hashchange",()=>{const v=location.hash.slice(1);if(v==="board"||v==="scope"){S.view=v;render()}});
 S.view=location.hash==="#scope"?"scope":"board";

@@ -16,13 +16,14 @@ It's a shared, live page. The team can drag cards, tick off questions and sign o
   - the **Needs a human** count (highlighted when it's above zero);
   - methods done out of methods in scope.
 - **Stepper:** Brief & scope → Immersion → Discovery → Vision → Definition, each with its headline question. A new project starts in **Brief & scope**. Scoping happens on the board, and signing off the plan moves the project to Immersion.
-- **Inbox:** new inputs (a brief, an email, a research pack), each with a suggested next step. People add items, and Claude adds items with an `action`.
+- **Inbox:** new inputs (a brief, an email, a research pack), each with a suggested next step. It's hidden behind an **Inbox** button in the tab bar, with a red count badge showing how many items are waiting. Clicking it opens or closes the panel, and each viewer's browser remembers whether it was open. Items are cleared with **Done**. People add items, and Claude adds items with an `action`.
 - **Board view:**
   - **Columns:** one per stage. The current stage is outlined.
   - **Lanes:** each column has four lanes: To do · Doing · Needs a human · Done.
-  - **Cards:** only **in-scope** methods appear. Each card shows its ID, name, artefacts, a spine tag, provenance (H / AI / AI✓), owner, a linked indicator and an "early" tag.
+  - **Cards:** only **in-scope** methods appear. To keep the board easy to scan, a card face shows just its ID (with a small dot for spine methods), its name, and only the badges that apply: provenance (H / AI / AI✓), owner, "early", folder and knowledge counts, "to check" and "out of date". Artefacts, notes and everything else live in the ticket overlay.
+  - **Empty lanes** collapse to a thin dashed label, so full lanes stand out.
   - **Questions to be answered:** sit at the foot of each column, ticked off as they're answered.
-  - **Gate card:** sign-off unlocks only when every question is ticked and nothing is waiting in Needs a human. Signing off moves the stage on and records who signed and when.
+  - **Gate card:** shown in full on the current stage only; other stages show a single "not yet" or "passed" line. Sign-off unlocks only when every question is ticked and nothing is waiting in Needs a human. Signing off moves the stage on and records who signed and when.
 - **Scope view:** the full method library as tick lists by stage and group. This is the reductive step: untick to cut, with a reason (required in practice for spine methods). The count of cut spine methods shows at the top.
 
 ## The store (what Claude reads and writes)
@@ -79,7 +80,7 @@ Each stage's questions (from the map) sit at the foot of its column. Each one sh
 - **who wrote it** (AI draft, human, or AI approved);
 - **what it's built on**, with links to the cards and entries.
 
-Each question is a **ticket**: a card at the foot of its column showing its status (no answer yet, awaiting approval, approved, or ⚠ re-check), a two-line preview of the answer, its provenance and how many sources it has. Clicking it opens the full ticket overlay, the same as a method card. That shows the full answer to edit, the **Built on** list (each source links through to its card, and corrected or out-of-date sources are flagged), who approved it and when, and the previous answer. The buttons are **Save answer**, **Save and approve** and **Withdraw approval**. An edit is saved as a human answer and needs approving again. The tick means **"I approve this answer"**. It stays disabled until there's an answer to approve. A question counts towards the gate only if its answer is approved and nothing it rests on has since been corrected.
+Each question is a **ticket**: a compact row at the foot of its column, showing the question with a status dot (grey: no answer yet, amber: awaiting approval, green: approved, red: re-check). Clicking it opens the full ticket overlay, the same as a method card. That shows the full answer to edit, the **Built on** list (each source links through to its card, and corrected or out-of-date sources are flagged), who approved it and when, and the previous answer. The buttons are **Save answer**, **Save and approve** and **Withdraw approval**. An edit is saved as a human answer and needs approving again. The tick means **"I approve this answer"**. It stays disabled until there's an answer to approve. A question counts towards the gate only if its answer is approved and nothing it rests on has since been corrected.
 
 Claude **drafts** answers: when a stage's cards have enough checked knowledge, or when asked ("draft the Discovery answers"). It writes the answer as a short plain statement, then:
 - fills `uses` with the checked entries it drew on;

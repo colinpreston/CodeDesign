@@ -181,7 +181,6 @@ Work in this order. Show Colin each stage before moving to the next; the playboo
 CodeDesign skills:
 - `code-design-playbook`: always-on house method.
 - `code-effort-estimate`: Scope costing (BR-3).
-- `elevate-sow-writer`: BR-4.
 - `code-ux-review`: DI-P3, DI-P4.
 - `code-market-review`: DI-M1.
 - `code-ux-userprofile`: DI-M2, VI-1.

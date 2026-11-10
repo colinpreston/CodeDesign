@@ -21,7 +21,7 @@ This is Code's process map, transcribed from the team's board (`assets/process-m
 | BR-1 ● | Read the brief | Brief summary: problem, project type, budget, timeline, known constraints | — | AS, CN |
 | BR-2 ● | Select methods (reductive) | Method selection with what's in, what's cut, and the risk of each cut | this skill, Scope mode | DC |
 | BR-3 ● | Programme plan | Research brief, methods, effort and days per stage, draft interview scripts per stakeholder role | `code-effort-estimate`, `design-research:interview-script` | — |
-| BR-4 | Proposal / SoW | Proposal or SoW | `elevate-sow-writer` (Elevate work) | — |
+| BR-4 | Proposal / SoW | Proposal or SoW, built from the programme plan and estimate | `code-effort-estimate` (for the costs) | — |
 
 ## Stage 1: Immersion — *Where are we now?*
 
