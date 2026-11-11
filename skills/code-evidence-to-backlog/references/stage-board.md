@@ -13,18 +13,24 @@ It's a shared, live page. The team can drag cards, tick off questions and sign o
   - the project name;
   - the current stage;
   - questions answered towards the next gate;
-  - the **Needs a human** count (highlighted when it's above zero);
+  - the **Manual QA** count (highlighted when it's above zero);
   - methods done out of methods in scope.
 - **Stepper:** Brief & scope → Immersion → Discovery → Vision → Definition, each with its headline question. A new project starts in **Brief & scope**. Scoping happens on the board, and signing off the plan moves the project to Immersion.
 - **Inbox:** new inputs (a brief, an email, a research pack), each with a suggested next step. It's hidden behind an **Inbox** button in the tab bar, with a red count badge showing how many items are waiting. Clicking it opens or closes the panel, and each viewer's browser remembers whether it was open. Items are cleared with **Done**. People add items, and Claude adds items with an `action`.
 - **Board view:**
   - **Columns:** one per stage. The current stage is outlined.
-  - **Lanes:** each column has four lanes: To do · Doing · Needs a human · Done.
-  - **Cards:** only **in-scope** methods appear. To keep the board easy to scan, a card face shows just its ID (with a small dot for spine methods), its name, and only the badges that apply: provenance (H / AI / AI✓), owner, "early", folder and knowledge counts, "to check" and "out of date". Artefacts, notes and everything else live in the ticket overlay.
+  - **Lanes:** each column has four lanes: To do · Doing · Manual QA · Done.
+  - **Cards:** only **in-scope** methods appear. To keep the board easy to scan, a card face shows just its ID (with a small dot for spine methods), its name, and only the badges that apply: provenance (H / AI / AI✓), owner, "early", folder and knowledge counts, "to check" and "out of date". Everything else lives in the ticket.
+- **The ticket** (click a card), top to bottom:
+  1. **Header:** ID and name, stage, what the method makes, and **📌 Still to do** when there is any.
+  2. **▶ Run AI** (see Run AI below).
+  3. **Outputs:** the work. Each output says who made it (👤 Made by a person / ✦ Made by AI · to check / ✦ Made by AI · checked) with **Open ↗** (the artifact or web link), the file in the project folder, the **Claude chat** that made it and **Details**. **📂 Outputs folder / Inputs folder** buttons sit at the top. **+ Add something you made** lets a person log their own output: a name, plus a web link or the file name in the card's `outputs/` folder.
+  4. **Knowledge on this card**, grouped: **✦ AI work to check** (AI work waiting for a person, and anything out of date), **📥 Inputs** (sources and transcripts the work is based on), **✓ Checked and other notes**, and **Corrected** (kept for the record).
+  5. **Details:** lane, who made the main work, owner, **Still to do**, and the card's folder.
   - **Run AI:** a dark grey **▶ Run AI** strip under every card where an AI first pass makes sense (all methods except IM-4 and IM-6; never on Done cards, never for read-only viewers). It opens the card's ticket at the Run AI panel. See Run AI below.
   - **Empty lanes** collapse to a thin dashed label, so full lanes stand out.
   - **Questions to be answered:** sit at the foot of each column, ticked off as they're answered.
-  - **Gate card:** shown in full on the current stage only; other stages show a single "not yet" or "passed" line. Sign-off unlocks only when every question is ticked and nothing is waiting in Needs a human. Signing off moves the stage on and records who signed and when.
+  - **Gate card:** shown in full on the current stage only; other stages show a single "not yet" or "passed" line. Sign-off unlocks only when every question is ticked and nothing is waiting in Manual QA. Signing off moves the stage on and records who signed and when.
 - **Artefacts view:** every artefact made or collected for the project in one list, by stage and method: each item's type, provenance, an **Open ↗** link to the artifact (if it has one) and its folder file (click to copy the path). Filter: outputs only, or outputs and inputs. Built from card knowledge and card links, so anything logged appears here automatically. `board/meta.links` (`[{title, url, note}]`) adds project-level links (the Project Brain, a shared drive) at the top. Every project artifact's header bar links to `#artefacts`.
 - **Scope view:** the full method library as tick lists by stage and group. This is the reductive step: untick to cut, with a reason (required in practice for spine methods). The count of cut spine methods shows at the top.
 
@@ -34,12 +40,12 @@ Use `db_list` / `db_get` to read and `db_write` to write, on the project's board
 
 | Path | Body | Written by |
 |---|---|---|
-| `board/meta` | `{name, stage, folderRoot, folderRootUrl?, gates: {<stageId>: {by, at}}, edit}`. Stage ids: `brief`, `immersion`, `discovery`, `vision`, `definition` | Setup (Claude); people (name, gate sign-off) |
-| `cards/<methodId>` | `{in, lane, owner, link, prov, note, reason, early, folder?, folderUrl?, folderFiles?, edit}`. `folder` overrides the default path, `<NN Stage>/<ID> <name>` (see `project-folder.md`). `folderUrl` is the folder's link when the root is Drive or SharePoint. `folderFiles` is the file count. `lane` is one of `todo`, `doing`, `human`, `done`. `prov` is one of `H`, `AI`, `AIV` (AIV means AI✓) | Scope and Register (Claude); people |
+| `board/meta` | `{name, stage, folderRoot, folderRootUrl?, folderWeb?, gates: {<stageId>: {by, at}}, edit}`. `folderWeb` is the project folder's web address in OneDrive, SharePoint or Drive. Use the address bar from "View online" (it has `?id=`), not a sharing link, so the board can build a direct link to every card's `inputs/` and `outputs/` folder and to each output file. With a sharing link or Drive, links go to the project folder only. Stage ids: `brief`, `immersion`, `discovery`, `vision`, `definition` | Setup (Claude); people (name, gate sign-off) |
+| `cards/<methodId>` | `{in, lane, owner, prov, todo, reason, folder?, folderUrl?, folderFiles?, link?, note?, early?, edit}`. `todo` is **Still to do**: what's left or waiting on someone, one per line; it shows at the top of the ticket. `link`, `note` and `early` are older fields the ticket no longer shows (artefact links live on output entries instead). `folder` overrides the default path, `<NN Stage>/<ID> <name>` (see `project-folder.md`). `folderUrl` is the folder's link when the root is Drive or SharePoint. `folderFiles` is the file count. `lane` is one of `todo`, `doing`, `human`, `done`. `prov` is one of `H`, `AI`, `AIV` (AIV means AI✓) | Scope and Register (Claude); people |
 | `questions/<qid>` | `{answer, uses, prov, by, at, answered, approvedBy?, approvedAt?, previous?, edit}`. `answer` is the text. `uses` is the card-knowledge entry IDs it rests on. `prov` is `AI` for a Claude draft and `H` once a person writes or edits it (`AIV` once a person approves an AI draft). `answered` means **a person has approved it**. `previous` keeps the last answer when someone edits | Claude drafts (`answer`, `uses`, `prov: "AI"`, `answered: false`); people edit and approve |
-| `cards/<id>.aiRun` | `{status, action, mode, thread, by, at}` while a Run AI request is open. `status` is `requested` (set by the board when sent), `asking` (Claude has questions in the chat) or `working`; Claude deletes the field when the output is logged. The card face and ticket show the status | Board (on send); Claude |
+| `cards/<id>.aiRun` | `{status, action, mode, thread, by, at}` while a Run AI request is open. `status` is `requested` (set by the board when sent), `asking` (Claude has questions in the chat) or `working`; When the output is logged, Claude sets `{status: "done", entry, action, at, chat}`: `entry` is the output's entry id, and the card face shows "AI output ready" until a human checks it. The card face and ticket show the status | Board (on send); Claude |
 | `inbox/<id>` | `{id, text, action, at, done}` | People and Claude |
-| `entries/<id>` | **Card knowledge.** `{id, card, type, title, body, source, link, prov, by, at, validatedBy?, validatedAt?, method?}`:
+| `entries/<id>` | **Card knowledge.** `{id, card, type, title, body, source, link, chat?, run?, checks?, prov, by, at, validatedBy?, validatedAt?, method?}`. On an output, `link` is the artifact or doc URL, `source` its file in the project folder, and `chat` the link to the Claude chat that made it; `run: true` marks Run AI work. `checks` is 2–5 plain-English things a person should check for this item ("The rep-ordering contradiction reads the same to you"); without it the board shows a standard checklist for the entry's type. Write `body` as short sentences or a numbered list, which the ticket turns into bullets Titles may start with a ledger code (`EV-001 Panache RFQ`); the board shows the plain name first, then the file name, with the code small and grey, because the codes mean nothing outside the ledger:
 - `card` is a method ID;
 - `type` is one of `transcript`, `summary`, `synthesis`, `output`, `chat`, `note`, `source`;
 - `prov` is `H`, `AI` or `AIV`;
@@ -52,7 +58,7 @@ Defaults when a card has no document: spine methods are in, everything else is o
 
 Every card carries a running log of everything known or done for that method. Claude adds to it **without being asked** whenever it works on the project (see the table below).
 
-**How it shows in the ticket.** To keep the ticket light, each entry is a single collapsed line: type, provenance (H / AI / AI✓) and title, plus a corrected or out-of-date tag when one applies. Clicking the line opens the rest: who and when, the folder path, the source link, what it's built on, the full text, **Mark checked** and **Something's wrong here**. The **Add a note** form is folded behind a "+ Add a note" link.
+**How it shows in the ticket.** Each entry is a single collapsed line: type, who made it (👤 Person / ✦ AI / ✦ AI · checked) and its plain name, with any ledger code small and grey. Clicking it opens labelled sections: **✅ What to check** (AI work only), **📝 What the AI says** (or **What it says**), **📄 Where it is** (open link or path), **📚 Documents used by AI** (each with its file), **🔗 Used in**, who made it and when, then **When you've checked it, say how** with **Mark checked**, and a small **Something's wrong? Correct it** link. There's no free-text note form on the card: people add outputs in the Outputs section and what's left in **Still to do**.
 
 What gets logged:
 
@@ -104,7 +110,7 @@ Claude never ticks approval.
   3. Write `board/meta` with the stage set to `brief`.
   4. Write a `cards/<id>` document for every method Scope selected or cut, with the reason for each cut.
   5. Record the URL in the ledger and the Project Brain.
-- **Register an output:** set the card's `link`, `owner` and `prov`, and its `lane`:
+- **Register an output:** log it as an `output` / `summary` / `synthesis` entry with every way to reach it (`link`, `source`, and `chat` when Claude made it), then set the card's `link`, `owner` and `prov`, and its `lane`:
   - `human` if it holds `[AI]` items;
   - `done` if it's `[H]` or `[AI✓]`.
 
@@ -121,10 +127,11 @@ Claude never ticks approval.
 
 The **▶ Run AI** button gets Claude to do a card's first pass: a draft, a prep pack (guide or plan), a synthesis of what's in the card's inputs, or a report or deck. What each method's button does is in `ai-first-pass.md`, and the same list sits in the page as `RUN`. Keep the two in step.
 
+- **Outputs panel** (in every ticket, under Run AI): **📂 Outputs folder** and **📂 Inputs folder** buttons for the card's own folders (they open in the browser when `folderWeb` is set; otherwise they copy the path for Finder's ⌘⇧G, because browsers can't open a folder on your computer from a web page), then every output, summary and synthesis logged on the card, newest first, each as a tile with its type, provenance, "to check" and date, and buttons to **Open ↗** the artifact, **Copy file path**, open the **Claude chat ↗** that made it, and jump to its **Details** in Card knowledge. The latest Run AI output is marked "New from Run AI". The card face shows a 📄 outputs count. This is how anyone finds what AI made for a method: open the card, it's at the top.
 - **The panel** (top of the ticket) shows what Claude will do, the skills it will use and what it reads first. Methods with two jobs (prep before fieldwork, synthesis after) offer both, pre-picking synthesis when the card already has inputs. If a synthesis has nothing in `inputs/`, it warns. There's an optional notes box ("focus on the rep journey").
 - **Send to Claude** posts the request as a comment on the card and sends it to Claude (the `comments` capability's `sendToClaude`), which wakes the project chat. The card moves from To do to Doing and gets an `aiRun` status. Claude takes it from there (SKILL.md Step 3b): it reads the context, asks its questions once in the chat, does the work, files it, logs it, and replies in the thread.
 - **When it can't send** (no Claude chat watching the board, a viewer who isn't an editor, a view without comments), the panel says why and offers **Copy request**, so it can be pasted into the project chat instead.
-- Only editors can send. The output always lands as `AI` in Needs a human.
+- Only editors can send. The output always lands as `AI` in Manual QA.
 
 ## Project header bar
 

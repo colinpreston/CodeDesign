@@ -229,6 +229,59 @@ a.arttitle{color:var(--blue)}
 .artnote{color:var(--muted);font-size:12px}
 .artpath{margin-left:auto;background:none;border:1px solid var(--line);border-radius:6px;font-size:11px;color:var(--muted);padding:1px 6px;cursor:pointer;max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .artfilter{display:flex;gap:14px;font-size:12.5px;margin:8px 0}
+.outs{margin:12px 0 4px}
+.outs h3{font-size:13px;margin:0 0 6px;color:var(--navy)}
+.entsec{margin-top:10px}
+.entlab{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.entchk{background:#FFF8E1;border:1px solid #F2D27A;border-radius:8px;padding:8px 10px}
+.entchk .entlab{color:#7A5200}
+.entul{margin:0;padding-left:18px;font-size:13px;line-height:1.5}
+.entul li{margin:2px 0}
+.entul.plain{list-style:none;padding-left:0}
+.entp{margin:0;font-size:13px;line-height:1.5}
+.ent .mono{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted);word-break:break-all}
+.linkbtn{background:none;border:0;padding:0;color:var(--blue);cursor:pointer;font-size:12px;text-decoration:underline}
+.reffile{color:var(--muted);font-size:12px}
+.refcode{color:#8A90A8;font-size:10.5px;font-weight:500;margin-left:4px;white-space:nowrap}
+.todobox{margin:10px 0 0;background:#EEF0FF;border-radius:10px;padding:8px 12px}
+.who{font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.who.h{background:#E6F7F5;color:#0B5C55}
+.who.ai{background:#EDE9FE;color:#4C1D95}
+.kngrp{margin-top:8px}
+.kglab{font-size:12.5px;color:var(--navy);margin:6px 0}
+.kglab span{color:var(--muted);font-size:12px}
+.tdetails{margin-top:16px;border-top:1px solid var(--line);padding-top:10px}
+.tdetails h3,.kn h3{font-size:13px;margin:0 0 6px;color:var(--navy)}
+.addout{margin-top:4px}
+.addout>summary{cursor:pointer;font-size:12.5px;font-weight:500;color:var(--navy)}
+.addoutf{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.addoutf input{border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:12.5px}
+.addoutf .btn{align-self:flex-start}
+.entwho{margin-top:10px}
+.ent.unchecked .entsec:not(.entchk),.ent.stale .entsec{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.outhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.outhead h3{margin:0;flex:1}
+.outbtn.folder{background:var(--panel)}
+.outhint{font-size:11.5px;color:var(--muted);margin:0 0 6px}
+
+.outnone{font-size:12.5px;color:var(--muted);margin:0}
+.outtile{border:1px solid var(--line);border-left:4px solid var(--aqua);border-radius:10px;padding:8px 12px;margin-bottom:8px;background:#fff}
+.outtile.un{border-left-color:var(--warn)}
+.outtile.fresh{box-shadow:0 0 0 2px #33363D inset}
+.outmeta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:11.5px}
+.outwhen{margin-left:auto;color:var(--muted)}
+.outnew{background:#33363D!important;color:#fff!important}
+.outtitle{display:block;font-weight:600;font-size:14px;color:var(--navy);margin:5px 0 7px}
+a.outtitle{color:var(--blue);text-decoration:none}
+a.outtitle:hover{text-decoration:underline}
+.outacts{display:flex;gap:6px;flex-wrap:wrap}
+.outbtn{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:500;padding:4px 10px;border:1px solid var(--line);border-radius:7px;background:#fff;color:var(--navy);cursor:pointer;text-decoration:none;font-family:inherit}
+.outbtn:hover{background:var(--panel)}
+.outbtn.primary{background:#33363D;border-color:#33363D;color:#fff}
+.outbtn.primary:hover{background:#4A4E57}
+.outchip{background:#E6F7F5!important;color:#0B5C55!important}
+.ailive.done{color:#0B5C55}
+
 
 
 </style>
@@ -265,7 +318,7 @@ const STAGES=[
  {id:"vision",name:"Vision",q:"Where do we want to be?",gate:"G3 Vision agreed"},
  {id:"definition",name:"Definition",q:"What are we making?",gate:"G4 Validated · G5 Ready for estimation"}
 ];
-const LANES=[["todo","To do"],["doing","Doing"],["human","Needs a human"],["done","Done"]];
+const LANES=[["todo","To do"],["doing","Doing"],["human","Manual QA"],["done","Done"]];
 const M=(id,stage,group,name,art,spine)=>({id,stage,group,name,art,spine:!!spine});
 const LIB=[
  M("BR-1","brief","Brief","Read the brief","Brief summary: problem, type, budget, timeline, constraints",1),
@@ -346,15 +399,26 @@ const $=s=>document.querySelector(s);
 function h(tag,attrs,...kids){const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs||{})){if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k.startsWith("on"))e.addEventListener(k.slice(2),v);else if(k==="text")e.textContent=v;else e.setAttribute(k,v===true?"":v)}for(const k of kids.flat()){if(k==null||k===false)continue;e.append(k.nodeType?k:document.createTextNode(String(k)))}return e}
 const stageIdx=id=>STAGES.findIndex(s=>s.id===id);
 const curStage=()=>S.meta.stage||"brief";
-function card(id){const m=LIB.find(x=>x.id===id);const c=S.cards[id]||{};return{...m,in:c.in!==undefined?c.in:m.spine,lane:c.lane||"todo",owner:c.owner||"",link:c.link||"",prov:c.prov||"",note:c.note||"",reason:c.reason||"",early:!!c.early,unplanned:false}}
+function card(id){const m=LIB.find(x=>x.id===id);const c=S.cards[id]||{};return{...m,in:c.in!==undefined?c.in:m.spine,lane:c.lane||"todo",owner:c.owner||"",link:c.link||"",prov:c.prov||"",note:c.note||"",todo:c.todo||"",reason:c.reason||"",early:!!c.early,unplanned:false}}
 function safeUrl(u){try{const x=new URL(u);return(x.protocol==="https:"||x.protocol==="http:")?x.href:null}catch{return null}}
 const STNUM={brief:"00",immersion:"01",discovery:"02",vision:"03",definition:"04"};
 const clean=t=>t.replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g," ").trim();
 function rootLabel(){const m=S.meta;if(!m.folderRoot&&!m.folderRootUrl)return null;
  const where=m.folderKind==="local"?(m.folderMachine?"On "+m.folderMachine+": ":"On a computer: "):m.folderKind==="cloud"?"Shared folder: ":"";return where+(m.folderRoot||m.folderRootUrl)}
-function fullPath(rel){const r=(S.meta.folderRoot||"").replace(/[\\/]+$/,"");if(!rel)return r;if(/^([a-z]:|\/|~|https?:)/i.test(rel)||(r&&rel.startsWith(r)))return rel;return r?r+"/"+rel:rel}
+function fullPath(rel){const r=(S.meta.folderRoot||"").replace(/[\\/]+$/,"");if(!rel)return r;rel=(r&&String(rel).startsWith(r))?r+"/"+relOf(rel):(/^([a-z]:|\/|~|https?:)/i.test(rel)?rel:fixRel(rel));if(/^([a-z]:|\/|~|https?:)/i.test(rel)||(r&&rel.startsWith(r)))return rel;return r?r+"/"+rel:rel}
 function folderOf(c){const st=STAGES[stageIdx(c.stage)];return (S.cards[c.id]&&S.cards[c.id].folder)||(STNUM[c.stage]+" "+clean(st.name)+"/"+c.id+" "+clean(c.name.replace(/\(.*?\)/g,"")))}
-function folderUrlOf(c){const u=S.cards[c.id]&&S.cards[c.id].folderUrl;return u?safeUrl(u):null}
+const PAGE_FOLDER_WEB="";/* optional per-project default for meta.folderWeb, set in the published copy */
+const PAGE_PATH_FIX={};
+const PAGE_EXTRA_ENTRIES=[];/* optional read-only entries for this copy, shown until the store holds them *//* optional per-project map: old relative path -> new relative path, for files moved before the store could be updated */
+function fixRel(rel){rel=String(rel||"").replace(/^[\\/]+/,"");if(PAGE_PATH_FIX[rel])return PAGE_PATH_FIX[rel];for(const k in PAGE_PATH_FIX){if(k.endsWith("/")&&rel.startsWith(k))return PAGE_PATH_FIX[k]+rel.slice(k.length)}return rel}
+function relOf(p){const r=(S.meta.folderRoot||"").replace(/[\\/]+$/,"");p=String(p||"");if(r&&p.startsWith(r))p=p.slice(r.length);return fixRel(p.replace(/^[\\/]+/,""))}
+function webFor(rel){const base=safeUrl(S.meta.folderWeb||PAGE_FOLDER_WEB||"");if(!base)return null;rel=relOf(rel);
+ try{const u=new URL(base);const id=u.searchParams.get("id");
+  if(id){const full=rel?id.replace(/\/+$/,"")+"/"+rel:id;u.searchParams.delete("id");u.searchParams.delete("viewid");u.searchParams.delete("parent");const q=u.searchParams.toString();const isFile=/\.[a-z0-9]{2,5}$/i.test(rel);return u.origin+u.pathname+"?"+(q?q+"&":"")+"id="+encodeURIComponent(full)+(isFile?"&parent="+encodeURIComponent(full.replace(/\/[^/]*$/,"")):"")}
+  if(/\/:[a-z]:\//i.test(u.pathname)||/drive\.google\.com$/i.test(u.host))return base;
+  if(rel)u.pathname=u.pathname.replace(/\/+$/,"")+"/"+rel.split("/").map(encodeURIComponent).join("/");return u.toString()}catch{return null}}
+function webDeep(){const b=safeUrl(S.meta.folderWeb||PAGE_FOLDER_WEB||"");if(!b)return false;try{const u=new URL(b);return !!u.searchParams.get("id")||!(/\/:[a-z]:\//i.test(u.pathname)||/drive\.google\.com$/i.test(u.host))}catch{return false}}
+function folderUrlOf(c){const u=S.cards[c.id]&&S.cards[c.id].folderUrl;return u?safeUrl(u):webFor(folderOf(c))}
 function copyText(t,btn){try{navigator.clipboard.writeText(t).then(()=>{btn.textContent="Copied";setTimeout(()=>btn.textContent="Copy path",1500)},()=>{btn.textContent="Select and copy"})}catch{btn.textContent="Select and copy"}}
 function banner(msg){const b=$("#banner");b.hidden=!msg;b.textContent=msg||""}
 async function write(path,data,merge){
@@ -372,7 +436,7 @@ function renderStats(){
  const done=inScope.filter(m=>card(m.id).lane==="done").length;
  const box=$("#stats");box.replaceChildren(
   h("div",{class:"stat",title:"Approved answers to the "+STAGES[i].name+" questions. Every one must be approved before "+STAGES[i].name+" can be signed off."},h("b",{text:ans+" of "+qs.length}),h("span",{text:STAGES[i].name+" questions approved"})),
-  h("div",{class:"stat"+(human?" alert":"")},h("b",{text:String(human)}),h("span",{text:"Needs a human"})),
+  h("div",{class:"stat"+(human?" alert":"")},h("b",{text:String(human)}),h("span",{text:"Manual QA"})),
   ...(Object.keys(LIN.stale).length?[h("div",{class:"stat alert",style:"background:#FDE2E1"},h("b",{text:String(Object.keys(LIN.stale).length)}),h("span",{text:"Out of date"}))]:[]),
   h("div",{class:"stat"},h("b",{text:done+" / "+inScope.length}),h("span",{text:"Methods done"})));
  const sp=$("#stepper");sp.replaceChildren(...STAGES.map((s,j)=>h("button",{class:"step"+(S.meta.gates&&S.meta.gates[s.id]?" done":"")+(j===i?" cur":""),"aria-current":j===i?"step":null,onclick:()=>{go("board");setTimeout(()=>document.getElementById("col-"+s.id)?.scrollIntoView({behavior:"smooth",inline:"start",block:"nearest"}),30)}},s.name,h("small",{text:s.q}))));
@@ -407,7 +471,8 @@ function lineage(){
 let LIN={by:{},bad:()=>false,stale:{},downstream:()=>[]};
 const entriesFor=id=>S.entries.filter(e=>e.card===id);
 function knTags(id){const es=entriesFor(id).filter(e=>!LIN.bad(e.id));if(!es.length)return[];const un=es.filter(e=>e.prov==="AI").length;const st=es.filter(e=>LIN.stale[e.id]).length;
- return[h("span",{class:"tag",title:"Knowledge entries"},"📎 "+es.length),un?h("span",{class:"tag",style:"background:var(--warnbg);color:var(--warn)"},un+" to check"):null,
+ const oc=es.filter(e=>OUTTYPES.includes(e.type)).length;
+ return[oc?h("span",{class:"tag outchip",title:"Outputs: open the card to see them"},"📄 "+oc+(oc===1?" output":" outputs")):null,h("span",{class:"tag",title:"Knowledge entries"},"📎 "+es.length),un?h("span",{class:"tag",style:"background:var(--warnbg);color:var(--warn)"},un+" to check"):null,
   st?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ "+st+" out of date"):null]}
 const TYPES={transcript:"Transcript",summary:"Summary",synthesis:"Synthesis",output:"Output",chat:"From chat",note:"Note",source:"Source"};
 /* ---- Run AI: first pass, synthesis or report for a method, done by Claude in the project chat ---- */
@@ -472,15 +537,17 @@ const RUN={
  "DF-11":[A("draft","Experiment programme","Define the post-launch experiments, traced to HY items.",["prototyping-testing:experiment"])]
 };
 const AISTATE={requested:"✦ Sent to Claude",asking:"✦ Claude has questions: see the chat",working:"✦ Claude is working on it"};
+const AIDONE="✦ AI output ready: see Outputs";
 function hasInputs(id){const c=S.cards[id]||{};return entriesFor(id).some(e=>(e.type==="source"||e.type==="transcript")&&!LIN.bad(e.id))||(c.folderFiles||0)>0}
 function aiActive(id){const r=(S.cards[id]||{}).aiRun;return r&&AISTATE[r.status]?r:null}
+function aiDone(id){const r=(S.cards[id]||{}).aiRun;return r&&r.status==="done"&&r.entry&&entriesFor(id).some(e=>e.id===r.entry&&e.prov==="AI")?r:null}
 function runRequest(c,act,notes){
  const es=entriesFor(c.id).filter(e=>!LIN.bad(e.id));const un=es.filter(e=>e.prov==="AI").length;
  const lines=["▶ RUN AI · "+c.id+" "+c.name+" ("+STAGES[stageIdx(c.stage)].name+")",
   "Task ("+MODES[act.mode]+"): "+act.label+". "+act.task,
   "Skills: "+(act.skills.length?act.skills.join(", "):"pick the best fit; say if there's a gap"),
   "Read first: Project Brain, Evidence Ledger, Research Repository, this card's knowledge ("+es.length+" entries, "+un+" unchecked) and the folder "+fullPath(folderOf(c))+" (inputs and outputs).",
-  "How: ask me any questions once, together, in the chat before you start; build only on checked work and say where you can't. Save to the card's outputs/ folder, log it on the card as AI so it lands in Needs a human, and reply here when it's done."];
+  "How: ask me any questions once, together, in the chat before you start; build only on checked work and say where you can't. Save to the card's outputs/ folder, log it on the card as AI so it lands in Manual QA, and reply here when it's done."];
  if(notes)lines.push("Notes from the team: "+notes);
  let t=lines.join("\n");const enc=new TextEncoder();while(enc.encode(t).length>4000)t=t.slice(0,-50);return t}
 async function aiCan(){if(!S.cm)return"off";try{return await S.cm.canSendToClaude()}catch{return"off"}}
@@ -523,21 +590,82 @@ function runPanel(c,startOpen){
 function whoName(by){return by==="claude"?"Claude":"…"}
 async function resolveWho(root){const els=[...root.querySelectorAll("[data-who]")].filter(e=>e.dataset.who&&e.dataset.who!=="claude");if(!els.length||!S.user||!S.user.profiles)return;
  try{const ps=await S.user.profiles([...new Set(els.map(e=>e.dataset.who))]);els.forEach(e=>{const p=ps[e.dataset.who];e.textContent=(p&&p.name)||"Someone"})}catch{}}
+const OUTTYPES=["output","summary","synthesis"];
+function outputsOf(id){return entriesFor(id).filter(e=>OUTTYPES.includes(e.type)&&!LIN.bad(e.id)).sort((a,b)=>String(b.at||"").localeCompare(String(a.at||"")))}
+function showEntry(eid){const d=document.querySelector('#knwrap details[data-eid="'+eid+'"]');if(d){d.open=true;d.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})}}
+function addOutputEl(cardId){
+ if(!S.canWrite)return null;const c=card(cardId);const base=folderOf(c)+"/outputs/";
+ const t=h("input",{type:"text",placeholder:"What is it? e.g. Day 0 agenda","aria-label":"Output title",maxlength:"140"});
+ const u=h("input",{type:"url",placeholder:"Web link (optional): Claude artifact, Figma, SharePoint…","aria-label":"Output web link",maxlength:"1000"});
+ const fl=h("input",{type:"text",placeholder:"File name in "+base+" (optional)","aria-label":"File in the outputs folder",maxlength:"300"});
+ const er=h("div",{class:"err"});
+ const d=h("details",{class:"addout"},h("summary",null,"+ Add something you made"),h("div",{class:"addoutf"},t,u,fl,er,h("button",{class:"btn small primary",type:"button",onclick:async()=>{
+  const tt=t.value.trim(),uu=u.value.trim(),ff=fl.value.trim();if(!tt){er.textContent="Give it a name first.";t.focus();return}
+  if(uu&&!safeUrl(uu)){er.textContent="Web links need to start with https://";u.focus();return}
+  if(!uu&&!ff){er.textContent="Add a web link or the file name, so people can open it.";u.focus();return}
+  const id="e"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  const src=ff?(ff.includes("/")?ff:base+ff):"";
+  if(await write("entries/"+id,{id,card:cardId,type:"output",title:tt,body:"",link:uu,source:src,prov:"H",by:S.me||null,at:new Date().toISOString()})){t.value="";u.value="";fl.value="";d.open=false}}},"Add output")));
+ [t,u,fl].forEach(x=>x.addEventListener("input",()=>er.textContent=""));return d}
+function outputsPanel(cardId){
+ const os=outputsOf(cardId);const r=(S.cards[cardId]||{}).aiRun;
+ const c=card(cardId);const base=folderOf(c);
+ const fbtn=(sub,label)=>{const rel=base+"/"+sub;const u=webFor(rel);
+  return u?h("a",{class:"outbtn folder",href:u,target:"_blank",rel:"noopener",title:fullPath(rel)},"📂 "+label+" ↗"):h("button",{class:"outbtn folder",type:"button",title:"Copy the path, then in Finder press ⌘⇧G and paste",onclick:async ev=>{const b=ev.currentTarget;try{await navigator.clipboard.writeText(fullPath(rel));b.textContent="Path copied: ⌘⇧G in Finder"}catch{b.textContent=fullPath(rel)}}},"📂 "+label)};
+ const box=h("section",{class:"outs","aria-label":"Outputs"},h("div",{class:"outhead"},h("h3",{text:"Outputs"+(os.length?" ("+os.length+")":"")}),h("div",{class:"outacts"},fbtn("outputs","Outputs folder"),fbtn("inputs","Inputs folder"))),
+  (S.meta.folderRoot&&!safeUrl(S.meta.folderWeb||PAGE_FOLDER_WEB||""))?h("p",{class:"outhint"},"Folder buttons copy the path for now. Add the folder's OneDrive web link once, in the Artefacts tab, and they open the folder in one click."):null);
+ if(!os.length){box.append(h("p",{class:"outnone",text:RUN[cardId]?"Nothing made yet. Press Run AI above, or add something you made below.":"Nothing made yet. Add something you made below."}));box.append(addOutputEl(cardId));return box}
+ for(const e of os){const u=safeUrl(e.link||"");const chat=safeUrl(e.chat||"");const un=e.prov==="AI";const stale=!!LIN.stale[e.id];
+  const fresh=r&&r.status==="done"&&r.entry===e.id;
+  const when=e.at?new Date(e.at).toLocaleDateString("en-GB",{day:"numeric",month:"short"}):"";
+  const title=u?h("a",{href:u,target:"_blank",rel:"noopener",class:"outtitle",text:(plainTitle(e.title).name||"Untitled")+" ↗"}):h("span",{class:"outtitle",text:plainTitle(e.title).name||"Untitled"});
+  const acts=[u?h("a",{class:"outbtn primary",href:u,target:"_blank",rel:"noopener"},"Open ↗"):null,
+   e.source&&webFor(e.source)?h("a",{class:"outbtn",href:webFor(e.source),target:"_blank",rel:"noopener",title:fullPath(e.source)},"📁 Open file ↗"):e.source?h("button",{class:"outbtn",type:"button",title:fullPath(e.source),onclick:async ev=>{const b=ev.currentTarget;try{await navigator.clipboard.writeText(fullPath(e.source));b.textContent="Path copied"}catch{b.textContent=fullPath(e.source)}}},"📁 Copy file path"):null,
+   chat?h("a",{class:"outbtn",href:chat,target:"_blank",rel:"noopener",title:"The Claude chat that made this"},"💬 Claude chat ↗"):null,
+   h("button",{class:"outbtn",type:"button",onclick:()=>showEntry(e.id)},"Details")].filter(Boolean);
+  box.append(h("div",{class:"outtile"+(un?" un":"")+(fresh?" fresh":"")},
+   h("div",{class:"outmeta"},fresh?h("span",{class:"tag outnew"},"New from Run AI"):null,h("span",{class:"tag",text:TYPES[e.type]||"Output"}),
+    h("span",{class:"who "+(e.prov==="H"||!e.prov?"h":"ai"),text:e.prov==="AIV"?"✦ Made by AI · checked":e.prov==="AI"?"✦ Made by AI · to check":"👤 Made by a person"}),
+    stale?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ out of date"):null,when?h("span",{class:"outwhen",text:when}):null),
+   title,h("div",{class:"outacts"},...acts)))}
+ box.append(addOutputEl(cardId));
+ return box}
+const CODE_RE=/^((?:EV|BR|CN|NFR|AS|RK|IN|OP|TH|HY|DC|FL|TF|PR|ND|ST|EP|RL)-\d{3}(?:\s*\/\s*[A-Z]{2,3}-\d{3})*)\s+(.+)$/;
+function plainTitle(t){t=String(t||"");const m=t.match(CODE_RE);return m?{name:m[2],code:m[1]}:{name:t,code:""}}
+function refLi(id){const x=LIN.by[id];if(!x)return h("li",{text:String(id)});const p=plainTitle(x.title);const file=x.source?String(x.source).split("/").pop():"";
+ return h("li",null,h("span",{text:p.name||"entry"}),file?(webFor(x.source)?h("a",{class:"reffile",href:webFor(x.source),target:"_blank",rel:"noopener",title:"Open "+file},"· "+file+" ↗"):h("span",{class:"reffile",text:" · "+file})):null,h("span",{class:"refcode",title:"Card and Evidence Ledger reference",text:" "+[x.card,p.code].filter(Boolean).join(" · ")}))}
+function entSec(label,cls,content){return content?h("div",{class:"entsec"+(cls?" "+cls:"")},h("div",{class:"entlab",text:label}),content):null}
+function bodyEl(t){t=String(t||"").trim();if(!t)return null;
+ let parts=t.split(/\s*\(\d+\)\s+/).map(x=>x.trim()).filter(Boolean);
+ if(parts.length<3)parts=t.split(/(?<=[.;])\s+(?=[A-Z0-9£"'(])/).map(x=>x.trim()).filter(Boolean);
+ if(parts.length<3||t.length<160)return h("p",{class:"entp",text:t});
+ return h("ul",{class:"entul"},...parts.map(x=>h("li",{text:x.replace(/[;]\s*$/,"")})))}
+function checksFor(e){if(Array.isArray(e.checks)&&e.checks.length)return e.checks.map(String).slice(0,8);
+ const src=(e.uses||[]).length?"the documents it used (listed below)":"its source";
+ if(e.type==="summary"||e.type==="synthesis")return["Each point matches what "+src+" actually says","Any quotes appear word for word in the source","Numbers, dates and names are right","Nothing important from the source is missing or overstated"];
+ if(e.type==="transcript")return["Speakers and their roles are named correctly","It's the full session, not a partial one","Nothing in it shouldn't be stored or shared"];
+ if(e.type==="source")return["It's the right file and the latest version","It's filed against the right method"];
+ return["It does what this method needs","Facts, numbers and quotes match "+src,"It reads well enough to share inside the team"]}
 function entryEl(e,cardId){
  const un=e.prov==="AI";const src=safeUrl(e.link||"");const gone=LIN.bad(e.id);const st=LIN.stale[e.id];
  const succ=S.entries.find(x=>x.supersedes===e.id);
- const nameOf=id=>{const x=LIN.by[id];return x?(x.card?x.card+": ":"")+(x.title||"entry"):id};
- const el=h("details",{class:"ent"+(gone?" gone":st?" stale":un?" unchecked":"")},
-  h("summary",{class:"eh",title:"Show details"},h("span",{class:"tag",text:TYPES[e.type]||"Entry"}),h("span",{class:"prov "+(e.prov||"H"),text:e.prov==="AIV"?"AI✓":(e.prov||"H")}),h("span",{class:"et",text:e.title||"Untitled"}),
+ const nameOf=id=>{const x=LIN.by[id];return x?(x.card?x.card+": ":"")+(plainTitle(x.title).name||"entry"):id};
+ const el=h("details",{class:"ent"+(gone?" gone":st?" stale":un?" unchecked":""),"data-eid":e.id},
+  h("summary",{class:"eh",title:"Show details"},h("span",{class:"tag",text:TYPES[e.type]||"Entry"}),h("span",{class:"who "+(e.prov==="H"||!e.prov?"h":"ai"),text:e.prov==="AIV"?"✦ AI · checked":e.prov==="AI"?"✦ AI":"👤 Person"}),h("span",{class:"et",text:plainTitle(e.title).name||"Untitled"}),plainTitle(e.title).code?h("span",{class:"refcode",title:"Evidence Ledger reference",text:plainTitle(e.title).code}):null,
    gone?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"corrected"):null,st?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ out of date"):null),
-  h("div",{class:"em"},h("span",{"data-who":e.by||"",text:whoName(e.by)}),e.at?" · "+new Date(e.at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}):"",e.source?" · in folder: "+fullPath(e.source):"",src?" · ":"",src?h("a",{href:src,target:"_blank",rel:"noopener"},"open ↗"):null),
-  gone?h("div",{class:"warnline"},"Corrected"+(succ?": see \""+(succ.title||"correction")+"\"":"")+(e.correction?" · "+e.correction:"")):null,
+  gone?h("div",{class:"warnline"},"Corrected"+(succ?": see \""+(succ.title||"correction")+"\""+"":"")+(e.correction?" · "+e.correction:"")):null,
   st?h("div",{class:"warnline",text:"Built on something that's since been corrected: "+st.map(nameOf).join("; ")+". Needs redoing and re-checking."}):null,
-  (e.uses&&e.uses.length)?h("div",{class:"uses"},h("b",null,"Built on: "),e.uses.map(nameOf).join("; ")):null,
-  e.prov==="AIV"&&e.method?h("div",{class:"em"},"Checked by ",h("span",{"data-who":e.validatedBy||"",text:whoName(e.validatedBy)}),": "+e.method):null,
-  e.body?h("div",{class:"body",text:e.body}):null);
- if(un&&!gone&&!st&&S.canWrite){const how=h("input",{type:"text",placeholder:"How did you check it? e.g. quotes checked against transcripts","aria-label":"How it was checked",maxlength:"200"});const er=h("div",{class:"err"});
-  el.append(h("div",{class:"chk"},how,h("button",{class:"btn small primary",type:"button",onclick:async()=>{const m=how.value.trim();if(!m){er.textContent="Say how it was checked first.";how.focus();return}
+  un&&!gone?entSec("✅ What to check","entchk",h("ul",{class:"entul"},...checksFor(e).map(t=>h("li",{text:t})))):null,
+  e.body?entSec(e.prov==="H"?"📝 What it says":"📝 What the AI says",null,bodyEl(e.body)):null,
+  (e.source||src)?entSec("📄 Where it is",null,h("ul",{class:"entul plain"},
+    src?h("li",null,h("a",{href:src,target:"_blank",rel:"noopener"},"Open it ↗")):null,
+    e.source?h("li",null,h("span",{class:"mono",text:relOf(e.source)||fullPath(e.source)})," ",webFor(e.source)?h("a",{href:webFor(e.source),target:"_blank",rel:"noopener"},"Open file ↗"):h("button",{class:"linkbtn",type:"button",onclick:ev=>copyText(fullPath(e.source),ev.currentTarget)},"Copy path")):null)):null,
+  (e.uses&&e.uses.length)?entSec(e.prov==="H"?"📚 Documents used":"📚 Documents used by AI",null,h("ul",{class:"entul"},...e.uses.map(refLi))):null,
+  (()=>{const d=LIN.downstream(e.id);return d.length?entSec("🔗 Used in",null,h("ul",{class:"entul"},...d.map(x=>refLi(x.id)))):null})(),
+  h("div",{class:"em entwho"},"Made by ",h("span",{"data-who":e.by||"",text:whoName(e.by)}),e.at?" · "+new Date(e.at).toLocaleString("en-GB",{dateStyle:"medium",timeStyle:"short"}):"",
+   e.prov==="AIV"&&e.method?h("span",null," · Checked by ",h("span",{"data-who":e.validatedBy||"",text:whoName(e.validatedBy)}),": "+e.method):null));
+ if(un&&!gone&&!st&&S.canWrite){const how=h("input",{type:"text",placeholder:"e.g. read it against the RFQ; quotes match","aria-label":"How you checked it",maxlength:"200"});const er=h("div",{class:"err"});
+  el.append(h("div",{class:"entlab",style:"margin-top:10px"},"When you've checked it, say how"),h("div",{class:"chk"},how,h("button",{class:"btn small primary",type:"button",onclick:async()=>{const m=how.value.trim();if(!m){er.textContent="Say how it was checked first.";how.focus();return}
    if(await write("entries/"+e.id,{...e,prov:"AIV",method:m,validatedBy:S.me||null,validatedAt:new Date().toISOString()})){
     const left=entriesFor(cardId).filter(x=>x.id!==e.id&&x.prov==="AI"&&!LIN.bad(x.id)).length;const c=card(cardId);
     if(!left&&c.lane==="human")await setCard(cardId,{lane:"done"})}}},"Mark checked")),er);
@@ -556,20 +684,21 @@ function entryEl(e,cardId){
    for(const cid of cards){if(card(cid).lane!=="human")await setCard(cid,{lane:"human"})}
   }},"Save correction")));
   ta.addEventListener("input",()=>er.textContent="");
-  el.append(h("button",{class:"btn small",type:"button",style:"margin-top:6px",onclick:()=>{box.hidden=false;ta.focus()}},"Something's wrong here"),box)}
+  el.append(h("button",{class:"linkbtn",type:"button",style:"margin-top:8px",onclick:()=>{box.hidden=false;ta.focus()}},"Something's wrong? Correct it"),box)}
  return el}
 function knSection(cardId){
- const es=entriesFor(cardId);const box=h("div",{class:"kn"},h("h3",{text:"Card knowledge ("+es.length+")"}),
-  es.length?null:h("p",{style:"font-size:12px;color:var(--muted);margin:0 0 6px",text:"Nothing logged yet. Anything Claude does for this method (transcripts processed, summaries, syntheses) and anything added in chat lands here."}),
-  ...es.filter(e=>!LIN.bad(e.id)).map(e=>entryEl(e,cardId)),...es.filter(e=>LIN.bad(e.id)).map(e=>entryEl(e,cardId)));
- if(S.canWrite){const t=h("input",{type:"text",placeholder:"Note title","aria-label":"Note title",maxlength:"120",style:"width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;margin-top:4px"});
-  const b=h("textarea",{rows:"3",placeholder:"What did we learn or decide?","aria-label":"Note",maxlength:"20000",style:"width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 9px;margin-top:6px"});
-  const er=h("div",{class:"err"});
-  const nf=h("details",{class:"addnote"},h("summary",null,"+ Add a note"));box.append(nf);nf.append(t,b,er,h("button",{class:"btn small",type:"button",style:"margin-top:6px",onclick:async()=>{
-   const tt=t.value.trim(),bb=b.value.trim();if(!tt&&!bb){er.textContent="Write a title or a note first.";t.focus();return}
-   const id="e"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-   if(await write("entries/"+id,{id,card:cardId,type:"note",title:tt||bb.slice(0,60),body:bb,prov:"H",by:S.me||null,at:new Date().toISOString()})){t.value="";b.value=""}}},"Add note"));
-  [t,b].forEach(x=>x.addEventListener("input",()=>er.textContent=""))}
+ const es=entriesFor(cardId);const ok=es.filter(e=>!LIN.bad(e.id));
+ const toCheck=ok.filter(e=>e.prov==="AI"||LIN.stale[e.id]);
+ const inputs=ok.filter(e=>!toCheck.includes(e)&&(e.type==="source"||e.type==="transcript"));
+ const rest=ok.filter(e=>!toCheck.includes(e)&&!inputs.includes(e));
+ const gone=es.filter(e=>LIN.bad(e.id));
+ const grp=(label,sub,list)=>list.length?h("div",{class:"kngrp"},h("div",{class:"kglab"},h("b",{text:label+" ("+list.length+")"}),sub?h("span",{text:" · "+sub}):null),...list.map(e=>entryEl(e,cardId))):null;
+ const box=h("section",{class:"kn"},h("h3",{text:"Knowledge on this card"}),
+  es.length?null:h("p",{style:"font-size:12px;color:var(--muted);margin:0 0 6px",text:"Nothing logged yet. What people add, and what Claude reads, summarises or analyses for this method, lands here."}),
+  grp("✦ AI work to check",toCheck.length?"open each one, check it, then say how":"",toCheck),
+  grp("📥 Inputs","what the work is based on",inputs),
+  grp("✓ Checked and other notes","",rest),
+  grp("Corrected","kept for the record",gone));
  setTimeout(()=>resolveWho(box),0);return box}
 function cardEl(c){
  const live=aiActive(c.id),can=RUN[c.id]&&S.canWrite&&c.lane!=="done";
@@ -581,7 +710,7 @@ function cardEl(c){
    c.link&&safeUrl(c.link)?h("span",{class:"tag",style:"background:#E3E7FF;color:var(--blue)"},"🔗 linked"):null,
    S.cards[c.id]&&(S.cards[c.id].folderUrl||S.cards[c.id].folderFiles)?h("span",{class:"tag",title:folderOf(c)},"📁"+(S.cards[c.id].folderFiles?" "+S.cards[c.id].folderFiles:"")):null,
    ...knTags(c.id)),
-  live?h("div",{class:"ailive",text:AISTATE[live.status]}):null);
+  live?h("div",{class:"ailive",text:AISTATE[live.status]}):aiDone(c.id)?h("div",{class:"ailive done",text:AIDONE}):null);
  if(!can)return b;
  const run=h("button",{class:"runai",type:"button","aria-label":"Run AI on "+c.id+" "+c.name,onclick:()=>openCard(c.id,true)},live?"✦ Claude on it":"▶ Run AI");
  return h("div",{class:"cardwrap"},b,run);
@@ -597,7 +726,7 @@ function questionEl(q){
 function openQuestion(q){
  const qid=q[1],d=S.qs[qid]||{},ans=(d.answer||"").trim(),st=qStale(qid),[lab,bg,fg]=qStatus(qid);
  const stg=STAGES[stageIdx(q[0])];const f=$("#dform");S.open=null;
- const nameOf=id=>{const x=LIN.by[id];return x?(x.card?x.card+": ":"")+(x.title||"entry"):id};
+ const nameOf=id=>{const x=LIN.by[id];return x?(x.card?x.card+": ":"")+(plainTitle(x.title).name||"entry"):id};
  const ta=h("textarea",{rows:"9","aria-label":"Answer",placeholder:"Write the answer, or ask Claude to draft one from the cards' checked knowledge.",readonly:!S.canWrite,style:"width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;line-height:1.5"});
  ta.value=S.qDraft[qid]!=null?S.qDraft[qid]:ans;const er=h("div",{class:"err"});
  ta.addEventListener("input",()=>{S.qDraft[qid]=ta.value;er.textContent=""});
@@ -675,7 +804,16 @@ function folderRootEl(){
  return h("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 10px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px"},
   h("span",{style:"font-weight:500;color:var(--navy)"},"📁 Project folder"),inp,
   u?h("a",{class:"btn small",href:u,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open ↗"):null,
-  S.canWrite?h("button",{class:"btn small",type:"button",onclick:()=>{const v=inp.value.trim();if(v!==(S.meta.folderRoot||""))write("board/meta",{...S.meta,folderRoot:v,edit:stamp()},true)}},"Save"):null)}
+  S.canWrite?h("button",{class:"btn small",type:"button",onclick:()=>{const v=inp.value.trim();if(v!==(S.meta.folderRoot||""))write("board/meta",{...S.meta,folderRoot:v,edit:stamp()},true)}},"Save"):null,
+  folderWebEl())}
+function folderWebEl(){
+ const w=safeUrl(S.meta.folderWeb||PAGE_FOLDER_WEB||"");
+ const inp=h("input",{type:"url",value:S.meta.folderWeb||PAGE_FOLDER_WEB||"",placeholder:"Paste the folder's OneDrive / SharePoint web address here","aria-label":"Project folder web link",readonly:!S.canWrite,maxlength:"1000",style:"flex:1;min-width:220px;border:1px solid var(--line);border-radius:8px;padding:6px 10px"});
+ return h("div",{style:"display:flex;gap:8px;align-items:center;flex-wrap:wrap;width:100%;margin-top:6px"},
+  h("span",{style:"font-weight:500;color:var(--navy)"},"🌐 Open in browser"),inp,
+  w?h("a",{class:"btn small",href:w,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open ↗"):null,
+  S.canWrite?h("button",{class:"btn small",type:"button",onclick:()=>{const v=inp.value.trim();if(v&&!safeUrl(v)){inp.setCustomValidity("Paste a full https:// address");inp.reportValidity();return}inp.setCustomValidity("");if(v!==(S.meta.folderWeb||""))write("board/meta",{...S.meta,folderWeb:v,edit:stamp()},true)}},"Save"):null,
+  h("p",{style:"width:100%;margin:2px 0 0;font-size:11.5px;color:var(--muted)"},w?(webDeep()?"Every card's Open buttons go straight to its inputs and outputs folders.":"This is a sharing link, so Open buttons go to the project folder, not the card's own folder. For direct links, use the address from \"View online\" instead."):"Browsers can't open a folder on your computer from a web page. To get clickable folder links: in Finder, right-click the project folder → OneDrive → View online, then copy the address bar and paste it here."))}
 function artefactItems(){
  const out=[];const seen=new Set();
  for(const m of LIB){const c=card(m.id);const es=entriesFor(m.id).filter(e=>!LIN.bad(e.id));
@@ -683,7 +821,7 @@ function artefactItems(){
   for(const e of es){if(e.type==="chat"||e.type==="note")continue;const u=safeUrl(e.link||"");
    const isOut=e.type!=="source"&&e.type!=="transcript";
    if(!u&&!e.source)continue;
-   add({title:e.title||"Untitled",url:u||null,path:e.source?fullPath(e.source):null,prov:e.prov,kind:isOut?(TYPES[e.type]||"Output"):"Input",stale:!!LIN.stale[e.id]})}
+   add({title:e.title||"Untitled",url:u||null,chat:safeUrl(e.chat||"")||null,path:e.source?fullPath(e.source):null,prov:e.prov,kind:isOut?(TYPES[e.type]||"Output"):"Input",stale:!!LIN.stale[e.id]})}
   if(c.link&&safeUrl(c.link))add({title:"Linked artefact",url:safeUrl(c.link),prov:c.prov,kind:"Artefact"})}
  return out}
 function renderArtefacts(){
@@ -703,6 +841,7 @@ function renderArtefacts(){
      h("span",{class:"tag",text:i.kind}),i.prov?h("span",{class:"prov "+i.prov,text:i.prov==="AIV"?"AI✓":i.prov}):null,
      i.url?h("a",{href:i.url,target:"_blank",rel:"noopener",class:"arttitle",text:i.title+" ↗"}):h("span",{class:"arttitle",text:i.title}),
      i.stale?h("span",{class:"tag",style:"background:#FDE2E1;color:#9B1C1C"},"⚠ out of date"):null,
+     i.chat?h("a",{href:i.chat,target:"_blank",rel:"noopener",class:"artpath",style:"margin-left:0;text-decoration:none"},"💬 chat ↗"):null,
      i.path?h("button",{class:"artpath",type:"button",title:"Copy folder path",onclick:async(ev)=>{try{await navigator.clipboard.writeText(i.path);ev.currentTarget.textContent="Copied"}catch{}}},"📁 "+i.path.split("/").slice(-1)[0]):null))))})))}
  if(!any)wrap.append(h("p",{class:"sub",text:"Nothing made yet. Outputs appear here as soon as they're logged on a card."}));
  $("#view").replaceChildren(wrap)}
@@ -735,31 +874,30 @@ function folderBox(c){
   set?h("span",{style:"flex:1;min-width:0;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap",title:path,text:rel}):h("span",{style:"flex:1;font-size:12px;color:var(--warn)",text:"Project folder not set yet"}),
   fu?h("a",{class:"btn small",href:fu,target:"_blank",rel:"noopener",style:"text-decoration:none"},"Open"):null,
   set?h("button",{class:"btn small",type:"button",onclick:e=>copyText(path,e.target)},"Copy path"):null)}
-function refreshKn(){if(S.open&&$("#dlg").open){const w=$("#knwrap");if(w)w.replaceChildren(knSection(S.open))}}
+function refreshKn(){if(S.open&&$("#dlg").open){const w=$("#knwrap");if(w)w.replaceChildren(knSection(S.open));const o=$("#outwrap");if(o)o.replaceChildren(outputsPanel(S.open))}}
 function openCard(id,openRun){
  const c=card(id);const f=$("#dform");const ro=!S.canWrite;
  const lane=h("select",{id:"f-lane",disabled:ro},...LANES.map(([v,l])=>h("option",{value:v,selected:c.lane===v},l)));
- const prov=h("select",{id:"f-prov",disabled:ro},h("option",{value:"",selected:!c.prov},"Not set"),h("option",{value:"H",selected:c.prov==="H"},"H · made by a human"),h("option",{value:"AI",selected:c.prov==="AI"},"AI · draft, not yet validated"),h("option",{value:"AIV",selected:c.prov==="AIV"},"AI✓ · validated by a human"));
+ const prov=h("select",{id:"f-prov",disabled:ro},h("option",{value:"",selected:!c.prov},"Not set"),h("option",{value:"H",selected:c.prov==="H"},"👤 Made by a person"),h("option",{value:"AI",selected:c.prov==="AI"},"✦ Made by AI, not checked yet"),h("option",{value:"AIV",selected:c.prov==="AIV"},"✦ Made by AI, checked by a person"));
  const owner=h("input",{type:"text",id:"f-owner",value:c.owner,placeholder:"Lead UX Researcher",readonly:ro,maxlength:"60"});
- const link=h("input",{type:"url",id:"f-link",value:c.link,placeholder:"https://…",readonly:ro});
- const note=h("textarea",{id:"f-note",rows:"3",readonly:ro,maxlength:"500"});note.value=c.note;
- const early=h("input",{type:"checkbox",id:"f-early",checked:c.early,disabled:ro});
+ const todo=h("textarea",{id:"f-todo",rows:"3",readonly:ro,maxlength:"800",placeholder:"What's left to do or waiting on someone, one per line. e.g.\nAsk Panache whether rep ordering is in scope\nCheck the brief summary"});todo.value=c.todo;
  const err=h("div",{class:"err"});
- const url=safeUrl(c.link);
+ const todoList=(c.todo||"").split(/\n+/).map(x=>x.replace(/^[-•*]\s*/,"").trim()).filter(Boolean);
  f.replaceChildren(...[h("h2",{text:c.id+" · "+c.name}),h("div",{style:"font-size:12px;color:var(--muted)",text:STAGES[stageIdx(c.stage)].name+" · "+c.group+(c.spine?" · evidence spine":"")}),
+  c.art?h("p",{style:"margin:6px 0 0;font-size:12.5px;color:var(--muted)"},"Makes: "+c.art):null,
+  todoList.length?h("div",{class:"todobox"},h("div",{class:"entlab",text:"📌 Still to do"}),h("ul",{class:"entul"},...todoList.map(t=>h("li",{text:t})))):null,
   runPanel(c,openRun),
-  c.art?h("p",{style:"margin:8px 0 0;font-size:13px"},h("b",null,"Artefacts: "),c.art):null,
-  url?h("p",{style:"margin:6px 0 0"},h("a",{href:url,target:"_blank",rel:"noopener"},"Open artefact ↗")):null,
-  folderBox(c),
-  h("div",{class:"row"},h("div",null,h("label",{for:"f-lane"},"Lane"),lane),h("div",null,h("label",{for:"f-prov"},"Provenance"),prov)),
-  h("label",{for:"f-owner"},"Owner (desk or person)"),owner,h("label",{for:"f-link"},"Link to the artefact"),link,
-  h("label",{for:"f-note"},"Note"),note,h("label",{class:"q",style:"margin-top:8px"},early,"Done early (ahead of its stage)"),err,
+  h("div",{id:"outwrap"},outputsPanel(c.id)),
+  h("div",{id:"knwrap"},knSection(id)),
+  h("section",{class:"tdetails"},h("h3",{text:"Details"}),
+   h("div",{class:"row"},h("div",null,h("label",{for:"f-lane"},"Lane"),lane),h("div",null,h("label",{for:"f-prov"},"Who made the main work"),prov)),
+   h("label",{for:"f-owner"},"Owner (desk or person)"),owner,
+   h("label",{for:"f-todo"},"📌 Still to do"),todo,
+   folderBox(c)),
+  err,
   h("div",{class:"actions"},h("button",{class:"btn",type:"button",onclick:()=>$("#dlg").close()},ro?"Close":"Cancel"),ro?null:h("button",{class:"btn primary",type:"button",onclick:async()=>{
-   const l=link.value.trim();if(l&&!safeUrl(l)){err.textContent="Enter a full web address starting with https://";link.focus();return}
-   if(prov.value==="AIV"&&!note.value.trim()){err.textContent="Note who validated it and how before marking AI✓.";note.focus();return}
-   err.textContent="";if(await setCard(id,{lane:lane.value,prov:prov.value,owner:owner.value.trim(),link:l,note:note.value.trim(),early:early.checked})!==false)$("#dlg").close()}},"Save"))].filter(Boolean));
- [link,note].forEach(x=>x.addEventListener("input",()=>err.textContent=""));
- const kn=h("div",{id:"knwrap"},knSection(id));f.append(kn);S.open=id;
+   err.textContent="";if(await setCard(id,{lane:lane.value,prov:prov.value,owner:owner.value.trim(),todo:todo.value.trim()})!==false)$("#dlg").close()}},"Save"))].filter(Boolean));
+ S.open=id;
  if(!$("#dlg").open)$("#dlg").showModal();
 }
 function render(){
@@ -792,7 +930,7 @@ render();
  db.doc("board/meta").onSnapshot(d=>{S.meta=d.exists?d.data():{};render();loaded(d.metadata)},fail);
  db.collection("cards").onSnapshot(q=>{S.cards={};q.docs.forEach(d=>S.cards[d.id]=d.data());render();loaded(q.metadata)},fail);
  db.collection("questions").onSnapshot(q=>{S.qs={};q.docs.forEach(d=>S.qs[d.id]=d.data());render();loaded(q.metadata)},fail);
- db.collection("entries").orderBy("at","desc").limit(1000).onSnapshot(q=>{S.entries=q.docs.map(d=>({id:d.id,...d.data()}));LIN=lineage();render();refreshKn();loaded(q.metadata)},fail);
+ db.collection("entries").orderBy("at","desc").limit(1000).onSnapshot(q=>{S.entries=q.docs.map(d=>({id:d.id,...d.data()}));for(const x of PAGE_EXTRA_ENTRIES)if(!S.entries.some(e=>e.id===x.id))S.entries.push(x);LIN=lineage();render();refreshKn();loaded(q.metadata)},fail);
  db.collection("inbox").onSnapshot(q=>{S.inbox=q.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));render();loaded(q.metadata)},fail);
 })();
 </script>

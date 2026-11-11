@@ -28,7 +28,7 @@ This is what keeps a single unchecked error from flowing forward.
 Anyone can press **Something's wrong here** on a card-knowledge entry, or tell Claude in chat ("the 68% is wrong, it's 38%"). Before saving, the board shows **which later items will be affected**. The correction then:
 1. **Writes a correction entry** (`prov: H`, `supersedes:` the old entry's ID, carrying the old entry's `uses`) with what's wrong and what's right.
 2. **Marks the old entry** as `status: "corrected"`. It stays visible, struck through, for the audit trail. Nothing is deleted.
-3. **Flags everything downstream** (anything whose `uses` chain reaches the corrected entry) as **out of date**. Each affected card moves to Needs a human, and the header counts the out-of-date items.
+3. **Flags everything downstream** (anything whose `uses` chain reaches the corrected entry) as **out of date**. Each affected card moves to Manual QA, and the header counts the out-of-date items.
 4. **Blocks gates:** a stage can't be signed off while it has out-of-date items. A stage already signed off shows "this sign-off rested on something that's changed. Re-check before relying on it". Reopening a gate is a human call. Claude doesn't unsign anything.
 
 ## 4. Reworking (Claude)

@@ -80,7 +80,7 @@ Business requirements (BR), constraints (CN) and NFRs are legitimate sources too
    - **Decisions:** DC entries, plus any changes to the schema or the gates.
 3. **Map each artifact to its owner and its skill.** In a company-brain setup, map each one to a desk. Flag any artifact with no skill and no owner as a gap; those are candidates for new plugin skills.
 4. **Set the stage to Brief & scope.** The board goes up as soon as a brief lands, so the scoping (Step 1a) and the proposal are tracked on it. Signing off the plan moves the project to Immersion. On Retro-fit, set the stage to the earliest one whose gate hasn't passed.
-5. **Find and set up the project folder** per `project-folder.md`. Ask where the client project folder lives (a desktop folder or a shared cloud link), then pull the actual location in: the connected desktop folder's absolute path and machine, or the cloud link. Create the tree for in-scope methods. Record the location on the board, in the Project Brain and at the top of the ledger, so every ticket shows it.
+5. **Find and set up the project folder** per `project-folder.md`. Ask where the client project folder lives (a desktop folder or a shared cloud link), then pull the actual location in: the connected desktop folder's absolute path and machine, or the cloud link. Create the tree for in-scope methods. Record the location on the board, in the Project Brain and at the top of the ledger, so every ticket shows it. If the folder syncs from OneDrive, SharePoint or Drive, also ask for its web address (in Finder: right-click → OneDrive → View online, then copy the address bar) and set it as `folderWeb`, so the board's folder buttons open the card's inputs and outputs in one click.
 6. **Publish the stage board dashboard** per `stage-board.md`, with the selection loaded into its store.
    - Record its URL in the ledger and in the Project Brain.
    - Any brief or inputs already in hand go into the inbox, each with a suggested next action.
@@ -118,7 +118,7 @@ The human then accepts, edits or rejects each item. Record the validator, the da
 - writing a summary, synthesis or other output;
 - something the team tells it in chat that bears on a method.
 
-Nobody has to ask. AI work is logged as `AI` and pulls the card into **Needs a human**, so the human check is built into the board. Say what was logged in one line.
+Nobody has to ask. AI work is logged as `AI` and pulls the card into **Manual QA**, so the human check is built into the board. Say what was logged in one line.
 
 **Registering an output.** Whenever a skill or person produces something for the project:
 1. Match it to a method ID, or add it as an "unplanned" card.
@@ -136,7 +136,7 @@ Someone pressed **Run AI** on a card and sent Claude a request: a comment on the
 3. **Ask once, in the chat.** Gather every question that would change the quality of the output (audience, scope, which inputs to use, format, deadline, anything missing) and ask them **together, once**, in the project chat (AskUserQuestion where available). Post one line in the comment thread saying the questions are in the chat. Set the card's `aiRun.status` to `asking`. If nothing needs asking, say what you assumed and go straight on. If nobody answers and the work can be done sensibly, take the most reasonable reading and state it at the top of the output.
 4. **Do the work.** Set `aiRun.status` to `working`. Load and follow each mapped skill (and `code-design-playbook`). Bring in other installed skills where they raise the standard, and flag a gap if no skill fits. Reports and decks follow `code-brand-style`; long work is built in stages.
 5. **Check it before handing over.** Trace every claim, quote and number to its source and verify the quotes are verbatim. Check the arithmetic by running it. Open any file you made to look at it. Name the weak spots (thin evidence, missing segments, assumptions).
-6. **File and log it.** Save to the card's `outputs/` folder and verify it's there (`project-folder.md` rules 7 and 8). Add the project header bar to any artifact. Log it on the card as `AI` with `uses` filled, plus any EV/IN/TF items in the ledger as `[AI]`. The card goes to **Needs a human**. Clear `aiRun` (delete the field). Update the folder index.
+6. **File and log it.** Save to the card's `outputs/` folder and verify it's there (`project-folder.md` rules 7 and 8). Add the project header bar to any artifact. Log it on the card as an `output` (or `summary` / `synthesis`) entry, `AI`, with `uses` filled and **every way to reach it**: `link` (the artifact or doc URL), `source` (its file in `outputs/`), `chat` (this chat's link), `run: true`, and `checks`: 2–5 specific, plain-English things a person should check (the claims most likely to be wrong, the readings that need a human call). Keep `body` to short sentences or a numbered list so the ticket can show it as bullets. That entry is what the ticket's **Outputs** panel shows, so whoever opens the card can get to the work in one click. Log any EV/IN/TF items in the ledger as `[AI]`. The card goes to **Manual QA**. Set `aiRun` to `{status: "done", entry: <the entry id>, action, at, chat}` so the card shows the output is ready. Update the folder index.
 7. **Reply in the thread.** Say what was made, where it lives, what to check first, and the open questions. Keep it short; the work is in the folder and on the card. Never mark your own output checked, approve a question or pass a gate.
 
 If the board can't be written to (for example it's shared publicly), do the work anyway, file it, and say in the thread and the chat that the card couldn't be updated and why.
@@ -189,7 +189,7 @@ Work in this order. Show Colin each stage before moving to the next; the playboo
   - silently drop untraced stories. They go to the parking lot.
 - **Never record a folder path you haven't checked.** An output counts as filed only once its file is confirmed in the method's folder (`project-folder.md` rules 7 and 8). Artifacts and project docs get an exported copy; Figma and Miro get a link file.
 - **Show, don't hide, the weak spots.** A thin evidence base is fine on a Lean engagement as long as it's visible. Confidence labels travel with each story into the dev tool.
-- **Run AI makes drafts, never decisions.** Its output is always `AI`, lands in Needs a human, and is never sent to the client by Claude.
+- **Run AI makes drafts, never decisions.** Its output is always `AI`, lands in Manual QA, and is never sent to the client by Claude.
 - **Draft, map, check and export freely.** Anything sent to the client or the dev team needs Colin's send.
 - **The story schema is a cross-discipline contract.** Changes to it get agreed with dev and delivery and logged as DC entries.
 
